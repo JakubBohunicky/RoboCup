@@ -405,13 +405,10 @@
 <wire x1="40.64" y1="109.22" x2="40.64" y2="101.6" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$6" class="0">
+<net name="GND" class="0">
 <segment>
-<pinref part="MOTOR_D_DRV" gate="G$1" pin="GND@28"/>
-<wire x1="45.72" y1="78.74" x2="40.64" y2="78.74" width="0.1524" layer="91"/>
-<wire x1="40.64" y1="78.74" x2="40.64" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="MOTOR_D_DRV" gate="G$1" pin="GND@27"/>
 <pinref part="MOTOR_D_DRV" gate="G$1" pin="GND@18"/>
-<wire x1="40.64" y1="81.28" x2="40.64" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="83.82" x2="40.64" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="86.36" x2="40.64" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="88.9" x2="40.64" y2="91.44" width="0.1524" layer="91"/>
@@ -424,12 +421,16 @@
 <junction x="40.64" y="86.36"/>
 <pinref part="MOTOR_D_DRV" gate="G$1" pin="GND@26"/>
 <wire x1="45.72" y1="83.82" x2="40.64" y2="83.82" width="0.1524" layer="91"/>
+<pinref part="MOTOR_D_DRV" gate="G$1" pin="GND@28"/>
+<wire x1="45.72" y1="78.74" x2="40.64" y2="78.74" width="0.1524" layer="91"/>
+<label x="38.1" y="78.74" size="1.27" layer="95" rot="R180" xref="yes"/>
+<wire x1="40.64" y1="78.74" x2="38.1" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="83.82" x2="40.64" y2="81.28" width="0.1524" layer="91"/>
 <junction x="40.64" y="83.82"/>
-<pinref part="MOTOR_D_DRV" gate="G$1" pin="GND@27"/>
+<junction x="40.64" y="78.74"/>
+<wire x1="40.64" y1="81.28" x2="40.64" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="81.28" x2="40.64" y2="81.28" width="0.1524" layer="91"/>
 <junction x="40.64" y="81.28"/>
-<wire x1="40.64" y1="78.74" x2="38.1" y2="78.74" width="0.1524" layer="91"/>
-<junction x="40.64" y="78.74"/>
 </segment>
 </net>
 </nets>
