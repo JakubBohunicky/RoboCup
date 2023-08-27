@@ -8572,14 +8572,14 @@ Source: http://www.vishay.com/docs/81926/tsop4038.pdf &lt;a href="https://pricin
 <instance part="+3V13" gate="1" x="-48.26" y="22.86" smashed="yes">
 <attribute name="VALUE" x="-50.8" y="17.78" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND13" gate="1" x="-48.26" y="-15.24" smashed="yes"/>
+<instance part="GND13" gate="1" x="-48.26" y="-17.78" smashed="yes"/>
 <instance part="C1" gate="G$1" x="-48.26" y="7.62" smashed="yes">
 <attribute name="NAME" x="-46.736" y="8.001" size="1.778" layer="95"/>
 <attribute name="VALUE" x="-46.736" y="2.921" size="1.778" layer="96"/>
 </instance>
-<instance part="C2" gate="G$1" x="-40.64" y="7.62" smashed="yes">
-<attribute name="NAME" x="-39.116" y="8.001" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-39.116" y="2.921" size="1.778" layer="96"/>
+<instance part="C2" gate="G$1" x="-40.64" y="-5.08" smashed="yes">
+<attribute name="NAME" x="-39.116" y="-4.699" size="1.778" layer="95"/>
+<attribute name="VALUE" x="-39.116" y="-9.779" size="1.778" layer="96"/>
 </instance>
 <instance part="R5" gate="G$1" x="-27.94" y="15.24" smashed="yes">
 <attribute name="NAME" x="-31.75" y="16.7386" size="1.778" layer="95"/>
@@ -8597,36 +8597,20 @@ Source: http://www.vishay.com/docs/81926/tsop4038.pdf &lt;a href="https://pricin
 <busses>
 </busses>
 <nets>
-<net name="GND" class="0">
-<segment>
-<pinref part="IR6" gate="G$1" pin="GND"/>
-<wire x1="-12.7" y1="-5.08" x2="-15.24" y2="-5.08" width="0.1524" layer="91"/>
-<wire x1="-15.24" y1="-5.08" x2="-15.24" y2="-12.7" width="0.1524" layer="91"/>
-<pinref part="GND13" gate="1" pin="GND"/>
-<wire x1="-15.24" y1="-12.7" x2="-48.26" y2="-12.7" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="+5V" class="0">
 <segment>
 <pinref part="+3V13" gate="1" pin="+5V"/>
 <wire x1="-48.26" y1="20.32" x2="-48.26" y2="15.24" width="0.1524" layer="91"/>
-<wire x1="-33.02" y1="15.24" x2="-40.64" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="R5" gate="G$1" pin="1"/>
 <pinref part="C1" gate="G$1" pin="1"/>
+<wire x1="-33.02" y1="15.24" x2="-40.64" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="-40.64" y1="15.24" x2="-48.26" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="-48.26" y1="10.16" x2="-48.26" y2="15.24" width="0.1524" layer="91"/>
 <junction x="-48.26" y="15.24"/>
-<pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="-40.64" y1="10.16" x2="-40.64" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="-33.02" y1="7.62" x2="-40.64" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="-40.64" y1="7.62" x2="-40.64" y2="15.24" width="0.1524" layer="91"/>
 <junction x="-40.64" y="15.24"/>
-</segment>
-</net>
-<net name="N$6" class="0">
-<segment>
-<pinref part="C2" gate="G$1" pin="2"/>
-<wire x1="-40.64" y1="0" x2="-40.64" y2="2.54" width="0.1524" layer="91"/>
-<wire x1="-33.02" y1="0" x2="-40.64" y2="0" width="0.1524" layer="91"/>
-<pinref part="R7" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -8641,8 +8625,38 @@ Source: http://www.vishay.com/docs/81926/tsop4038.pdf &lt;a href="https://pricin
 <net name="N$7" class="0">
 <segment>
 <pinref part="IR6" gate="G$1" pin="VO"/>
-<wire x1="-12.7" y1="0" x2="-22.86" y2="0" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="0" x2="-17.78" y2="0" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="2"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="-17.78" y1="0" x2="-22.86" y2="0" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="0" x2="-17.78" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="7.62" x2="-22.86" y2="7.62" width="0.1524" layer="91"/>
+<junction x="-17.78" y="0"/>
+</segment>
+</net>
+<net name="GND" class="0">
+<segment>
+<pinref part="GND13" gate="1" pin="GND"/>
+<pinref part="C1" gate="G$1" pin="2"/>
+<wire x1="-48.26" y1="2.54" x2="-48.26" y2="-12.7" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="2"/>
+<wire x1="-48.26" y1="-12.7" x2="-48.26" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-40.64" y1="-10.16" x2="-40.64" y2="-12.7" width="0.1524" layer="91"/>
+<wire x1="-40.64" y1="-12.7" x2="-48.26" y2="-12.7" width="0.1524" layer="91"/>
+<junction x="-48.26" y="-12.7"/>
+<wire x1="-40.64" y1="-12.7" x2="-22.86" y2="-12.7" width="0.1524" layer="91"/>
+<wire x1="-22.86" y1="-12.7" x2="-22.86" y2="-5.08" width="0.1524" layer="91"/>
+<junction x="-40.64" y="-12.7"/>
+<pinref part="IR6" gate="G$1" pin="GND"/>
+<wire x1="-22.86" y1="-5.08" x2="-12.7" y2="-5.08" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="C2" gate="G$1" pin="1"/>
+<wire x1="-40.64" y1="-2.54" x2="-40.64" y2="0" width="0.1524" layer="91"/>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="-40.64" y1="0" x2="-33.02" y2="0" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
