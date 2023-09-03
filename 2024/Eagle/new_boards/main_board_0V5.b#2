@@ -1296,6 +1296,22 @@ for trimmer refence see : &lt;u&gt;www.electrospec-inc.com/cross_references/trim
 <rectangle x1="0.3556" y1="-0.7239" x2="1.1057" y2="0.7262" layer="51"/>
 <rectangle x1="-0.1001" y1="-0.4001" x2="0.1001" y2="0.4001" layer="35"/>
 </package>
+<package name="R1206" urn="urn:adsk.eagle:footprint:23047/1" library_version="11">
+<description>&lt;b&gt;RESISTOR&lt;/b&gt;</description>
+<wire x1="0.9525" y1="-0.8128" x2="-0.9652" y2="-0.8128" width="0.1524" layer="51"/>
+<wire x1="0.9525" y1="0.8128" x2="-0.9652" y2="0.8128" width="0.1524" layer="51"/>
+<wire x1="-2.473" y1="0.983" x2="2.473" y2="0.983" width="0.0508" layer="39"/>
+<wire x1="2.473" y1="0.983" x2="2.473" y2="-0.983" width="0.0508" layer="39"/>
+<wire x1="2.473" y1="-0.983" x2="-2.473" y2="-0.983" width="0.0508" layer="39"/>
+<wire x1="-2.473" y1="-0.983" x2="-2.473" y2="0.983" width="0.0508" layer="39"/>
+<smd name="2" x="1.422" y="0" dx="1.6" dy="1.803" layer="1"/>
+<smd name="1" x="-1.422" y="0" dx="1.6" dy="1.803" layer="1"/>
+<text x="-1.27" y="1.27" size="1.27" layer="25">&gt;NAME</text>
+<text x="-1.27" y="-2.54" size="1.27" layer="27">&gt;VALUE</text>
+<rectangle x1="-1.6891" y1="-0.8763" x2="-0.9525" y2="0.8763" layer="51"/>
+<rectangle x1="0.9525" y1="-0.8763" x2="1.6891" y2="0.8763" layer="51"/>
+<rectangle x1="-0.3" y1="-0.7" x2="0.3" y2="0.7" layer="35"/>
+</package>
 </packages>
 <packages3d>
 <package3d name="R0805" urn="urn:adsk.eagle:package:23553/2" type="model" library_version="11">
@@ -1308,6 +1324,12 @@ for trimmer refence see : &lt;u&gt;www.electrospec-inc.com/cross_references/trim
 <description>CAPACITOR</description>
 <packageinstances>
 <packageinstance name="C0805"/>
+</packageinstances>
+</package3d>
+<package3d name="R1206" urn="urn:adsk.eagle:package:23540/2" type="model" library_version="11">
+<description>RESISTOR</description>
+<packageinstances>
+<packageinstance name="R1206"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -1333,6 +1355,41 @@ for trimmer refence see : &lt;u&gt;www.electrospec-inc.com/cross_references/trim
 <package3d name="TSOP" urn="urn:adsk.eagle:package:38315701/3" type="model" library_version="2">
 <packageinstances>
 <packageinstance name="TSOP"/>
+</packageinstances>
+</package3d>
+</packages3d>
+</library>
+<library name="OF-SMD2835Y" urn="urn:adsk.eagle:library:38086600">
+<packages>
+<package name="LED_OF-SMD2835Y" urn="urn:adsk.eagle:footprint:38086435/1" library_version="4">
+<wire x1="-1.65" y1="1.4" x2="1.65" y2="1.4" width="0.127" layer="51"/>
+<wire x1="1.65" y1="1.4" x2="1.65" y2="-1.1" width="0.127" layer="51"/>
+<wire x1="1.65" y1="-1.1" x2="1.65" y2="-1.2" width="0.127" layer="51"/>
+<wire x1="1.65" y1="-1.2" x2="1.65" y2="-1.4" width="0.127" layer="51"/>
+<wire x1="1.65" y1="-1.4" x2="1.45" y2="-1.4" width="0.127" layer="51"/>
+<wire x1="1.45" y1="-1.4" x2="1.35" y2="-1.4" width="0.127" layer="51"/>
+<wire x1="1.35" y1="-1.4" x2="-1.65" y2="-1.4" width="0.127" layer="51"/>
+<wire x1="-1.65" y1="-1.4" x2="-1.65" y2="1.4" width="0.127" layer="51"/>
+<wire x1="-1.65" y1="1.595" x2="1.65" y2="1.595" width="0.127" layer="21"/>
+<wire x1="1.65" y1="-1.595" x2="-1.65" y2="-1.595" width="0.127" layer="21"/>
+<wire x1="-2.35" y1="1.65" x2="2.35" y2="1.65" width="0.05" layer="39"/>
+<wire x1="2.35" y1="1.65" x2="2.35" y2="-1.65" width="0.05" layer="39"/>
+<wire x1="2.35" y1="-1.65" x2="-2.35" y2="-1.65" width="0.05" layer="39"/>
+<wire x1="-2.35" y1="-1.65" x2="-2.35" y2="1.65" width="0.05" layer="39"/>
+<wire x1="1.45" y1="-1.4" x2="1.65" y2="-1.2" width="0.127" layer="51"/>
+<wire x1="1.35" y1="-1.4" x2="1.65" y2="-1.1" width="0.127" layer="51"/>
+<text x="-2.5" y="2" size="1.016" layer="25">&gt;NAME</text>
+<text x="-2.5" y="-2" size="1.016" layer="27" align="top-left">&gt;VALUE</text>
+<circle x="-2.7" y="0" radius="0.1" width="0.2" layer="21"/>
+<circle x="-2.7" y="0" radius="0.1" width="0.2" layer="51"/>
+<smd name="A" x="0.8" y="0" dx="2.6" dy="2.55" layer="1"/>
+<smd name="C" x="-1.6" y="0" dx="1" dy="2.55" layer="1"/>
+</package>
+</packages>
+<packages3d>
+<package3d name="LED_OF-SMD2835Y" urn="urn:adsk.eagle:package:38086604/3" type="model" library_version="4">
+<packageinstances>
+<packageinstance name="LED_OF-SMD2835Y"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -1617,6 +1674,177 @@ design rules under a new name.</description>
 <attribute name="SPICEPREFIX" value="R" x="-44.45" y="-35.56" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="-45.085" y="-38.1" size="1.27" layer="27"/>
 </element>
+<element name="D2" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-43.18" y="-40.64" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-50.8" y="-33.02" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-50.8" y="-33.02" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-50.8" y="-33.02" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-50.8" y="-33.02" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-45.68" y="-38.64" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-50.8" y="-33.02" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-50.8" y="-33.02" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-45.68" y="-42.64" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R117" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-24.13" y="-69.85" smashed="yes">
+<attribute name="NAME" x="-25.4" y="-68.58" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-50.8" y="-40.64" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-50.8" y="-40.64" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-25.4" y="-72.39" size="1.27" layer="27"/>
+</element>
+<element name="D3" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-31.75" y="-40.64" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-34.25" y="-38.64" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="D" x="-58.42" y="-39.37" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-34.25" y="-42.64" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R119" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-17.78" y="-69.85" smashed="yes">
+<attribute name="NAME" x="-19.05" y="-68.58" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-58.42" y="-46.99" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-58.42" y="-46.99" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-19.05" y="-72.39" size="1.27" layer="27"/>
+</element>
+<element name="D4" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-20.32" y="-40.64" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-66.04" y="-45.72" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-66.04" y="-45.72" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-66.04" y="-45.72" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-66.04" y="-45.72" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-22.82" y="-38.64" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-66.04" y="-45.72" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-66.04" y="-45.72" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-22.82" y="-42.64" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R120" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-24.13" y="-63.5" smashed="yes">
+<attribute name="NAME" x="-25.4" y="-62.23" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-66.04" y="-53.34" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-66.04" y="-53.34" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-25.4" y="-66.04" size="1.27" layer="27"/>
+</element>
+<element name="D5" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-43.18" y="-48.26" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-73.66" y="-52.07" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-73.66" y="-52.07" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-73.66" y="-52.07" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-73.66" y="-52.07" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-45.68" y="-46.26" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-73.66" y="-52.07" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-73.66" y="-52.07" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-45.68" y="-50.26" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R121" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-17.78" y="-63.5" smashed="yes">
+<attribute name="NAME" x="-19.05" y="-62.23" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-73.66" y="-59.69" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-73.66" y="-59.69" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-19.05" y="-66.04" size="1.27" layer="27"/>
+</element>
+<element name="D6" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-31.75" y="-48.26" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-81.28" y="-58.42" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-81.28" y="-58.42" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-81.28" y="-58.42" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-81.28" y="-58.42" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-34.25" y="-46.26" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-81.28" y="-58.42" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-81.28" y="-58.42" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-34.25" y="-50.26" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R122" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-43.18" y="-69.85" smashed="yes">
+<attribute name="NAME" x="-44.45" y="-68.58" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-81.28" y="-66.04" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-81.28" y="-66.04" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-44.45" y="-72.39" size="1.27" layer="27"/>
+</element>
+<element name="D7" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-20.32" y="-48.26" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-88.9" y="-64.77" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-88.9" y="-64.77" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-88.9" y="-64.77" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-88.9" y="-64.77" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-22.82" y="-46.26" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-88.9" y="-64.77" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-88.9" y="-64.77" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-22.82" y="-50.26" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R123" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-36.83" y="-69.85" smashed="yes">
+<attribute name="NAME" x="-38.1" y="-68.58" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-88.9" y="-72.39" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-88.9" y="-72.39" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-38.1" y="-72.39" size="1.27" layer="27"/>
+</element>
+<element name="D8" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-43.18" y="-55.88" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-96.52" y="-71.12" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-96.52" y="-71.12" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-96.52" y="-71.12" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-96.52" y="-71.12" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-45.68" y="-53.88" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-96.52" y="-71.12" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-96.52" y="-71.12" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-45.68" y="-57.88" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R124" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-30.48" y="-69.85" smashed="yes">
+<attribute name="NAME" x="-31.75" y="-68.58" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-96.52" y="-78.74" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-96.52" y="-78.74" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-31.75" y="-72.39" size="1.27" layer="27"/>
+</element>
+<element name="C9" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-33.02" y="-55.88" smashed="yes">
+<attribute name="NAME" x="-34.29" y="-54.61" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-96.52" y="-85.09" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-96.52" y="-85.09" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-34.29" y="-58.42" size="1.27" layer="27"/>
+</element>
+<element name="C13" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-26.67" y="-55.88" smashed="yes">
+<attribute name="NAME" x="-27.94" y="-54.61" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-96.52" y="-91.44" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-96.52" y="-91.44" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-27.94" y="-58.42" size="1.27" layer="27"/>
+</element>
+<element name="C17" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-20.32" y="-55.88" smashed="yes">
+<attribute name="NAME" x="-21.59" y="-54.61" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-96.52" y="-97.79" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-96.52" y="-97.79" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-21.59" y="-58.42" size="1.27" layer="27"/>
+</element>
+<element name="C21" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-44.45" y="-63.5" smashed="yes">
+<attribute name="NAME" x="-45.72" y="-62.23" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-96.52" y="-104.14" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-96.52" y="-104.14" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-45.72" y="-66.04" size="1.27" layer="27"/>
+</element>
+<element name="C25" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-38.1" y="-63.5" smashed="yes">
+<attribute name="NAME" x="-39.37" y="-62.23" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-96.52" y="-110.49" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-96.52" y="-110.49" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-39.37" y="-66.04" size="1.27" layer="27"/>
+</element>
+<element name="C29" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-31.75" y="-63.5" smashed="yes">
+<attribute name="NAME" x="-33.02" y="-62.23" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-96.52" y="-116.84" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-96.52" y="-116.84" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-33.02" y="-66.04" size="1.27" layer="27"/>
+</element>
+<element name="D1" library="OF-SMD2835Y" library_urn="urn:adsk.eagle:library:38086600" package="LED_OF-SMD2835Y" package3d_urn="urn:adsk.eagle:package:38086604/3" value="OF-SMD2835Y" x="-43.18" y="-77.47" smashed="yes">
+<attribute name="AVAILABILITY" value="Not in stock" x="-50.8" y="-68.58" size="1.778" layer="27" display="off"/>
+<attribute name="DESCRIPTION" value=" LED; SMD; 2835, PLCC2; yellow; 2200-2800mcd; 2.8x3.5x0.75mm; 120° " x="-50.8" y="-68.58" size="1.778" layer="27" display="off"/>
+<attribute name="MF" value="Optoflash" x="-50.8" y="-68.58" size="1.778" layer="27" display="off"/>
+<attribute name="MP" value="OF-SMD2835Y" x="-50.8" y="-68.58" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="-45.68" y="-75.47" size="1.016" layer="25"/>
+<attribute name="PACKAGE" value="PLCC-2 Optoflash" x="-50.8" y="-68.58" size="1.778" layer="27" display="off"/>
+<attribute name="PRICE" value="None" x="-50.8" y="-68.58" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-45.68" y="-79.47" size="1.016" layer="27" align="top-left"/>
+</element>
+<element name="R8" library="rcl" library_urn="urn:adsk.eagle:library:334" package="R1206" package3d_urn="urn:adsk.eagle:package:23540/2" value="10R" x="-36.83" y="-85.09" smashed="yes">
+<attribute name="NAME" x="-38.1" y="-83.82" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="41" x="-50.8" y="-76.2" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-50.8" y="-76.2" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-38.1" y="-87.63" size="1.27" layer="27"/>
+</element>
+<element name="C3" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF" x="-44.45" y="-85.09" smashed="yes">
+<attribute name="NAME" x="-45.72" y="-83.82" size="1.27" layer="25"/>
+<attribute name="POPULARITY" value="88" x="-50.8" y="-82.55" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="C" x="-50.8" y="-82.55" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-45.72" y="-87.63" size="1.27" layer="27"/>
+</element>
 </elements>
 <signals>
 <signal name="N$1">
@@ -1680,8 +1908,12 @@ design rules under a new name.</description>
 <contactref element="R3" pad="1"/>
 <contactref element="R2" pad="1"/>
 <contactref element="R1" pad="1"/>
-<contactref element="R7" pad="1"/>
-<wire x1="-43.1" y1="21.03" x2="-45.4" y2="-35.56" width="0" layer="19" extent="1-1"/>
+<contactref element="C1" pad="2"/>
+<contactref element="C2" pad="2"/>
+<contactref element="IR6" pad="GND"/>
+<wire x1="-43.5" y1="-15.24" x2="-43.5" y2="-20.32" width="0" layer="19" extent="1-1"/>
+<wire x1="-43.18" y1="-6.35" x2="-43.5" y2="-15.24" width="0" layer="19" extent="1-1"/>
+<wire x1="-43.1" y1="21.03" x2="-43.18" y2="-6.35" width="0" layer="19" extent="1-1"/>
 <wire x1="-42.1" y1="21.03" x2="-43.1" y2="21.03" width="0" layer="19" extent="1-1"/>
 <wire x1="-41.1" y1="21.03" x2="-42.1" y2="21.03" width="0" layer="19" extent="1-1"/>
 <wire x1="-39.05" y1="24.13" x2="-41.1" y2="21.03" width="0" layer="19" extent="1-1"/>
@@ -1692,13 +1924,130 @@ design rules under a new name.</description>
 <wire x1="-21.27" y1="31.75" x2="-33.97" y2="24.13" width="0" layer="19" extent="1-1"/>
 <wire x1="-16.19" y1="31.75" x2="-21.27" y2="31.75" width="0" layer="19" extent="1-1"/>
 </signal>
+<signal name="+5V">
+<contactref element="R5" pad="1"/>
+<contactref element="C1" pad="1"/>
+<contactref element="R6" pad="1"/>
+<contactref element="R8" pad="2"/>
+<contactref element="C3" pad="2"/>
+<contactref element="R117" pad="2"/>
+<contactref element="R119" pad="2"/>
+<contactref element="R120" pad="2"/>
+<contactref element="R121" pad="2"/>
+<contactref element="R122" pad="2"/>
+<contactref element="R123" pad="2"/>
+<contactref element="R124" pad="2"/>
+<contactref element="C9" pad="2"/>
+<contactref element="C13" pad="2"/>
+<contactref element="C17" pad="2"/>
+<contactref element="C21" pad="2"/>
+<contactref element="C25" pad="2"/>
+<contactref element="C29" pad="2"/>
+<wire x1="-35.408" y1="-85.09" x2="-43.5" y2="-85.09" width="0" layer="19" extent="1-1"/>
+<wire x1="-35.408" y1="-69.85" x2="-35.408" y2="-85.09" width="0" layer="19" extent="1-1"/>
+<wire x1="-41.758" y1="-69.85" x2="-35.408" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-29.058" y1="-69.85" x2="-35.408" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-22.708" y1="-69.85" x2="-29.058" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-16.358" y1="-69.85" x2="-22.708" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-22.708" y1="-63.5" x2="-22.708" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-16.358" y1="-63.5" x2="-16.358" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-43.5" y1="-63.5" x2="-41.758" y2="-69.85" width="0" layer="19" extent="1-1"/>
+<wire x1="-37.15" y1="-63.5" x2="-43.5" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-30.8" y1="-63.5" x2="-37.15" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-32.07" y1="-55.88" x2="-30.8" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-25.72" y1="-55.88" x2="-32.07" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-19.37" y1="-55.88" x2="-25.72" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-45.4" y1="-30.48" x2="-32.07" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-45.4" y1="-25.4" x2="-45.4" y2="-30.48" width="0" layer="19" extent="1-1"/>
+<wire x1="-45.4" y1="-15.24" x2="-45.4" y2="-25.4" width="0" layer="19" extent="1-1"/>
+</signal>
 <signal name="N$3">
 <contactref element="IR6" pad="VS"/>
+<contactref element="R5" pad="2"/>
+<wire x1="-43.18" y1="-3.81" x2="-43.5" y2="-25.4" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$7">
+<contactref element="IR6" pad="VO"/>
+<contactref element="R7" pad="2"/>
+<contactref element="R6" pad="2"/>
+<wire x1="-43.5" y1="-30.48" x2="-43.5" y2="-35.56" width="0" layer="19" extent="1-1"/>
+<wire x1="-43.18" y1="-8.89" x2="-43.5" y2="-30.48" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$6">
-<contactref element="IR6" pad="GND"/>
-<contactref element="R7" pad="2"/>
-<wire x1="-43.18" y1="-6.35" x2="-43.5" y2="-35.56" width="0" layer="19" extent="1-1"/>
+<contactref element="C2" pad="1"/>
+<contactref element="R7" pad="1"/>
+<wire x1="-45.4" y1="-20.32" x2="-45.4" y2="-35.56" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$70">
+<contactref element="R117" pad="1"/>
+<contactref element="D2" pad="A"/>
+<wire x1="-42.38" y1="-40.64" x2="-25.552" y2="-69.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$71">
+<contactref element="R119" pad="1"/>
+<contactref element="D3" pad="A"/>
+<wire x1="-30.95" y1="-40.64" x2="-19.202" y2="-69.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$72">
+<contactref element="R120" pad="1"/>
+<contactref element="D4" pad="A"/>
+<wire x1="-19.52" y1="-40.64" x2="-25.552" y2="-63.5" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$73">
+<contactref element="R121" pad="1"/>
+<contactref element="D5" pad="A"/>
+<wire x1="-19.202" y1="-63.5" x2="-42.38" y2="-48.26" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$74">
+<contactref element="R122" pad="1"/>
+<contactref element="D6" pad="A"/>
+<wire x1="-30.95" y1="-48.26" x2="-44.602" y2="-69.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$75">
+<contactref element="R123" pad="1"/>
+<contactref element="D7" pad="A"/>
+<wire x1="-19.52" y1="-48.26" x2="-38.252" y2="-69.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$76">
+<contactref element="R124" pad="1"/>
+<contactref element="D8" pad="A"/>
+<wire x1="-42.38" y1="-55.88" x2="-31.902" y2="-69.85" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$8">
+<contactref element="R8" pad="1"/>
+<contactref element="D1" pad="A"/>
+<wire x1="-42.38" y1="-77.47" x2="-38.252" y2="-85.09" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$10">
+<contactref element="D1" pad="C"/>
+<contactref element="C3" pad="1"/>
+<contactref element="D2" pad="C"/>
+<contactref element="D8" pad="C"/>
+<contactref element="D7" pad="C"/>
+<contactref element="D6" pad="C"/>
+<contactref element="D5" pad="C"/>
+<contactref element="D4" pad="C"/>
+<contactref element="D3" pad="C"/>
+<contactref element="C9" pad="1"/>
+<contactref element="C29" pad="1"/>
+<contactref element="C25" pad="1"/>
+<contactref element="C21" pad="1"/>
+<contactref element="C17" pad="1"/>
+<contactref element="C13" pad="1"/>
+<wire x1="-44.78" y1="-77.47" x2="-45.4" y2="-85.09" width="0" layer="19" extent="1-1"/>
+<wire x1="-45.4" y1="-63.5" x2="-44.78" y2="-77.47" width="0" layer="19" extent="1-1"/>
+<wire x1="-39.05" y1="-63.5" x2="-45.4" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-32.7" y1="-63.5" x2="-39.05" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-44.78" y1="-55.88" x2="-45.4" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-44.78" y1="-48.26" x2="-44.78" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-44.78" y1="-40.64" x2="-44.78" y2="-48.26" width="0" layer="19" extent="1-1"/>
+<wire x1="-33.97" y1="-55.88" x2="-32.7" y2="-63.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-27.62" y1="-55.88" x2="-33.97" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-21.27" y1="-55.88" x2="-27.62" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-33.35" y1="-48.26" x2="-33.97" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-33.35" y1="-40.64" x2="-33.35" y2="-48.26" width="0" layer="19" extent="1-1"/>
+<wire x1="-21.92" y1="-48.26" x2="-21.27" y2="-55.88" width="0" layer="19" extent="1-1"/>
+<wire x1="-21.92" y1="-40.64" x2="-21.92" y2="-48.26" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
