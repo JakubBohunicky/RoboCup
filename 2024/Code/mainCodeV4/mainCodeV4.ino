@@ -676,13 +676,9 @@ void dribler() {
 }
 
 void kick() {
-  analogWrite(8, 120);
-  digitalWrite(11, HIGH);
-  digitalWrite(12, LOW);
-  delay(200);
-  digitalWrite(12, HIGH);
-  digitalWrite(11, LOW);
-  delay(200);
+  digitalWrite(4,HIGH);
+  delay(100);
+  digitalWrite(4,LOW);
 }
 
 int finalAngle(float ang1) {
@@ -720,8 +716,7 @@ void setup() {
   pinMode(13, OUTPUT);  //dribler
   pinMode(14, OUTPUT);
 
-  pinMode(11, OUTPUT);
-  pinMode(12, OUTPUT);  //kicker
+  pinMode(4, OUTPUT); //kicker
 
   pinMode(46, INPUT);  //ball detection
 
@@ -754,11 +749,13 @@ void loop() {
           }
         } else {
           if (getGoalPos() == 0) {
-            
+            motion(0,0,0,0);
             analogWrite(10, 0);  //dribler
             delay(100);
             kick();
             delay(500);
+
+            
 
           } else if (getGoalPos() == 1) {
             motion(-50, -50, -50, -50);
