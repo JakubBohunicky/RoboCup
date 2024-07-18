@@ -401,7 +401,7 @@ float spdD;
 unsigned long kickTime;
 int lineFeature = 0;
 
-int speed = 400;
+int speed = 350;
 
 int line;
 
@@ -586,7 +586,7 @@ uint16_t getBallAngle() {
     digitalWrite(multiplexerPin3, outputArray2[irNumber][2]);
     digitalWrite(multiplexerPin4, outputArray2[irNumber][3]);
 
-    if (analogRead(multiplexerIn) < 900) {
+    if (analogRead(multiplexerIn) < 1020) {
       itCheck = 1;
       xCor += sin(radians(sensorAngles[irNumber]));
       yCor += cos(radians(sensorAngles[irNumber]));
@@ -648,13 +648,13 @@ uint16_t getLineAngle() {
     digitalWrite(multiplexerPin3, outputArray[lighNumber][2]);
     digitalWrite(multiplexerPin4, outputArray[lighNumber][3]);
 
-    if (analogRead(multiplexerIn1) < 400) {
+    if (analogRead(multiplexerIn1) < 150) {
       itCheck = 1;
       xCor += sin(radians(lightSensorAngles[lighNumber]));
       yCor += cos(radians(lightSensorAngles[lighNumber]));
       //Serial.println(lighNumber);
     }
-    if (analogRead(multiplexerIn2) < 400) {
+    if (analogRead(multiplexerIn2) < 150) {
       if (lighNumber != 12) {
         itCheck = 1;
         xCor += sin(radians(lightSensorAngles[lighNumber + 16]));
@@ -791,7 +791,7 @@ void loop() {
             if (a == 999) {
               motion(0 - outPid, 0 - outPid, 0 - outPid, 0 - outPid);
             } else if ((a >= 270 and a < 344) or (a <= 90 and a > 16)) {
-              motion((motionAngles[a][0] * speed * 1) - outPid, (motionAngles[a][1] * speed * 1) - outPid, (motionAngles[a][2] * speed * 1) - outPid, (motionAngles[a][3] * speed * 1) - outPid);
+              motion((motionAngles[a][0] * speed * 0.7) - outPid, (motionAngles[a][1] * speed * 0.7) - outPid, (motionAngles[a][2] * speed * 0.7) - outPid, (motionAngles[a][3] * speed * 0.7) - outPid);
             } else {
               motion((motionAngles[a][0] * speed) - outPid, (motionAngles[a][1] * speed) - outPid, (motionAngles[a][2] * speed) - outPid, (motionAngles[a][3] * speed) - outPid);
             }
@@ -830,7 +830,7 @@ void loop() {
             } else {
               lineFeature = 0;
             }
-          } else{
+          } else {
             lineFeature = 0;
           }
           motion((motionAngles[line][0] * speed) - outPid, (motionAngles[line][1] * speed) - outPid, (motionAngles[line][2] * speed) - outPid, (motionAngles[line][3] * speed) - outPid);
