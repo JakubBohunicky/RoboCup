@@ -1,3 +1,0 @@
-speed
-MOTOR_OFFSET
-go_backwards time //ked ma loptu
