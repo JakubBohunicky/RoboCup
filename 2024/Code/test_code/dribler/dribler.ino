@@ -5,9 +5,9 @@ void setup() {
 }
 
 void loop() {
-    analogWrite(255,0);
-    digitalWrite(13,HIGH);
-    digitalWrite(14,LOW);
+    analogWrite(10, 255);
+  digitalWrite(13, HIGH);
+  digitalWrite(14, LOW);
 
 
 }
