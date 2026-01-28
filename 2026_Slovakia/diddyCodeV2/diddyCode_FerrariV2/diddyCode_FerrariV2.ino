@@ -373,7 +373,7 @@ const float motionAngles[361][4] = {
 #include <Adafruit_GFX.h>
 
 #define STOP_MOTORS false
-#define DISPLAY_DEBUG true
+#define DISPLAY_DEBUG false
 
 #define ballEffectiveInputClosest 2500
 #define ballEffectiveInputFurthes 2100
@@ -414,7 +414,7 @@ float spdB;
 float spdC;
 float spdD;
 
-unsigned long kickTime;
+unsigned long kickTime = 0;
 int lineFeature = 0;
 
 unsigned long backwardTime = 0;
@@ -430,6 +430,8 @@ int speedBack = 150;  //150  //200
 int line = 999;
 int lineDebug = 999;
 int oldLine = 180;
+unsigned long lineTouchTime = 0;
+
 
 bool goForward = true;
 
@@ -641,8 +643,6 @@ float errorCalculation() {
 void getBallAngle() {
 
 #pragma region didka
-#define ballballEffectiveInputClosest 2500
-#define ballEffectiveInputFurthes 2100
 #define outputMin 1.0
 #define outputMax 2.0
   Wire.beginTransmission(IR_I2C_ADDRESS);
@@ -650,7 +650,7 @@ void getBallAngle() {
   Wire.endTransmission();
 
   Wire.requestFrom((int)IR_I2C_ADDRESS, 4);
-  ballAngle = Wire.read() << 8;
+  ballllAngle = Wire.read() << 8;
   ballAngle |= Wire.read();
   ballRawDistance = Wire.read() << 8;
   ballRawDistance |= Wire.read();
@@ -784,27 +784,40 @@ int finalAngle(float ang1) {
 
   int ang = floor(ang1);
   int finalAngle;
+
   if (ballDistance) {
-    if(ang==0){
-      finalAngle = ang;
-    }else if(ang<11 && ballDistanceFinalAngleOffset>1){
-      finalAngle =int (2*ang * ballDistanceFinalAngleOffset);
-    }else if(ang>349 && ballDistanceFinalAngleOffset>1){
-      int pomocAng=360-ang;
-      int kv_finalAngle = int (2*pomocAng * ballDistanceFinalAngleOffset);                                           
-      finalAngle = 360-kv_finalAngle;
-    }else if(ang<21 && ballDistanceFinalAngleOffset>1){
-      finalAngle =int (2.7*ang * ballDistanceFinalAngleOffset);
-    }else if(ang>339 && ballDistanceFinalAngleOffset>1){
-      int pomocAng=360-ang;
-      int kv_finalAngle = int (2.7*pomocAng * ballDistanceFinalAngleOffset);                                           
-      finalAngle = 360-kv_finalAngle;
-    }else if (ang > 179) {
-      finalAngle =int (ang / ballDistanceFinalAngleOffset);
-    }else if (ang < 180) {
-      int pomocAng=360-ang;
-      int kv_finalAngle = int (pomocAng/ballDistanceFinalAngleOffset);                                           
-      finalAngle = 360-kv_finalAngle;
+    if(millis() - lineTouchTime >= 500) //advanced ball capturing time 
+    {
+      if(ang==0){
+        finalAngle = ang;
+      }else if(ang<11 && ballDistanceFinalAngleOffset>1){
+        finalAngle =int (2*ang * ballDistanceFinalAngleOffset);
+      }else if(ang>349 && ballDistanceFinalAngleOffset>1){
+        int pomocAng=360-ang;
+        int kv_finalAngle = int (2*pomocAng * ballDistanceFinalAngleOffset);
+        finalAngle = 360-kv_finalAngle;
+      }else if(ang<21 && ballDistanceFinalAngleOffset>1){
+        finalAngle =int (2.7*ang * ballDistanceFinalAngleOffset);
+      }else if(ang>339 && ballDistanceFinalAngleOffset>1){
+        int pomocAng=360-ang;
+        int kv_finalAngle = int (2.7*pomocAng * ballDistanceFinalAngleOffset);
+        finalAngle = 360-kv_finalAngle;
+      }else if (ang > 179) {
+        finalAngle =int (ang / ballDistanceFinalAngleOffset);
+      }else if (ang < 180) {
+        int pomocAng=360-ang;
+        int kv_finalAngle = int (pomocAng/ballDistanceFinalAngleOffset);
+        finalAngle = 360-kv_finalAngle;
+      }
+
+    } else  //advanced ball capturing finalAngle
+    { 
+      if ((ballAngle < 90 || ballAngle > 270)) {
+        finalAngle = ang;
+       } else {
+        lineTouchTime = 0;
+        finalAngle = ang;
+      }
     }
 
   // Normalize angle to 0–359
@@ -874,14 +887,7 @@ void loop() {
     while (digitalRead(19) == 1) {
       // cycleTime = millis();
       if (digitalRead(15) != 3728) {  //bukaj module
-        /*
-        display.clearDisplay();
-        display.setTextSize(2);
-        display.setTextColor(SSD1306_WHITE);
-        display.setCursor(0, 0);
-        display.println("Running...");
-        display.display();
-        */
+
         dribler();
         // getBallAngle();
         //didka
@@ -966,37 +972,9 @@ void loop() {
 
           } else {
 
-          if (ballRawDistance > ballEffectiveInputFurthes) { //advanced ball capturing
-            if ((line >= 75 && line <= 105) && ballAngle <= 90) {
-                
-                /*if ((millis() - kickTime) > 1000) {   //skurveny debug
-                  kick();
-                  kickTime = millis();
-              }*/ 
+          lineTouchTime = millis();
+          line += 180;
 
-              line = 310;
-              line += random(-20, 20);
-              delay(50);
-
-            } else if ((line >= 255 && line <= 285) && ballAngle >= 270) {
-
-                /*if ((millis() - kickTime) > 1000) {   //skurveny debug
-                  kick();
-                  kickTime = millis();
-              }*/ 
-
-              line = 50;
-              line += random(-20, 20);
-              delay(50);
-
-            } else {
-              line += 180;
-            }
-          } else {
-            line += 180;
-          }
-          
-          //line += 180;
           if (line >= 360) {
             line = line - 360;
           } else if (line <= 0) {
@@ -1018,6 +996,7 @@ void loop() {
             lineFeature = 0;
           }
           motion((motionAngles[line][0] * maxLineSpeed) - outPid, (motionAngles[line][1] * maxLineSpeed) - outPid, (motionAngles[line][2] * maxLineSpeed) - outPid, (motionAngles[line][3] * maxLineSpeed) - outPid);
+          //delay(50); //diddyCodeV2
         }
       } else {
         motion(0, 0, 0, 0);
