@@ -1,0 +1,15 @@
+bariCode (ferrari x epstein)
+{
+	original code from bari - Ferrari was sped up	
+}
+
+diddyCodeV1 (ferrari) 
+{
+	checkpoint for V2 - changed line behavior when near ball, but only on ferrari and I slowed it down  
+}
+
+diddyCodeV2 (ferrari)
+{
+	work in progess:
+	-changed behavior of ball capturing when near line
+}
