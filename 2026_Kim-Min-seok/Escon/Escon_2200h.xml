@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<elements>
+	<!-- EC/DC motor -->
+	<element id="DID_Motor_plus_or_Winding1">
+		<label resource="true" condition="//sockets/motor[@type=1]">IDS_LBL_DC_MOTOR_PLUS</label>
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W1</label>
+	</element>
+	<element id="DID_Motor_minus_or_Winding2">
+		<label resource="true" condition="//sockets/motor[@type=1]">IDS_LBL_DC_MOTOR_MINUS</label>
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W2</label>
+	</element>
+	<element id="DID_Motor_not_connected_or_Winding3">		
+		<label resource="true" condition="//sockets/motor[@type=1]">IDS_LBL_DC_MOTOR_DISCONNECTED</label>
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W3</label>
+	</element>
+	<!-- DC motor -->
+	<element id="DID_Motor_plus">
+		<label resource="true" condition="//sockets/motor[@type=1]">IDS_LBL_MOTOR_PLUS</label>
+	</element>		
+	<element id="DID_Motor_minus">
+		<label resource="true" condition="//sockets/motor[@type=1]">IDS_LBL_MOTOR_MINUS</label>
+	</element>		
+	<element id="DID_Motor_shield">
+		<label resource="true" condition="//sockets/motor[@type=1]">IDS_LBL_MOTOR_SHIELD</label>
+	</element>	
+	<!-- EC motor -->
+	<element id="DID_Motor_Winding1">
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W1</label>
+	</element>
+	<element id="DID_Motor_Winding2">
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W2</label>
+	</element>
+	<element id="DID_Motor_Winding3">		
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W3</label>
+	</element>
+	<!-- BEMF signals -->
+	<element id="DID_BEMF_W1">
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W1</label>
+	</element>
+	<element id="DID_BEMF_W2">
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W2</label>
+	</element>
+	<element id="DID_BEMF_W3">		
+		<label resource="true" condition="//sockets/motor[@type=0]">IDS_LBL_EC_MOTOR_W3</label>
+	</element>	
+	<!-- Hall sensor -->
+	<element id="DID_Hall_sensor1">
+		<label resource="true" condition="//sockets/socket[@id='j3']">IDS_LBL_HALL_SENSOR1</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_Hall_sensor2">
+		<label resource="true" condition="//sockets/socket[@id='j3']">IDS_LBL_HALL_SENSOR2</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_Hall_sensor3">
+		<label resource="true" condition="//sockets/socket[@id='j3']">IDS_LBL_HALL_SENSOR3</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_Hall_GND">
+		<label resource="true" condition="//sockets/socket[@id='j3']">IDS_LBL_GROUND</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_plus5_VDC_Hall_Sensor_Supply_Voltage">
+		<label resource="true" condition="//sockets/socket[@id='j3']">IDS_LBL_HALL_SENSOR_VDC</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<!-- Encoder/Motor -->
+	<element id="DID_Encoder_Motor_plus">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_MOTOR_PLUS</label>	
+	</element>
+	<element id="DID_Encoder_Motor_minus">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_MOTOR_MINUS</label>
+	</element>	
+	<element id="DID_Encoder_GND">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_GROUND</label>
+	</element>
+	<element id="DID_Channel_A_complement">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_CHANNEL_A_COMPLEMENT</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_Channel_A">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_CHANNEL_A</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_Channel_B_complement">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_CHANNEL_B_COMPLEMENT</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_Channel_B">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_CHANNEL_B</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_plus5_VDC_Encoder_Supply_Voltage">
+		<label resource="true" condition="//sockets/socket[@id='j4']">IDS_LBL_PLUS5_VDC_ENCODER</label>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<!-- Digital inputs -->
+	<element id="DID_DigIN1">
+		<xpath>//sockets/socket[@id='j5']/pin[position()=1]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<element id="DID_DigIN2">
+		<xpath>//sockets/socket[@id='j5']/pin[position()=2]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<element id="DID_DigIN_DigOUT3">
+		<xpath>//sockets/socket[@id='j5']/pin[position()=3]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<element id="DID_DigIN_DigOUT4">
+		<xpath>//sockets/socket[@id='j5']/pin[position()=4]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<!-- Analog inputs -->
+	<element id="DID_AnIN1_plus">
+		<xpath>//sockets/socket[@id='j6']/pin[position()=1]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>		
+	<element id="DID_AnIN1_minus">
+		<xpath>//sockets/socket[@id='j6']/pin[position()=1]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<element id="DID_AnIN2_plus">
+		<xpath>//sockets/socket[@id='j6']/pin[position()=2]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>		
+	<element id="DID_AnIN2_minus">
+		<xpath>//sockets/socket[@id='j6']/pin[position()=2]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<element id="DID_AnOUT1">
+		<xpath>//sockets/socket[@id='j6']/pin[position()=3]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<element id="DID_AnOUT2">
+		<xpath>//sockets/socket[@id='j6']/pin[position()=4]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<!-- Potentiometers -->
+	<element id="DID_P1">
+		<xpath>//sockets/socket[@id='j7']/pin[position()=1]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>		
+	<element id="DID_P2">
+		<xpath>//sockets/socket[@id='j7']/pin[position()=2]/configuredPurpose</xpath>
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>
+	<!-- Common -->
+	<element id="DID_plus5_VDC_Auxiliary_Output_Voltage">
+		<label resource="true">IDS_LBL_PLUS5_VDC_AUX</label>
+	</element>	
+	<element id="DID_not_connected">
+		<label resource="true">IDS_LBL_NONE</label>
+	</element>	
+	<element id="DID_GND">
+		<label resource="true">IDS_LBL_GROUND</label>
+	</element>	
+</elements>
