@@ -1,68 +1,99 @@
 #pragma once
+#include "driver/gpio.h"
 
 
 namespace HW {
 
-    namespace Motor {
-    //MOTORS
-    constexpr int EnPin = 38;
-    constexpr int A_DirPin = 42;
-    constexpr int A_PwmPin = 41;
-    constexpr int B_DirPin = 48;
-    constexpr int B_PwmPin = 47;
-    constexpr int C_DirPin = 14;
-    constexpr int C_PwmPin = 13;
-    constexpr int D_DirPin = 12;
-    constexpr int D_PwmPin = 11;
-    //DRIBLER
-    constexpr int DRB_DirPin = 2;
-    constexpr int DRB_PwmPin = 10;
-    //KICKER
-    constexpr int Kicker_F_Pin = 7;
-    constexpr int KICKER_R_Pin = 21;
+    namespace MotorCfg {
+        //MOTORS
+        constexpr gpio_num_t EnPin = GPIO_NUM_38;
+        constexpr gpio_num_t A_DirPin = GPIO_NUM_42;
+        constexpr gpio_num_t A_PwmPin = GPIO_NUM_41;
+        constexpr gpio_num_t B_DirPin = GPIO_NUM_48;
+        constexpr gpio_num_t B_PwmPin = GPIO_NUM_47;
+        constexpr gpio_num_t C_DirPin = GPIO_NUM_14;
+        constexpr gpio_num_t C_PwmPin = GPIO_NUM_13;
+        constexpr gpio_num_t D_DirPin = GPIO_NUM_12;
+        constexpr gpio_num_t D_PwmPin = GPIO_NUM_11;
 
-    //MOTOR PWM PARAMETERS
-    constexpr int PWM_Freq = 1000; //1kHz
-    constexpr int PWM_Resolution = 10; //10bit
+        //MOTOR PWM PARAMETERS
+        constexpr int PWM_Freq = 1000; //1kHz
+        constexpr int PWM_Resolution = 10; //10bit
     }
 
-    namespace MotorSense{
-    //MOTORS SENSE
-    constexpr int DRBF_Spd_Pin = 1;
-    constexpr int A_Spd_Pin = 15;
-    constexpr int B_Spd_Pin = 16;
-    constexpr int C_Spd_Pin = 17;
-    constexpr int D_Spd_Pin = 18;
+    namespace PWMCfg {
+        constexpr int PWM_FREQ = 1000;
+        constexpr int PWM_RES = 10;
+    }
+    
+    namespace KickerDrbCfg {
+        //DRIBLER
+        constexpr gpio_num_t DRB_DirPin = GPIO_NUM_2;
+        constexpr gpio_num_t DRB_PwmPin = GPIO_NUM_10;
+        //KICKER
+        constexpr gpio_num_t Kicker_F_Pin = GPIO_NUM_7;
+        constexpr gpio_num_t Kicker_R_Pin = GPIO_NUM_21;
+    }
 
-    //SWITCHES
-    constexpr int DRB_SW_F_Pin = 40;
-    constexpr int DRB_SW_R_Pin = 39;
+    namespace MotorSenseCfg{
+        //MOTORS SENSE
+        constexpr gpio_num_t DRBFR_Spd_Pin = GPIO_NUM_1;
+        constexpr gpio_num_t A_Spd_Pin = GPIO_NUM_15;
+        constexpr gpio_num_t B_Spd_Pin = GPIO_NUM_16;
+        constexpr gpio_num_t C_Spd_Pin = GPIO_NUM_17;
+        constexpr gpio_num_t D_Spd_Pin = GPIO_NUM_18;
+
+        constexpr uint16_t ADC_maxVal = 4095;
+
+        //SWITCHES
+        constexpr gpio_num_t DRB_SW_F_Pin = GPIO_NUM_40;
+        constexpr gpio_num_t DRB_SW_R_Pin = GPIO_NUM_39;
+
     }
 
 
 
-    namespace GENERIC {
-        //BUTTONS
-        constexpr int BTN_inc_Pin = 20;
-        constexpr int BTN_dec_Pin = 19;
-        //BUKAJ MODUL
-        constexpr int BukajModule_Pin = 35;
-        //I2C
-        constexpr int I2C_SDA_Pin = 8;
-        constexpr int I2C_SCL_Pin = 9;
+    namespace GenericCfg {
+            //BUTTONS
+            constexpr gpio_num_t BTN_inc_Pin = GPIO_NUM_20;
+            constexpr gpio_num_t BTN_dec_Pin = GPIO_NUM_19;
+            //BUKAJ MODUL
+            constexpr gpio_num_t BukajModule_Pin = GPIO_NUM_35;
+            //I2C
+            constexpr int I2C_SDA_Pin = 8;
+            constexpr int I2C_SCL_Pin = 9;
     }
 
-    namespace LINE{
-        //LED AND LINE MUX
-        constexpr int LedSet0_Pin = 36;
-        constexpr int LedSet_Xdebug_Pin = 37;
+    namespace LineCfg{
+        //LINE MUX
         constexpr int Line_A_Read_Pin = 4;
         constexpr int Line_B_Read_Pin = 5;
         constexpr int Line_X_Read_Pin = 6;
-        constexpr int LineSet0_Pin = 0;
-        constexpr int LineSet1_Pin = 45;
-        constexpr int LineSet2_Pin = 46;
-        constexpr int LineSet3_Pin = 3;
+        constexpr gpio_num_t LineSet0_Pin = GPIO_NUM_0;
+        constexpr gpio_num_t LineSet1_Pin = GPIO_NUM_45;
+        constexpr gpio_num_t LineSet2_Pin = GPIO_NUM_46;
+        constexpr gpio_num_t LineSet3_Pin = GPIO_NUM_3;
+        
+        //line treshold sense
+        constexpr int line_analog_treshold = 250;
+        constexpr float line_depth_O_Val = 0.05f;
+        //                                      45%   30%   15%    10%
+        constexpr float line_depth_XArr[4] = {0.45f, 0.3f, 0.15f, 0.1f}; //percentage of robot on line
+
+    }
+
+    namespace LEDsCfg {
+        constexpr int LEDSetO_Pin = 36;
+        constexpr int LEDSet_Xdebug_Pin = 37;
+
+        constexpr int LED_O_num = 32;
+        constexpr int LED_X_num = 20;
+        constexpr uint16_t LED_DEBUG_num = 4;
+    }
+
+    namespace GyroCfg {
+        constexpr int GYRO_ID = 55;
+        constexpr int GYRO_ADR = 0x22;
     }
 
 
