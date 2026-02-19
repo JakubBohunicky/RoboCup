@@ -21,6 +21,9 @@ void input_gyro_update(){
     if(IN::gyro.offset > 180) IN::gyro.offset -= 360;
     if(IN::gyro.offset < -180) IN::gyro.offset += 360;
 
+    IN::gyro.offset_ToNField = IN::gyro.offset += 360;
+    if(IN::gyro.offset_ToNField >= 360) IN::gyro.offset_ToNField -= 360;
+
     //Get callibration status
     gyro.getCalibration(&IN::gyro.calSys, &IN::gyro.calGyr, &IN::gyro.calAcl, &IN::gyro.calMag);
 }

@@ -7,7 +7,8 @@ namespace IN {
     _Raw::Gyro gyro;
     _Raw::Ball ball;
     _Raw::Line line;
-    _Raw::motionSense motionSens;
+    _Raw::MotionSense motionSens;
+    _Raw::Generic generic;
 }
 
 namespace OUT {
@@ -17,6 +18,6 @@ namespace OUT {
     _Raw::KickerDrb kicker_Drb;
 }
 
-namespace STATE {
-
+namespace ST {
+    _Raw::LowCfg lowCfg;
 }

@@ -4,6 +4,16 @@
 
 namespace _Raw {
 
+    struct Generic
+    {
+        bool bukajModuleEn = false;
+        bool btn_incA = false;
+        bool btn_decA = false;
+    };
+    
+
+
+
     struct LED {
         uint8_t brightness = 0;
         uint32_t color = 0xFFFFFF;
@@ -43,17 +53,25 @@ namespace _Raw {
     };
 
     struct Line {
-        int16_t angle = 0; //Angle of the (NOT THE ESCAPE ANGLE!)
+        int16_t angle = 0; //Angle to the line (NOT THE ESCAPE ANGLE!)
+        int16_t angle_ToNField = 0; // -||-
         bool seen = false;
         float depth = 0.0f;  //Dept 0.0f means the robot is not on the line
     };
 
-    struct motionSense {
+    struct MotionSense {
         float motSpeed = 0.0f;
         float drbSpeed = 0.0f;
         bool drbR = false;
         bool drbF = false;
     };
+
+
+    struct LowCfg {
+        bool Goal_attackOnBlue = true; 
+        
+    };
+
 
 }
 
@@ -65,7 +83,8 @@ namespace IN {
     extern _Raw::Gyro gyro;
     extern _Raw::Ball ball;
     extern _Raw::Line line;
-    extern _Raw::motionSense motionSens;
+    extern _Raw::MotionSense motionSens;
+    extern _Raw::Generic generic;
 }
 
 namespace OUT {
@@ -76,8 +95,8 @@ namespace OUT {
 }
 
 
-namespace STATE {
-
+namespace ST {
+    extern _Raw::LowCfg lowCfg;
 }
 
 

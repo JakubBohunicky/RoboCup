@@ -1,5 +1,6 @@
 #include "Low/Inputs/input_ballIR.h"
 #include "Low/config_hw.h"
+#include "Low/inputs.h"
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -18,10 +19,8 @@ void input_ballIR_update() {
     IN::ball.distRaw = Wire.read() << 8;
     IN::ball.distRaw |= Wire.read();
 
-    if (IN::ball.angle >= 360) IN::ball.angle %= 360; //normalize
-    IN::ball.angle -= 180;
-    
-
+    IN::ball.angle = input_wrap180(IN::line.angle);
+    IN::ball.angle_ToNField = input_wrap180(IN::line.angle - IN::gyro.offset_ToNField);
     IN::ball.strength = constrain(((float)IN::ball.distRaw - (float)HW::BallCfg::c_ballEffectiveInputFurthes) / ((float)HW::BallCfg::c_ballEffectiveInputClosest - (float)HW::BallCfg::c_ballEffectiveInputFurthes), 0.0f, 1.0f);
 }
 

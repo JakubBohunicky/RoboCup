@@ -16,9 +16,6 @@ namespace HW {
         constexpr gpio_num_t D_DirPin = GPIO_NUM_12;
         constexpr gpio_num_t D_PwmPin = GPIO_NUM_11;
 
-        //MOTOR PWM PARAMETERS
-        constexpr int PWM_Freq = 1000; //1kHz
-        constexpr int PWM_Resolution = 10; //10bit
     }
 
     namespace PWMCfg {
