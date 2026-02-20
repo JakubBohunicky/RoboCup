@@ -17,7 +17,7 @@ static constexpr uint8_t motion_motRL = 2;
 static constexpr uint8_t motion_motRR = 3;
 static constexpr uint8_t motion_motDRBRF = 4;
 
-static constexpr float motion_ADC_Const = 1.0f/HW::MotorSenseCfg::ADC_maxVal;
+static constexpr float motion_ADC_Const = 1.0f/HW::MotionSenseCfg::ADC_maxVal;
 
 void _input_motionSense_readSpeed() {
     speeds_ADC[motion_motFR] = analogReadFast(motion_CH_A);
@@ -30,10 +30,10 @@ void _input_motionSense_readSpeed() {
 
 
 void input_motionSense_init_() {
-    gpio_set_direction(HW::MotorSenseCfg::DRB_SW_F_Pin, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(HW::MotorSenseCfg::DRB_SW_F_Pin, GPIO_PULLUP_ONLY);
-    gpio_set_direction(HW::MotorSenseCfg::DRB_SW_R_Pin, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(HW::MotorSenseCfg::DRB_SW_R_Pin, GPIO_PULLUP_ONLY);
+    gpio_set_direction(HW::MotionSenseCfg::DRB_SW_F_Pin, GPIO_MODE_INPUT);
+    gpio_set_pull_mode(HW::MotionSenseCfg::DRB_SW_F_Pin, GPIO_PULLUP_ONLY);
+    gpio_set_direction(HW::MotionSenseCfg::DRB_SW_R_Pin, GPIO_MODE_INPUT);
+    gpio_set_pull_mode(HW::MotionSenseCfg::DRB_SW_R_Pin, GPIO_PULLUP_ONLY);
 
     //fastADC init is in own cpp file
 }
@@ -50,6 +50,6 @@ void input_motionSense_update() {
 
     
     IN::motionSens.drbSpeed = speeds_ADC[motion_motDRBRF] * motion_ADC_Const;
-    IN::motionSens.drbF = !gpio_get_level(HW::MotorSenseCfg::DRB_SW_F_Pin);
-    IN::motionSens.drbR = !gpio_get_level(HW::MotorSenseCfg::DRB_SW_R_Pin);
+    IN::motionSens.drbF = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_F_Pin);
+    IN::motionSens.drbR = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_R_Pin);
 }

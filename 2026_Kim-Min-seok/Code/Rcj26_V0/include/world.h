@@ -4,21 +4,17 @@
 
 namespace _Raw {
 
-    struct Generic
-    {
-        bool bukajModuleEn = false;
-        bool btn_incA = false;
-        bool btn_decA = false;
+    struct MotorAcc {
+        float mainOut[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        bool motEn = false;
+
     };
-    
-
-
 
     struct LED {
         uint8_t brightness = 0;
         uint32_t color = 0xFFFFFF;
     };
-
+    
     struct KickerDrb
     {
         bool drbReverseDir = false;
@@ -27,7 +23,13 @@ namespace _Raw {
         bool kickR = false;
     };
     
-
+    struct Generic
+    {
+        bool bukajModuleEn = false;
+        bool btn_incA = false;
+        bool btn_decA = false;
+    };
+    
     struct Goal {
         bool seen = false;
         float angle = 0.0f; //Angle from -180 to 180
@@ -92,6 +94,7 @@ namespace OUT {
     extern _Raw::LED led_X;
     extern _Raw::LED led_Debug;
     extern _Raw::KickerDrb kicker_Drb;
+    extern _Raw::MotorAcc motorAcc; //motor output accumulator
 }
 
 

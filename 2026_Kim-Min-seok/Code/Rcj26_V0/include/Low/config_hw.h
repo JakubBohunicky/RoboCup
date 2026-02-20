@@ -32,7 +32,7 @@ namespace HW {
         constexpr gpio_num_t Kicker_R_Pin = GPIO_NUM_21;
     }
 
-    namespace MotorSenseCfg{
+    namespace MotionSenseCfg{
         //MOTORS SENSE
         constexpr gpio_num_t DRBFR_Spd_Pin = GPIO_NUM_1;
         constexpr gpio_num_t A_Spd_Pin = GPIO_NUM_15;

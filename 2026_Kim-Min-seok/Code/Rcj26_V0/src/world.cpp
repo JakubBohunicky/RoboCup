@@ -16,6 +16,7 @@ namespace OUT {
     _Raw::LED led_X;
     _Raw::LED led_Debug;
     _Raw::KickerDrb kicker_Drb;
+    _Raw::MotorAcc motorAcc;
 }
 
 namespace ST {
