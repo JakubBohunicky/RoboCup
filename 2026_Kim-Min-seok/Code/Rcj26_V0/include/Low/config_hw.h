@@ -19,8 +19,8 @@ namespace HW {
     }
 
     namespace PWMCfg {
-        constexpr int PWM_FREQ = 1000;
-        constexpr int PWM_RES = 10;
+        constexpr int PWM_FREQ = 1000; //Hz
+        constexpr int PWM_RES = 12; //bits
     }
     
     namespace KickerDrbCfg {
@@ -30,6 +30,13 @@ namespace HW {
         //KICKER
         constexpr gpio_num_t Kicker_F_Pin = GPIO_NUM_7;
         constexpr gpio_num_t Kicker_R_Pin = GPIO_NUM_21;
+    }
+
+    namespace DisplayCfg {
+        constexpr int width = 128;
+        constexpr int height = 64;
+        constexpr int ADRR = 0x3C;
+        constexpr int rotation = 2; 
     }
 
     namespace MotionSenseCfg{

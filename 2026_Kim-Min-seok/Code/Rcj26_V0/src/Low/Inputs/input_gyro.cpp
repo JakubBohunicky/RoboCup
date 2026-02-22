@@ -2,7 +2,7 @@
 #include "Adafruit_BNO055.h"
 #include "Low/config_hw.h"
 
-static Adafruit_BNO055 gyro = Adafruit_BNO055(HW::GyroCfg::GYRO_ID, HW::GyroCfg::GYRO_ADR);
+static Adafruit_BNO055 gyro = Adafruit_BNO055(HW::GyroCfg::GYRO_ID, HW::GyroCfg::GYRO_ADR, &Wire);
 static float baseOffset = 0.0f;
 
 void input_gyro_init_() {

@@ -1,5 +1,6 @@
 #pragma once
 
-void outputs_init_();
-
-void outputs_update();
+namespace Pheripherials {
+    void outputs_init_();
+    void outputs_update();
+}

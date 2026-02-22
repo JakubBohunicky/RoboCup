@@ -32,8 +32,6 @@ static void _input_setMuxAddr(uint8_t a) {
     gpio_set_level(HW::LineCfg::LineSet1_Pin, (a >> 1) & 1);
     gpio_set_level(HW::LineCfg::LineSet2_Pin, (a >> 2) & 1);
     gpio_set_level(HW::LineCfg::LineSet3_Pin, (a >> 3) & 1);
-
-
 }
 
 

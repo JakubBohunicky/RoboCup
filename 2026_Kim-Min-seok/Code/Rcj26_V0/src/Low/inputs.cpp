@@ -6,6 +6,9 @@
 #include "Low/Inputs/input_line.h"
 #include "Low/Inputs/input_motionSense.h"
 #include "Low/Inputs/input_pixy.h"
+#include <Arduino.h>
+
+static uint32_t times[] = {0, 0, 0, 0, 0};
 
 
 
@@ -15,8 +18,6 @@ int16_t input_wrap180(int16_t a) { //normalize from -180 to 180
     if(a>180) a-=360;
     return a;
 }
-
-
 
 namespace Pheripherials {
 
@@ -30,12 +31,25 @@ namespace Pheripherials {
     }
 
     void inputs_update() {
-        input_gyro_update();
-        input_line_update();
-        input_ballIR_update();
-        input_pixy_update();
-        input_motionSense_update();
-        input_generic_update();
-    }
+        uint32_t now = millis();
 
+        if(now - times[0] >= 1) { //1kHz
+            input_gyro_update();
+            times[0] = now;
+        }
+        if(now - times[1] >= 3) { //333Hz
+            input_line_update();
+            input_motionSense_update();
+            times[1] = now;
+        }
+        if(now - times[2] >= 5) { //200Hz
+            input_ballIR_update();
+            times[2] = now;
+        }
+        if(now - times[3] >= 33) { //30Hz
+            input_pixy_update();
+            input_generic_update();
+            times[3] = now;
+        }
+    }
 }

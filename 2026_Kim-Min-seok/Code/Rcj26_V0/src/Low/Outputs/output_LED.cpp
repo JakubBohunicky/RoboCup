@@ -37,9 +37,10 @@ static void _output_LED_set_DEBUG() {
 
 
 void output_LED_update() {
-    _output_LED_set_O();
-    _output_LED_set_X();
-    _output_LED_set_DEBUG();
+    if(OUT::led_O.needsUpdate) { _output_LED_set_O(); OUT::led_O.needsUpdate = false;}
+    if(OUT::led_X.needsUpdate) { _output_LED_set_X(); OUT::led_X.needsUpdate = false; }
+    if(OUT::led_Debug.needsUpdate) { _output_LED_set_DEBUG(); OUT::led_Debug.needsUpdate = false; }
+
     FastLED.show();
 }
 
