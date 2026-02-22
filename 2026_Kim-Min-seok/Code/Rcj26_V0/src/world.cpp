@@ -19,6 +19,7 @@ namespace OUT {
     _Raw::MotorAcc motorAcc;
 }
 
-namespace ST {
-    Goal_t goalAttackOn = goal_t::Yellow;
-}
+// namespace ST {
+
+// }
+

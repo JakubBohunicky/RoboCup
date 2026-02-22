@@ -31,12 +31,12 @@ void input_pixy_update() { //Angle from -180 to 180
         auto &b = pixy.ccc.blocks[i];
 
         if(b.m_y >= HW::PixyCfg::c_pixy_objMinHeight) {
-            if(b.m_signature == ST::lowCfg.Goal_attackOnBlue) { //if blue SIG == 1
+            if(b.m_signature == 0) { //if blue SIG == 1
                 IN::goalEnemy.seen = true;
                 IN::goalEnemy.angle = _input_pixy_xToAngle(b.m_x);
                 IN::goalEnemy.size = b.m_width * b.m_height;
 
-            } else if(b.m_signature != ST::lowCfg.Goal_attackOnBlue) { //if yellow SIG == 0
+            } else if(b.m_signature != 0) { //if yellow SIG == 0
                 IN::goalOur.seen = true;
                 IN::goalOur.angle = _input_pixy_xToAngle(b.m_x);
                 IN::goalOur.size = b.m_width * b.m_height;
