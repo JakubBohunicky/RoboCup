@@ -1,7 +1,5 @@
 #pragma once
 #include "robot_types.h"
-#include "High/config_app.h"
-
 
 namespace IN {
     extern _Raw::Goal goalEnemy;
@@ -24,7 +22,9 @@ namespace OUT {
 
 
 namespace ST {
-    
+    extern _Raw::ST_Soccer soccer;
+
+    void resetToDefaults();
 }
 
 

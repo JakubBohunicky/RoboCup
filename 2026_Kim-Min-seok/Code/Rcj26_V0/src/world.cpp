@@ -1,4 +1,5 @@
 #include "world.h"
+#include "High/config_app.h"
 
 namespace IN {
     _Raw::Goal goalEnemy;
@@ -19,7 +20,13 @@ namespace OUT {
     _Raw::MotorAcc motorAcc;
 }
 
-// namespace ST {
+namespace ST {
+    _Raw::ST_Mode mode;
+    _Raw::ST_Soccer soccer;
+    
 
-// }
-
+    void resetToDefaults() {
+        mode = ST_Default::mode;
+        soccer = ST_Default::soccer;
+    }
+}
