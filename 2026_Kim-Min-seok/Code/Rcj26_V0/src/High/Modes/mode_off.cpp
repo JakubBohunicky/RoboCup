@@ -1,7 +1,7 @@
 #include "High/Modes/mode_off.h"
 
-namespace MODE {
+namespace Mode {
     void off() {
-        //display menu
-    }
+
+    } 
 }

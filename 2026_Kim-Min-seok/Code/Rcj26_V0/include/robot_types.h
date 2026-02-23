@@ -1,19 +1,23 @@
 #pragma once
 #include <cstdint>
 
-namespace Types {
-    enum class goal_t : uint16_t { Yellow = 0, Blue = 1 }; 
-    enum class mode_t : int8_t {Off = 0, Soccer = 1, Test = 2}; 
+namespace ST {
+    namespace Types {
+        enum class goal_t : uint16_t { Yellow = 0, Blue = 1 }; 
+        enum class mode_t : int8_t {Off = 0, Soccer = 1, Test = 2}; 
+        enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
+    }
 }
 
 namespace _Raw {
 
-    struct ST_Mode {
-        Types::mode_t mode;
+    struct ST_State {
+        ST::Types::mode_t mode;
+        ST::Types::role_t role;
     };
 
     struct ST_Soccer {
-        Types::goal_t enemyGoal;
+        ST::Types::goal_t enemyGoal;
         float baseSpeed;
     };
 

@@ -16,7 +16,6 @@ void loop()
     Pheripherials::inputs_update();
     Logic::determineMode();
 
-
     
     Pheripherials::outputs_update();
 }

@@ -22,14 +22,8 @@ namespace OUT {
 
 
 namespace ST {
+    extern _Raw::ST_State state;
     extern _Raw::ST_Soccer soccer;
 
     void resetToDefaults();
 }
-
-
-
-
-
-
-

@@ -21,12 +21,11 @@ namespace OUT {
 }
 
 namespace ST {
-    _Raw::ST_Mode mode;
+    _Raw::ST_State state;
     _Raw::ST_Soccer soccer;
     
-
     void resetToDefaults() {
-        mode = ST_Default::mode;
+        state = ST_Default::state;
         soccer = ST_Default::soccer;
     }
 }
