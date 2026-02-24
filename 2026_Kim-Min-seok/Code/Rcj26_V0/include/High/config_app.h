@@ -2,7 +2,6 @@
 #include "robot_types.h"
 
 
-
 namespace ST_Default {
 
     inline const _Raw::ST_State state = {
