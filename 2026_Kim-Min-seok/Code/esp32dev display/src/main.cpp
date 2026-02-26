@@ -18,7 +18,7 @@ void drawScreen_1(void);
   bool goal = true;
   int mode = 0;
   int speed = 100;
-  float gyroOffset = 67.69;
+  float gyroOffset = 157.00;
   bool robotOn = false;
   uint32_t robotLastOnTime = 0;
   bool speedMenu = false;
