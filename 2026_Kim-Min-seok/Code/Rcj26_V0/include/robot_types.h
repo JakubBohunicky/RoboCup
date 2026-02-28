@@ -6,7 +6,7 @@ namespace ST {
         enum class goal_t : uint16_t { Yellow = 0, Blue = 1 }; 
         enum class mode_t : int8_t {Off = 0, Soccer = 1, Test = 2}; 
         enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
-        enum class menu_t : int8_t {None = -1, SetGoal = 0, SetMode = 1, SetSpeed = 2}; 
+        enum class menu_t : int8_t {None = -1, SetGoal = 0, SetRole = 1, SetSpeed = 2}; 
     }
 }
 

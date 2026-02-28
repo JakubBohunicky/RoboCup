@@ -27,7 +27,7 @@ BTNs btnSMinus;
 void I2C_FastADC_init_() {
 
     Wire.begin(HW::GenericCfg::I2C_SDA_Pin, HW::GenericCfg::I2C_SCL_Pin);
-    Wire.setClock(400000); //MAX 800kHz
+    Wire.setClock(HW::GenericCfg::I2C_SPEED);
 
     fadcInit(8, HW::LineCfg::Line_A_Read_Pin, HW::LineCfg::Line_B_Read_Pin, HW::LineCfg::Line_X_Read_Pin, HW::MotionSenseCfg::A_Spd_Pin, HW::MotionSenseCfg::B_Spd_Pin, HW::MotionSenseCfg::C_Spd_Pin, HW::MotionSenseCfg::D_Spd_Pin, HW::MotionSenseCfg::DRBFR_Spd_Pin);
 
@@ -58,16 +58,16 @@ static void _input_generic_btn_update(BTNs& btn) {
         if(now - btn.ChangeTime >= BTN_DEBOUNCE_MS) { //debounde
             btn.StablePos = raw;
             btn.ChangeTime = now;
-            btn.LongSent = false;
-
+            
             if(btn.StablePos == true) {
-                btn.PressStartTime = now;
+              btn.PressStartTime = now;
+              btn.LongSent = false;
             }
         }
     }
 
     btn.IsDown = btn.StablePos;
-    btn.Click = (btn.LastPos == true && btn.StablePos == false);
+    btn.Click = (btn.LastPos == true && btn.StablePos == false && btn.LongSent == false);
 
     if(btn.StablePos == true && btn.LongSent == false) {
         if(now - btn.PressStartTime >= BTN_LONGPRESS_MS) {
