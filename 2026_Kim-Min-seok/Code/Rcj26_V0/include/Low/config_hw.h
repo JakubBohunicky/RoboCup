@@ -66,6 +66,8 @@ namespace HW {
             //I2C
             constexpr int I2C_SDA_Pin = 8;
             constexpr int I2C_SCL_Pin = 9;
+            constexpr int I2C_SPEED = 1000000UL;
+            constexpr int SERIAL_SPEED = 921600;
     }
 
     namespace LineCfg{

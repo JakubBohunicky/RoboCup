@@ -24,17 +24,17 @@ namespace Pheripherials {
     void inputs_init_() {
         I2C_FastADC_init_();
         input_generic_init_();
-        input_gyro_init_();
+        // input_gyro_init_();
         input_line_init_();
         input_motionSense_init_();
-        input_pixy_init_();
+        // input_pixy_init_();
     }
 
     void inputs_update() {
         uint32_t now = millis();
 
         if(now - times[0] >= 1) { //1kHz
-            input_gyro_update();
+            // input_gyro_update();
             times[0] = now;
         }
         if(now - times[1] >= 3) { //333Hz
@@ -43,11 +43,11 @@ namespace Pheripherials {
             times[1] = now;
         }
         if(now - times[2] >= 5) { //200Hz
-            input_ballIR_update();
+            // input_ballIR_update();
             times[2] = now;
         }
         if(now - times[3] >= 33) { //30Hz
-            input_pixy_update();
+            // input_pixy_update();
             input_generic_update();
             times[3] = now;
         }

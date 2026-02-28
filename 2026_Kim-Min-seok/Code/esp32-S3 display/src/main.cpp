@@ -8,7 +8,7 @@
 static Adafruit_SSD1306 display(128, 64, &Wire, -1, 1000000UL, 1000000UL);
 
 
-void drawScreen_1\(void);
+void drawScreen_1(void);
 
   int state = 1;
   bool wifi = true;
@@ -236,7 +236,7 @@ void setup() {
 //SPEED
 
 void loop() {
-    Serial.println(Wire.getClock());
+    // Serial.println(Wire.getClock());
   //Serial.println("before");
 //   gpio_set_level(GPIO_NUM_35, 1);
   gpio_set_level(GPIO_NUM_36, 1);
