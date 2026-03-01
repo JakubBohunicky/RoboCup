@@ -133,6 +133,7 @@ static void _drawScreen_SetSPEED() {
 namespace Mode {
 
     void off() {
+        OUT::motorAcc.motEn = false;
         OUT::display.needsUpdate = true;
 
         if(ST::offMenu.state == ST::Types::menu_t::SetSpeed) {

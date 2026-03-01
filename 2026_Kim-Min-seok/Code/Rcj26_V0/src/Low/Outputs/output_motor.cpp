@@ -12,6 +12,7 @@ static constexpr uint32_t PWM_MAX_VAL = (1u << HW::PWMCfg::PWM_RES) -1u;
 
 
 static uint32_t _output_motor_normDutyCycle(float duty) {
+    duty = duty * ST::soccer.baseSpeed;
     duty = constrain(duty, 0.0f, 1.0f); //normalize from 0.0f to 1.0f
     duty = 0.10f + 0.80f * duty; //transforms from 0.1f to 0.9f  for maxon driver PWM range
     return (uint32_t)lround(duty * (float)PWM_MAX_VAL);
@@ -46,12 +47,32 @@ void output_motor_init_() {
 
 
 void output_motor_update() {
+
     gpio_set_level(HW::MotorCfg::EnPin, OUT::motorAcc.motEn);
 
-    ledcWrite(motCH_A, OUT::motorAcc.mainOut[0]);
-    ledcWrite(motCH_B, OUT::motorAcc.mainOut[1]);
-    ledcWrite(motCH_C, OUT::motorAcc.mainOut[2]);
-    ledcWrite(motCH_D, OUT::motorAcc.mainOut[3]);
+    if(OUT::motorAcc.motEn) {
+        if(OUT::motorAcc.mainOut[0] > 0) { gpio_set_level(HW::MotorCfg::A_DirPin, 0);}
+        else { gpio_set_level(HW::MotorCfg::A_DirPin, 1); }
+        ledcWrite(motCH_A, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[0]));
+
+        if(OUT::motorAcc.mainOut[1] > 0) { gpio_set_level(HW::MotorCfg::B_DirPin, 0);}
+        else { gpio_set_level(HW::MotorCfg::B_DirPin, 1); }
+        ledcWrite(motCH_B, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[1]));
+
+        if(OUT::motorAcc.mainOut[2] > 0) { gpio_set_level(HW::MotorCfg::C_DirPin, 0);}
+        else { gpio_set_level(HW::MotorCfg::C_DirPin, 1); }
+        ledcWrite(motCH_C, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[2]));
+
+        if(OUT::motorAcc.mainOut[3] > 0) { gpio_set_level(HW::MotorCfg::D_DirPin, 0);}
+        else { gpio_set_level(HW::MotorCfg::D_DirPin, 1); }
+        ledcWrite(motCH_D, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[3]));
+    }
+    else {
+        ledcWrite(motCH_A, 0);
+        ledcWrite(motCH_B, 0);
+        ledcWrite(motCH_C, 0);
+        ledcWrite(motCH_D, 0);
+    }
 
     OUT::motorAcc = {};
 }
