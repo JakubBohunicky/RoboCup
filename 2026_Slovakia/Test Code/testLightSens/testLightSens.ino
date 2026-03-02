@@ -1,21 +1,21 @@
-const int outputArray[16][4] = {
-  { 0, 0, 0, 0 },
-  { 0, 0, 0, 1 },
-  { 0, 0, 1, 0 },
-  { 0, 0, 1, 1 },
-  { 0, 1, 0, 0 },
-  { 0, 1, 0, 1 },
-  { 0, 1, 1, 0 },
-  { 0, 1, 1, 1 },
-  { 1, 0, 0, 0 },
-  { 1, 0, 0, 1 },
-  { 1, 0, 1, 0 },
-  { 1, 0, 1, 1 },
-  { 1, 1, 0, 0 },
-  { 1, 1, 0, 1 },
-  { 1, 1, 1, 0 },
-  { 1, 1, 1, 1 }
-};
+  const int outputArray[16][4] = {
+    { 0, 0, 0, 0 },
+    { 0, 0, 0, 1 },
+    { 0, 0, 1, 0 },
+    { 0, 0, 1, 1 },
+    { 0, 1, 0, 0 },
+    { 0, 1, 0, 1 },
+    { 0, 1, 1, 0 },
+    { 0, 1, 1, 1 },
+    { 1, 0, 0, 0 },
+    { 1, 0, 0, 1 },
+    { 1, 0, 1, 0 },
+    { 1, 0, 1, 1 },
+    { 1, 1, 0, 0 },
+    { 1, 1, 0, 1 },
+    { 1, 1, 1, 0 },
+    { 1, 1, 1, 1 }
+  };
 
 const int treshold[12][4]{
   {0,0,0,0},  
@@ -48,8 +48,10 @@ void loop() {
     digitalWrite(24,outputArray[i][1]);
     digitalWrite(26,outputArray[i][2]);
     digitalWrite(28,outputArray[i][3]);
+    Serial.print("; ");
+    Serial.print(i);
+    Serial.print(": ");
     Serial.print(analogRead(A13));
-    Serial.print(" ");
 
   }       ///////////////// SENZORY IDU PROTI SMERU HODNINOVYCH RUCICIEK {//Didka}
 
@@ -58,8 +60,11 @@ void loop() {
     digitalWrite(24,outputArray[i][1]);
     digitalWrite(26,outputArray[i][2]);
     digitalWrite(28,outputArray[i][3]);
+    Serial.print("; ");
+    Serial.print(i+16);
+    Serial.print(": ");
     Serial.print(analogRead(A15));
-    Serial.print(" ");
+    //Serial.print(" ");
 
   }
 

@@ -17,11 +17,24 @@ void loop() {
     }
     //analogWrite(10, 0);
     //delay(50);
+
+    
     digitalWrite(4,HIGH);
     delay(100);
     digitalWrite(4,LOW);
     //analogWrite(10, 255);
     delay(2000);
+    
+
+    // analogWrite(10, 255);
+    // digitalWrite(13, LOW);
+    // digitalWrite(14, HIGH);
+    // delay(1000);
+
+    
+    // analogWrite(10, 255);
+    // digitalWrite(13, dribblerShwitch);
+    // digitalWrite(14, LOW);
 
   }
 

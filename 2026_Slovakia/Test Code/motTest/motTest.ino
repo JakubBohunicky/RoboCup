@@ -34,7 +34,7 @@ void loop() {
   digitalWrite(45,0);
   analogWrite(9,200);
 
-  delay(1000);
+  delay(5000);
 
   digitalWrite(25,0);
   digitalWrite(27,1);
@@ -53,7 +53,7 @@ void loop() {
   analogWrite(9,50);
   
 
-  delay(3000);
+  delay(5000);
 
 
   

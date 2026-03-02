@@ -7,7 +7,7 @@
 
 
 
-const int outputArray[12][4] = {
+const int outputArray[16][4] = {
   { 0, 0, 0, 0 },
   { 0, 0, 0, 1 },
   { 0, 0, 1, 0 },
@@ -19,7 +19,11 @@ const int outputArray[12][4] = {
   { 1, 0, 0, 0 },
   { 1, 0, 0, 1 },
   { 1, 0, 1, 0 },
-  { 1, 0, 1, 1 }
+  { 1, 0, 1, 1 },
+  { 1, 1, 0, 0 },
+  { 1, 1, 0, 1 },
+  { 1, 1, 1, 0 },
+  { 1, 1, 1, 1 }
 };
 
 const int tresoldArray[12][4] = {
@@ -98,7 +102,7 @@ uint16_t getLineAngle() {
 }
 void setup() {
   define_lightMultiplexer();
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 void loop() {
   Serial.println(getLineAngle());

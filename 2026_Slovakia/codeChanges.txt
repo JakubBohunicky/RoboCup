@@ -13,4 +13,6 @@ diddyCodeV2 (ferrari x chladic)
 	xxxxxx---- working code ------xxxxxx
 	-changed behavior of ball capturing when near line
 
+	-added gyro calibration
+
 }

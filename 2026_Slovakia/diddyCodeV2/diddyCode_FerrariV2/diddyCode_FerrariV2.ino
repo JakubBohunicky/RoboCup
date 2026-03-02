@@ -414,6 +414,8 @@ float spdB;
 float spdC;
 float spdD;
 
+float yawOffset = 0;
+
 unsigned long kickTime = 0;
 int lineFeature = 0;
 
@@ -453,9 +455,9 @@ uint16_t ballRawDistance;
 #define motorDINB 25  //INA pin motor A
 #define motorDINA 27  //INB pin motor A
 
-#define motorAPWM 8 //5   //PWM pin motor B
-#define motorAINB 11 //29  //INA pin motor B
-#define motorAINA 12  //33  //INB pin motor B
+#define motorAPWM 5 //8; 5   //PWM pin motor B 
+#define motorAINB 29 //11; 29  //INA pin motor B
+#define motorAINA 33  //12; 33  //INB pin motor B
 
 #define motorCPWM 7   //PWM pin motor C
 #define motorCINB 37  //INA pin motor C
@@ -603,14 +605,17 @@ void motion(float speedA, float speedB, float speedC, float speedD) {
   motor(4, speedD * MD_OFFSET);
 }
 
-void gyroCalibration() {
-  !bno.begin();
-  bno.setExtCrystalUse(true);
+void gyroCalibration(bool reset = 0) {
+  if (reset){
+    !bno.begin();
+    bno.setExtCrystalUse(true);
+
+  }
   sensors_event_t event;
   bno.getEvent(&event);
-  oldError = (float)event.orientation.x;
-  if (oldError > 180) {
-    oldError -= 360;
+  yawOffset = (float)event.orientation.x;
+  if (yawOffset > 180) {
+    yawOffset -= 360;
   }
 }
 
@@ -623,6 +628,8 @@ float errorCalculation() {
   while (error != (float)event.orientation.x) {
     error = (float)event.orientation.x;
   }
+  error -= yawOffset;
+  // Serial.println(error);
   if (error > 180) {
     error -= 360;
   }
@@ -851,7 +858,7 @@ void setup() {
   define_irMultiplexer();
   Serial.begin(115200);
   pixy.init();
-  gyroCalibration();
+  gyroCalibration(1);
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
 
   kickTime = millis() - 1000;
@@ -863,11 +870,39 @@ void setup() {
 }
 
 void loop() {
+
+  errorCalculation();
+  uint8_t BNOSystem, BNOGyro, BNOAccel, BNOMag = 0;
+  bno.getCalibration(&BNOSystem, &BNOGyro, &BNOAccel, &BNOMag);
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0, 0);
-  display.println("Push the button      to start...");
+  display.print("Ready...");
+
+
+  display.setCursor(95, 0);
+  display.print("G: ");
+  display.print(BNOGyro);
+
+  display.setCursor(30, 12);
+  display.print("OFFSET: ");
+  display.print(error);
+
+  display.setCursor(0, 24);
+  display.print("A: "); 
+  display.print(BNOAccel);
+
+
+  display.setCursor(50, 24);
+  display.print("M: ");
+  display.print(BNOMag);
+
+
+  display.setCursor(95, 24);
+  display.print("S: ");
+  display.print(BNOSystem);
+
   display.display();
   //dida
   line = 180;
@@ -877,10 +912,12 @@ void loop() {
   //^dida
 
   if (digitalRead(19) == 0) {  //start button
-    // display.clearDisplay();
-    // display.setCursor(0, 0);
-    // display.println("Press to STOP...");
-    // display.display();
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.print("Running...");
+    display.display();
     while (digitalRead(19) == 0) {
       delay(1);
     }
@@ -1027,7 +1064,7 @@ void loop() {
     display.println("Setting the          gyro...");
     display.display();
     gyroCalibration();
-    delay(1000);
+    //delay(1000);
   }
 
   motion(0, 0, 0, 0);
