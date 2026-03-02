@@ -23,6 +23,8 @@ namespace OUT {
 
 namespace ST {
     extern _Raw::ST_State state;
+    extern _Raw::ST_PID pid;
+    extern _Raw::ST_Attacker attacker;
     extern _Raw::ST_Soccer soccer;
     extern _Raw::ST_OffMenu offMenu;
 

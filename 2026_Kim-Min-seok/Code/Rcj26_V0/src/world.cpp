@@ -22,11 +22,14 @@ namespace OUT {
 
 namespace ST {
     _Raw::ST_State state;
+    _Raw::ST_PID pid;
+    _Raw::ST_Attacker attacker;
     _Raw::ST_Soccer soccer;
     _Raw::ST_OffMenu offMenu;
     
     void resetToDefaults() {
         state = ST_Default::state;
+        pid = ST_Default::pid;
         soccer = ST_Default::soccer;
         offMenu = ST_Default::offMenu;
     }

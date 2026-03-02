@@ -6,7 +6,13 @@ namespace ST {
         enum class goal_t : uint16_t { Yellow = 0, Blue = 1 }; 
         enum class mode_t : int8_t {Off = 0, Soccer = 1, Test = 2}; 
         enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
-        enum class menu_t : int8_t {None = -1, SetGoal = 0, SetRole = 1, SetSpeed = 2}; 
+        enum class menu_t : int8_t {None = -1, SetGoal = 0, SetRole = 1, SetSpeed = 2};
+        enum class pid_t : int8_t {Slow = 0, Normal = 1, Fast = 2}; 
+        struct pidCfg_t {
+            float P;
+            float D;
+            float maxLimit;
+        };
     }
 }
 
@@ -16,6 +22,22 @@ namespace _Raw {
         ST::Types::mode_t mode;
         ST::Types::mode_t mode_previous;
         uint32_t lastSoccerTime;
+    };
+
+    struct ST_PID {
+        ST::Types::pidCfg_t fastPIDCfg;
+        ST::Types::pidCfg_t normalPIDCfg;
+        ST::Types::pidCfg_t slowPIDCfg;
+        float PID_sumP;
+        float PID_sumD;
+        float PID_out;
+        float PID_lastErr;
+        uint16_t PID_dt_last_ms;
+    };
+
+    struct ST_Attacker {
+      bool lineBounceFeature;
+      uint32_t lineBounceFeatureTime;
     };
 
     struct ST_Soccer {

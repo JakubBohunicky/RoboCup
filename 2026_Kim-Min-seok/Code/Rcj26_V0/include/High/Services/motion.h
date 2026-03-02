@@ -2,8 +2,15 @@
 #include "world.h"
 
 
-void addMotion(float angle, float weight);
+namespace Motion {
 
+    constexpr float weight_Soft = 0.5f;
+    constexpr float weight_Normal = 1.0f;
+    constexpr float weight_Hard = 2.0f;
 
-void addRotation(float omega);
-
+    void addMotion(float angle, float weight = weight_Normal);
+    void addMotion_ToNField(float angle, float weight = weight_Normal);
+    void rotate(float angle, ST::Types::pidCfg_t& PID_type = ST::pid.normalPIDCfg);
+    void rotate_ToNField(float angle, ST::Types::pidCfg_t& PID_type = ST::pid.normalPIDCfg);
+    void addRotation(float omega);
+}

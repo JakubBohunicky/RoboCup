@@ -10,6 +10,8 @@ static constexpr int motCH_D = 3;
 
 static constexpr uint32_t PWM_MAX_VAL = (1u << HW::PWMCfg::PWM_RES) -1u;
 
+static bool _motEn_lastState = !OUT::motorAcc.motEn; 
+
 
 static uint32_t _output_motor_normDutyCycle(float duty) {
     duty = duty * ST::soccer.baseSpeed;
@@ -48,7 +50,10 @@ void output_motor_init_() {
 
 void output_motor_update() {
 
-    gpio_set_level(HW::MotorCfg::EnPin, OUT::motorAcc.motEn);
+    if(_motEn_lastState != OUT::motorAcc.motEn) { 
+        gpio_set_level(HW::MotorCfg::EnPin, OUT::motorAcc.motEn);
+        _motEn_lastState = OUT::motorAcc.motEn;
+    }
 
     if(OUT::motorAcc.motEn) {
         if(OUT::motorAcc.mainOut[0] > 0) { gpio_set_level(HW::MotorCfg::A_DirPin, 0);}

@@ -107,6 +107,7 @@ namespace HW {
         constexpr int IR_ADR = 0x10;
         constexpr int IR_REG = 0x00;
 
+        constexpr int c_ballignoreDistance = 1000;
         constexpr int c_ballEffectiveInputClosest = 2500;
         constexpr int c_ballEffectiveInputFurthes = 2100;
     }

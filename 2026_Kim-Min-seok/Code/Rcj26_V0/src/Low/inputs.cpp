@@ -46,8 +46,13 @@ namespace Pheripherials {
             // input_ballIR_update();
             times[2] = now;
         }
-        if(now - times[3] >= 33 || ST::state.mode == ST::Types::mode_t::Off) { //30Hz
+
+        if(now - times[3] >= 10) { //10Hz
             // input_pixy_update();
+            times[3] = now;
+        }
+
+        if(now - times[4] >= 33 || ST::state.mode == ST::Types::mode_t::Off) { //30Hz
             input_generic_update();
             times[3] = now;
         }
