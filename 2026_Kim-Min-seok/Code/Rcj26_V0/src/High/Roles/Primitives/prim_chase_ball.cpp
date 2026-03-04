@@ -3,7 +3,7 @@
 
 namespace Prim {
     void chase_ball() {
-        Motion::rotate(IN::ball.angle);
+        Motion::rotate(IN::ball.angle, ST::pid.normalPIDCfg);
         Motion::addMotion(IN::ball.angle, Motion::weight_Normal);
     }
 }

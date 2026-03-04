@@ -21,6 +21,7 @@ namespace OUT {
 }
 
 namespace ST {
+    uint32_t now_ms;
     _Raw::ST_State state;
     _Raw::ST_PID pid;
     _Raw::ST_Attacker attacker;

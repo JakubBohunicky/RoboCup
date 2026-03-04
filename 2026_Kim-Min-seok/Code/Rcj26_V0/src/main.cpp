@@ -15,6 +15,7 @@ void setup()
 
 void loop()
 {
+    ST::now_ms = millis();
     Pheripherials::inputs_update();
     Logic::determineMode();
     Logic::applyMode();

@@ -1,7 +1,7 @@
 #include "Low/Outputs/output_kickerDrb.h"
 #include "Low/config_hw.h"
 #include "driver/gpio.h"
-#include <Arduino.h>
+
 
 static constexpr int KICK_TIME_DELAY = 1000;
 static constexpr int KICK_TIME_MS = 100;
@@ -11,16 +11,16 @@ static bool kicking = false;
 
 void _output_kickerDrb_kick(gpio_num_t pin) {
     if(kicking){
-        if(millis() - lastKickTime >= KICK_TIME_MS) {
+        if(ST::now_ms - lastKickTime >= KICK_TIME_MS) {
             gpio_set_level(pin, 0);
             kicking = false;
-            lastKickTime = millis();
+            lastKickTime = ST::now_ms;
         }
     } else {
-        if(millis() - lastKickTime >= KICK_TIME_DELAY) {
+        if(ST::now_ms - lastKickTime >= KICK_TIME_DELAY) {
             gpio_set_level(pin, 1);
             kicking = true;
-            lastKickTime = millis();
+            lastKickTime = ST::now_ms;
         }    
     }
 }

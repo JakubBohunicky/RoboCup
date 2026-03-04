@@ -37,12 +37,11 @@ namespace Motion {
 
     void rotate(float angle, ST::Types::pidCfg_t& PID_type) {
         angle = motion_wrap180(angle);
-        uint32_t now_ms = millis();
-        float dt_s = (now_ms - ST::pid.PID_dt_last_ms)*0.001f;
+        float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms)*0.001f;
 
         ST::pid.PID_sumD = ((angle - ST::pid.PID_lastErr) / dt_s) * PID_type.D;
         ST::pid.PID_lastErr = angle;
-        ST::pid.PID_dt_last_ms = now_ms;
+        ST::pid.PID_dt_last_ms = ST::now_ms;
         
         ST::pid.PID_sumP = (-1.0f)*(angle * PID_type.P);
         ST::pid.PID_out = ST::pid.PID_sumP + ST::pid.PID_sumD;
@@ -54,12 +53,11 @@ namespace Motion {
     void rotate_ToNField(float angle, ST::Types::pidCfg_t& PID_type) {
         angle = motion_wrap180(angle - IN::gyro.offset_ToNField);
 
-        uint32_t now_ms = millis();
-        float dt_s = (now_ms - ST::pid.PID_dt_last_ms)*0.001f;
+        float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms)*0.001f;
 
         ST::pid.PID_sumD = ((angle - ST::pid.PID_lastErr) / dt_s) * PID_type.D;
         ST::pid.PID_lastErr = angle;
-        ST::pid.PID_dt_last_ms = now_ms;
+        ST::pid.PID_dt_last_ms = ST::now_ms;
         
         ST::pid.PID_sumP = (-1.0f)*(angle * PID_type.P);
         ST::pid.PID_out = ST::pid.PID_sumP + ST::pid.PID_sumD;

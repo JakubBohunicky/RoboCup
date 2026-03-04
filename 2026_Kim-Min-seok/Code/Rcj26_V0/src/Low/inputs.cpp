@@ -6,7 +6,6 @@
 #include "Low/Inputs/input_line.h"
 #include "Low/Inputs/input_motionSense.h"
 #include "Low/Inputs/input_pixy.h"
-#include <Arduino.h>
 
 static uint32_t times[] = {0, 0, 0, 0, 0};
 
@@ -31,30 +30,28 @@ namespace Pheripherials {
     }
 
     void inputs_update() {
-        uint32_t now = millis();
-
-        if(now - times[0] >= 1) { //1kHz
+        if(ST::now_ms - times[0] >= 1) { //1kHz
             // input_gyro_update();
-            times[0] = now;
+            times[0] = ST::now_ms;
         }
-        if(now - times[1] >= 3) { //333Hz
+        if(ST::now_ms - times[1] >= 3) { //333Hz
             input_line_update();
             input_motionSense_update();
-            times[1] = now;
+            times[1] = ST::now_ms;
         }
-        if(now - times[2] >= 5) { //200Hz
+        if(ST::now_ms - times[2] >= 5) { //200Hz
             // input_ballIR_update();
-            times[2] = now;
+            times[2] = ST::now_ms;
         }
 
-        if(now - times[3] >= 10) { //10Hz
+        if(ST::now_ms - times[3] >= 10) { //10Hz
             // input_pixy_update();
-            times[3] = now;
+            times[3] = ST::now_ms;
         }
 
-        if(now - times[4] >= 33 || ST::state.mode == ST::Types::mode_t::Off) { //30Hz
+        if(ST::now_ms - times[4] >= 33 || ST::state.mode == ST::Types::mode_t::Off) { //30Hz
             input_generic_update();
-            times[3] = now;
+            times[3] = ST::now_ms;
         }
     }
 }

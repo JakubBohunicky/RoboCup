@@ -15,13 +15,13 @@ namespace Logic {
         if(ST::state.mode == ST::Types::mode_t::Soccer) {
             if(IN::generic.btnPlusIsDown || IN::generic.btnMinusIsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
-                ST::state.lastSoccerTime = millis();
+                ST::state.lastSoccerTime = ST::now_ms;
             }
         }
 
         else if(ST::state.mode == ST::Types::mode_t::Off) {
             if(ST::offMenu.state != ST::Types::menu_t::SetSpeed) {
-                if(IN::generic.btnPlusClick && millis() - ST::state.lastSoccerTime >= 1000) {
+                if(IN::generic.btnPlusClick && ST::now_ms - ST::state.lastSoccerTime >= 1000) {
                     ST::state.mode = ST::Types::mode_t::Soccer;            
                 }
                 if(IN::generic.btnMinusLongPress) {

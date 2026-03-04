@@ -50,17 +50,16 @@ void input_generic_init_() {
 static void _input_generic_btn_update(BTNs& btn) {
     btn.Click = false;
     btn.LongPress = false;
-    uint32_t now = millis();
 
     bool raw = !gpio_get_level(btn.pin); //active LOW
 
     if(raw != btn.StablePos) { //edge detection
-        if(now - btn.ChangeTime >= BTN_DEBOUNCE_MS) { //debounde
+        if(ST::now_ms - btn.ChangeTime >= BTN_DEBOUNCE_MS) { //debounde
             btn.StablePos = raw;
-            btn.ChangeTime = now;
+            btn.ChangeTime = ST::now_ms;
             
             if(btn.StablePos == true) {
-              btn.PressStartTime = now;
+              btn.PressStartTime = ST::now_ms;
               btn.LongSent = false;
             }
         }
@@ -70,7 +69,7 @@ static void _input_generic_btn_update(BTNs& btn) {
     btn.Click = (btn.LastPos == true && btn.StablePos == false && btn.LongSent == false);
 
     if(btn.StablePos == true && btn.LongSent == false) {
-        if(now - btn.PressStartTime >= BTN_LONGPRESS_MS) {
+        if(ST::now_ms - btn.PressStartTime >= BTN_LONGPRESS_MS) {
             btn.LongPress = true;
             btn.LongSent = true; //dont send again
         }
