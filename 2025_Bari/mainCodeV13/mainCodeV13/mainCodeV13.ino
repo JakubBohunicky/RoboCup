@@ -751,7 +751,7 @@ void getBallAngle() {
   Wire.beginTransmission(IR_I2C_ADDRESS);
   Wire.write((uint8_t)IR_REGISTER_ANGLE_AND_DISTANCE);
   Wire.endTransmission();
-
+6
   Wire.requestFrom((int)IR_I2C_ADDRESS, 4);
   ballAngle = Wire.read() << 8;
   ballAngle |= Wire.read();
