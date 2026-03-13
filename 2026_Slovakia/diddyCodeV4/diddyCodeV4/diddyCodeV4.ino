@@ -1,3 +1,14 @@
+#define Ferrari false
+#define STOP_MOTORS false
+#define DISPLAY_DEBUG false
+
+#if Ferrari
+  int speed = 300;  //350  //400
+#else //cladic
+  int speed = 400;
+#endif
+
+
 const float motionAngles[361][4] = {
   { 0.353555, 0.353552, -0.353555, -0.353552 },
   { 0.347331, 0.359669, -0.347331, -0.359669 },
@@ -362,7 +373,6 @@ const float motionAngles[361][4] = {
   { 0, 0, 0, 0 }
 };
 
-
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
@@ -372,18 +382,12 @@ const float motionAngles[361][4] = {
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 
-#define STOP_MOTORS false
-#define DISPLAY_DEBUG false
-
-
 #define ballEffectiveInputClosest 2500
 #define ballEffectiveInputFurthes 2100
 
-// uint32_t cycleTime = 0;
-
 Pixy2 pixy;
 
-#define P 4  //3
+#define P 4 //3
 #define I 0
 #define D 6 //5
 
@@ -396,16 +400,10 @@ Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
 #define OLED_ADDR 0x3c
 
 //pomer motorov
-#define MA_OFFSET 0.75
-#define MB_OFFSET 1.25
-#define MC_OFFSET 0.75
-#define MD_OFFSET 1.25
-
-// #define TCAADDR 0x70
-// #define TCA_COMPASS 0
-// #define TCA_IR_FRONT 1
-// #define TCA_IR_BACK 2
-// #define TCA_IR_V3 3
+#define MA_OFFSET 1
+#define MB_OFFSET 1
+#define MC_OFFSET 1
+#define MD_OFFSET 1
 
 #define IR_I2C_ADDRESS 0x10
 #define IR_REGISTER_ANGLE_AND_DISTANCE 0x00
@@ -425,20 +423,20 @@ float spdD;
 
 float yawOffset = 0;
 
-unsigned long kickTime;
+unsigned long kickTime = 0;
 int lineFeature = 0;
 
 unsigned long backwardTime = 0;
 
-int speed = 400;  //350 600
+
 uint16_t maxLineSpeed = 600;
 
 //dida
 //rychlost cuvania
-int speedBack = 150;  //200
+int speedBack = 150;  //150  //200
 //dida
 
-int line;
+int line = 999;
 int lineDebug = 999;
 int oldLine = 180;
 unsigned long lineTouchTime = 0;
@@ -464,7 +462,7 @@ uint16_t ballRawDistance;
 #define motorDINB 25  //INA pin motor A
 #define motorDINA 27  //INB pin motor A
 
-#define motorAPWM 5 //8; 5   //PWM pin motor B
+#define motorAPWM 5 //8; 5   //PWM pin motor B 
 #define motorAINB 29 //11; 29  //INA pin motor B
 #define motorAINA 33  //12; 33  //INB pin motor B
 
@@ -495,25 +493,25 @@ const int outputArray[16][4] = {
   { 1, 1, 1, 1 }
 };
 
-const int outputArray2[16][4] = {
-  { 0, 0, 0, 0 },
-  { 0, 0, 0, 1 },
-  { 1, 1, 0, 0 },
-  { 0, 0, 1, 0 },
-  { 1, 1, 0, 1 },
-  { 0, 0, 1, 1 },
-  { 1, 1, 1, 0 },
-  { 0, 1, 0, 0 },
-  { 1, 1, 1, 1 },
-  { 0, 1, 0, 1 },
-  { 0, 1, 1, 0 },
-  { 0, 1, 1, 1 },
-  { 1, 0, 0, 0 },
-  { 1, 0, 0, 1 },
-  { 1, 0, 1, 0 },
-  { 1, 0, 1, 1 }
+// const int outputArray2[16][4] = {
+//   { 0, 0, 0, 0 },
+//   { 0, 0, 0, 1 },
+//   { 1, 1, 0, 0 },
+//   { 0, 0, 1, 0 },
+//   { 1, 1, 0, 1 },
+//   { 0, 0, 1, 1 },
+//   { 1, 1, 1, 0 },
+//   { 0, 1, 0, 0 },
+//   { 1, 1, 1, 1 },
+//   { 0, 1, 0, 1 },
+//   { 0, 1, 1, 0 },
+//   { 0, 1, 1, 1 },
+//   { 1, 0, 0, 0 },
+//   { 1, 0, 0, 1 },
+//   { 1, 0, 1, 0 },
+//   { 1, 0, 1, 1 }
 
-};
+// };
 
 const float sensorAngles[16] = { 90, 60, 45, 30, 15, 360, 345, 330, 315, 300, 270, 240, 210, 180, 150, 120 };
 const float lightSensorAngles[32] = { 343.125, 354.375, 5.625, 16.875, 28.125, 39.375, 50.625, 61.875, 106.875, 95.625, 84.375, 73.125, 118.125, 129.375, 140.625, 151.875, 163.125, 174.375, 185.625, 196.875, 208.125, 219.375, 230.625, 241.875, 253.125, 264.375, 275.625, 286.875, 298.125, 309.375, 320.625 };
@@ -605,59 +603,6 @@ void motor(byte id, float spd) {
 #endif
 }
 
-// void tcaselect(uint8_t i) {
-// 	if (i > 7) {
-// 		return;
-// 	}
-// 	Wire.beginTransmission(TCAADDR);
-// 	Wire.write(1 << i);
-// 	Wire.endTransmission();
-// }
-
-
-// int IR_V3() {
-//   tcaselect(TCA_IR_V3);
-//   int value;
-
-//   Wire.beginTransmission(0x38 >> 1);
-//   Wire.write(0x04);
-//   Wire.endTransmission();
-//   Wire.requestFrom(0x38 >> 1, 1);
-//   value = Wire.read();
-
-//   while (Wire.available()) {
-//     Wire.read();
-//   }
-
-//   if (value > 127) {
-//     value = value - 255;
-//   }
-
-//   value = value > 0? value/2 : value/2 +360;
-//   if(value == 360) { value = 0;}
-//   return value;
-// }
-
-
-
-// int IR_V3_strength() {
-//   tcaselect(TCA_IR_V3);
-//   int value;
-
-//   Wire.beginTransmission(0x38 >> 1);
-//   Wire.write(0x05);
-//   Wire.endTransmission();
-//   Wire.requestFrom(0x38 >> 1, 1);
-
-//   value = Wire.read();
-//   while (Wire.available()) {
-//     Wire.read();
-//   }
-
-//   return 158 - value; // 158=maximum
-// }
-
-
 
 
 void motion(float speedA, float speedB, float speedC, float speedD) {
@@ -681,7 +626,6 @@ void gyroCalibration(bool reset = 0) {
   }
 }
 
-
 float errorCalculation() {
   float sumD;
 
@@ -692,6 +636,7 @@ float errorCalculation() {
     error = (float)event.orientation.x;
   }
   error -= yawOffset;
+  // Serial.println(error);
   if (error > 180) {
     error -= 360;
   }
@@ -710,23 +655,30 @@ float errorCalculation() {
 }
 
 void getBallAngle() {
-
 #pragma region didka
+
+int16_t ballAngleRaw;
 #define outputMin 1.0
-#define outputMax 2.0
+#define outputMax 1.5
   Wire.beginTransmission(IR_I2C_ADDRESS);
   Wire.write((uint8_t)IR_REGISTER_ANGLE_AND_DISTANCE);
   Wire.endTransmission();
 
   Wire.requestFrom((int)IR_I2C_ADDRESS, 4);
-  ballAngle = Wire.read() << 8;
-  ballAngle |= Wire.read();
+  ballAngleRaw = Wire.read() << 8;
+  ballAngleRaw |= Wire.read();
   ballRawDistance = Wire.read() << 8;
   ballRawDistance |= Wire.read();
 
-  ballAngle = 180 - ballAngle;
-  if (ballAngle < 0) {
-    ballAngle += 360;
+  ballAngleRaw = 180 - ballAngleRaw;
+  if (ballAngleRaw < 0) {
+    ballAngleRaw += 360;
+  }
+
+  if(ballAngleRaw != 0) {
+    ballAngle = ballAngleRaw;
+  } else if(ballRawDistance >= 1800) {
+    ballAngle = ballAngleRaw;
   }
 
   if (ballRawDistance < 1800) {
@@ -789,13 +741,13 @@ getLineAngle() {
     digitalWrite(multiplexerPin3, outputArray[lighNumber][2]);
     digitalWrite(multiplexerPin4, outputArray[lighNumber][3]);
 
-    if (analogRead(multiplexerIn1) < 250) {
+    if (analogRead(multiplexerIn1) < 100) {
       itCheck = 1;
       xCor += sin(radians(lightSensorAngles[lighNumber]));
       yCor += cos(radians(lightSensorAngles[lighNumber]));
       //Serial.println(lighNumber);
     }
-    if (analogRead(multiplexerIn2) < 250) {
+    if (analogRead(multiplexerIn2) < 100) {
       if (lighNumber != 12) {
         itCheck = 1;
         xCor += sin(radians(lightSensorAngles[lighNumber + 16]));
@@ -847,7 +799,8 @@ void kick() {
 int finalAngle(float ang1) {
 
 #pragma region didka2
-#define alpha 0.05
+  #define alpha 0.05
+  #define orbitScale 1
 
   ballDistance = alpha * ballRawDistance + (1.0 - alpha) * ballDistance;
 
@@ -860,16 +813,22 @@ int finalAngle(float ang1) {
       if(ang==0){
         finalAngle = ang;
       }else if(ang<11 && ballDistanceFinalAngleOffset>1){
-        finalAngle =int (2*ang * ballDistanceFinalAngleOffset);
+        finalAngle =int (2*ang * ballDistanceFinalAngleOffset * orbitScale);
       }else if(ang>349 && ballDistanceFinalAngleOffset>1){
         int pomocAng=360-ang;
-        int kv_finalAngle = int (2*pomocAng * ballDistanceFinalAngleOffset);
+        int kv_finalAngle = int (2*pomocAng * ballDistanceFinalAngleOffset * orbitScale);
         finalAngle = 360-kv_finalAngle;
       }else if(ang<21 && ballDistanceFinalAngleOffset>1){
-        finalAngle =int (2.7*ang * ballDistanceFinalAngleOffset);
+        finalAngle =int (2.7*ang * ballDistanceFinalAngleOffset * orbitScale);
       }else if(ang>339 && ballDistanceFinalAngleOffset>1){
         int pomocAng=360-ang;
-        int kv_finalAngle = int (2.7*pomocAng * ballDistanceFinalAngleOffset);
+        int kv_finalAngle = int (2.7*pomocAng * ballDistanceFinalAngleOffset * orbitScale);
+        finalAngle = 360-kv_finalAngle;
+      }else if(ang<60 && ballDistanceFinalAngleOffset>1){
+        finalAngle =int (2*ang * ballDistanceFinalAngleOffset * orbitScale);
+      }else if(ang>300 && ballDistanceFinalAngleOffset>1){
+        int pomocAng=360-ang;
+        int kv_finalAngle = int (2*pomocAng * ballDistanceFinalAngleOffset * orbitScale);
         finalAngle = 360-kv_finalAngle;
       }else if (ang > 179) {
         finalAngle =int (ang / ballDistanceFinalAngleOffset);
@@ -933,6 +892,7 @@ void setup() {
 
 void loop() {
 
+  errorCalculation();
   uint8_t BNOSystem, BNOGyro, BNOAccel, BNOMag = 0;
   bno.getCalibration(&BNOSystem, &BNOGyro, &BNOAccel, &BNOMag);
   display.clearDisplay();
@@ -946,8 +906,12 @@ void loop() {
   display.print("G: ");
   display.print(BNOGyro);
 
+  display.setCursor(30, 12);
+  display.print("OFFSET: ");
+  display.print(error);
+
   display.setCursor(0, 24);
-  display.print("A: ");
+  display.print("A: "); 
   display.print(BNOAccel);
 
 
@@ -1007,6 +971,7 @@ void loop() {
         display.setCursor(64, 0);
         display.println(getLineAngle());  //line
 
+        getBallAngle();
         display.setCursor(0, 16);
         display.println(ballAngle);
 
@@ -1121,7 +1086,7 @@ void loop() {
     display.println("Setting the          gyro...");
     display.display();
     gyroCalibration();
-    delay(1000);
+    //delay(1000);
   }
 
   motion(0, 0, 0, 0);
