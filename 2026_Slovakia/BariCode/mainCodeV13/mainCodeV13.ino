@@ -372,8 +372,8 @@ const float motionAngles[361][4] = {
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 
-#define STOP_MOTORS false
-#define DISPLAY_DEBUG false
+#define STOP_MOTORS true
+#define DISPLAY_DEBUG true
 
 // uint32_t cycleTime = 0;
 
@@ -381,7 +381,7 @@ Pixy2 pixy;
 
 #define P 4  //3
 #define I 0
-#define D 6 //5
+#define D 6  //5
 
 #define BNO055_SAMPLERATE_DELAY_MS (1);
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
@@ -455,8 +455,8 @@ uint16_t ballRawDistance;
 #define motorDINB 25  //INA pin motor A
 #define motorDINA 27  //INB pin motor A
 
-#define motorAPWM 8 //5   //PWM pin motor B
-#define motorAINB 11 //29  //INA pin motor B
+#define motorAPWM 8   //5   //PWM pin motor B
+#define motorAINB 11  //29  //INA pin motor B
 #define motorAINA 12  //33  //INB pin motor B
 
 #define motorCPWM 7   //PWM pin motor C
@@ -751,7 +751,7 @@ void getBallAngle() {
   Wire.beginTransmission(IR_I2C_ADDRESS);
   Wire.write((uint8_t)IR_REGISTER_ANGLE_AND_DISTANCE);
   Wire.endTransmission();
-6
+
   Wire.requestFrom((int)IR_I2C_ADDRESS, 4);
   ballAngle = Wire.read() << 8;
   ballAngle |= Wire.read();
@@ -826,13 +826,13 @@ uint16_t getLineAngle() {
     digitalWrite(multiplexerPin3, outputArray[lighNumber][2]);
     digitalWrite(multiplexerPin4, outputArray[lighNumber][3]);
 
-    if (analogRead(multiplexerIn1) < 100) {   //250
+    if (analogRead(multiplexerIn1) < 0) {  //250
       itCheck = 1;
       xCor += sin(radians(lightSensorAngles[lighNumber]));
       yCor += cos(radians(lightSensorAngles[lighNumber]));
       //Serial.println(lighNumber);
     }
-    if (analogRead(multiplexerIn2) < 100) {
+    if (analogRead(multiplexerIn2) < 0) {
       if (lighNumber != 12) {
         itCheck = 1;
         xCor += sin(radians(lightSensorAngles[lighNumber + 16]));
@@ -860,7 +860,7 @@ uint16_t getLineAngle() {
 
   // Serial.println(lineAngle);
 
-  return lineAngle; //off    //lineAngle
+  return lineAngle;  //off    //lineAngle
 }
 
 void dribler() {
@@ -928,26 +928,26 @@ int finalAngle(float ang1) {
   int ang = floor(ang1);
   int finalAngle;
   if (ballDistance) {
-    if(ang==0){
+    if (ang == 0) {
       finalAngle = ang;
-    }else if(ang<11 && ballDistanceFinalAngleOffset>1){
-      finalAngle =int (2*ang * ballDistanceFinalAngleOffset);
-    }else if(ang>349 && ballDistanceFinalAngleOffset>1){
-      int pomocAng=360-ang;
-      int kv_finalAngle = int (2*pomocAng * ballDistanceFinalAngleOffset);                                           
-      finalAngle = 360-kv_finalAngle;
-    }else if(ang<21 && ballDistanceFinalAngleOffset>1){
-      finalAngle =int (2.7*ang * ballDistanceFinalAngleOffset);
-    }else if(ang>339 && ballDistanceFinalAngleOffset>1){
-      int pomocAng=360-ang;
-      int kv_finalAngle = int (2.7*pomocAng * ballDistanceFinalAngleOffset);                                           
-      finalAngle = 360-kv_finalAngle;
-    }else if (ang > 179) {
-      finalAngle =int (ang / ballDistanceFinalAngleOffset);
-    }else if (ang < 180) {
-      int pomocAng=360-ang;
-      int kv_finalAngle = int (pomocAng/ballDistanceFinalAngleOffset);                                           
-      finalAngle = 360-kv_finalAngle;
+    } else if (ang < 11 && ballDistanceFinalAngleOffset > 1) {
+      finalAngle = int(2 * ang * ballDistanceFinalAngleOffset);
+    } else if (ang > 349 && ballDistanceFinalAngleOffset > 1) {
+      int pomocAng = 360 - ang;
+      int kv_finalAngle = int(2 * pomocAng * ballDistanceFinalAngleOffset);
+      finalAngle = 360 - kv_finalAngle;
+    } else if (ang < 21 && ballDistanceFinalAngleOffset > 1) {
+      finalAngle = int(2.7 * ang * ballDistanceFinalAngleOffset);
+    } else if (ang > 339 && ballDistanceFinalAngleOffset > 1) {
+      int pomocAng = 360 - ang;
+      int kv_finalAngle = int(2.7 * pomocAng * ballDistanceFinalAngleOffset);
+      finalAngle = 360 - kv_finalAngle;
+    } else if (ang > 179) {
+      finalAngle = int(ang / ballDistanceFinalAngleOffset);
+    } else if (ang < 180) {
+      int pomocAng = 360 - ang;
+      int kv_finalAngle = int(pomocAng / ballDistanceFinalAngleOffset);
+      finalAngle = 360 - kv_finalAngle;
     }
 
 
@@ -961,20 +961,20 @@ int finalAngle(float ang1) {
     //   finalAngle = ang - 60 * ballDistanceFinalAngleOffset;
     // } else {
     //   finalAngle = 0;
+    // }
+
+    // Normalize angle to 0–359
+    if (finalAngle < 0) finalAngle += 360;
+    if (finalAngle >= 360) finalAngle -= 360;
+  }
+  // else {
+  //   finalAngle = 999;
   // }
 
-  // Normalize angle to 0–359
-  if (finalAngle < 0) finalAngle += 360;
-  if (finalAngle >= 360) finalAngle -= 360;
-}
-// else {
-//   finalAngle = 999;
-// }
-
-// Serial.println("Angle: " + (String)ballAngle + "°" + ", angleOffset: " + (String)ballDistanceFinalAngleOffset + ", FinalAngle: " + (String)finalAngle);
+  // Serial.println("Angle: " + (String)ballAngle + "°" + ", angleOffset: " + (String)ballDistanceFinalAngleOffset + ", FinalAngle: " + (String)finalAngle);
 
 #pragma endregion didka2
-return finalAngle;
+  return finalAngle;
 }
 
 void setup() {
@@ -1016,7 +1016,7 @@ void loop() {
   line = 180;
   oldLine = 180;
 
-  goForward = false; //false
+  goForward = false;  //false
   //^dida
 
   if (digitalRead(19) == 0) {  //start button
@@ -1049,15 +1049,15 @@ void loop() {
             backwardTime = millis();
           }
         }
-        //^didka
-        #if DISPLAY_DEBUG
+//^didka
+#if DISPLAY_DEBUG
         display.clearDisplay();
         display.setTextSize(2);
         display.setTextColor(SSD1306_WHITE);
         display.setCursor(0, 0);
         display.println(ballDistance);  //line
 
-      
+
         display.setTextSize(2);
         display.setTextColor(SSD1306_WHITE);
         display.setCursor(64, 0);
@@ -1070,7 +1070,7 @@ void loop() {
         // getBallAngle();
         display.println(finalAngle(ballAngle));
         display.display();
-        #endif
+#endif
 
         //Serial.println(line);
         errorCalculation();
