@@ -6,7 +6,7 @@
 
 
 
-static uint16_t ballAngleRaw = 0;
+static int16_t ballAngleRaw = 0;
 
 void input_ballIR_update() {    
     Wire.beginTransmission(HW::BallCfg::IR_ADR);

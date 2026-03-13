@@ -21,12 +21,17 @@ namespace Logic {
 
         else if(ST::state.mode == ST::Types::mode_t::Off) {
             if(ST::offMenu.state != ST::Types::menu_t::SetSpeed) {
+
+
+
                 if(IN::generic.btnPlusClick && ST::now_ms - ST::state.lastSoccerTime >= 1000) {
                     ST::state.mode = ST::Types::mode_t::Soccer;            
                 }
                 if(IN::generic.btnMinusLongPress) {
                     // input_gyro_calibrate();
                     IN::gyro.offset = random (-180, 180);
+                    //humididty sensor !!!!!!!!
+                    ST::state.mode = ST::Types::mode_t::Test;
                 }
                 if(IN::generic.btnMinusClick) {
                     switch (ST::offMenu.cursor) {
@@ -84,7 +89,7 @@ namespace Logic {
     void applyMode() {
         if(ST::state.mode == ST::Types::mode_t::Soccer) Mode::soccer();
         else if(ST::state.mode == ST::Types::mode_t::Off) Mode::off();
-        // else if(ST::state.mode == ST::Types::mode_t::Test) Mode::test();
+        else if(ST::state.mode == ST::Types::mode_t::Test) Mode::test();
         ST::state.mode_previous = ST::state.mode;
     }
 }
