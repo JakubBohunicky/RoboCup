@@ -1,8 +1,13 @@
 #pragma once
 #include "robot_types.h"
+#include "Low/config_hw.h"
 
+#define STOP_MOTORS false
+#define DISPLAY_DEBUG false
+#define Robot_A true
 
 namespace Const {
+    
     namespace Attacker{
         constexpr uint32_t lineBounceFeatureTime_threshold = 2000;
         constexpr float shootAngle = 15.0f;
@@ -55,6 +60,3 @@ namespace ST_Default {
     };
 }
 
-//DEBUG
-constexpr bool STOP_MOTORS = 0;
-constexpr bool DISPLAY_DEBUG = 0;

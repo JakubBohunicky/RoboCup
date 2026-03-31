@@ -51,6 +51,40 @@ namespace _Raw {
         ST::Types::menu_t cursor;
     };
 
+    struct Comms_MSG {
+        uint8_t version;
+        uint8_t robotId;
+        uint8_t mode;
+        uint8_t hasBall;
+
+        uint32_t seq;
+        uint32_t uptimeMs;
+
+        uint8_t seesBall;
+        uint8_t reserved1;
+        uint16_t reserved2;
+    };
+
+    struct Comms {
+        uint8_t PEER_MAC[6];
+
+
+        bool initialized = false;
+        bool online = false;
+
+        Comms_MSG rx_msg = {};
+        Comms_MSG tx_msg = {};
+
+        volatile bool lastSendOk = false;
+        volatile bool sendDone = false;
+        volatile bool newRxPacket = false;
+        uint32_t lastRxMsg_ms = 0;
+        uint32_t lastTxMsg_ms = 0;
+
+        uint32_t txSeq = 0;
+
+    };
+
     struct Display {
         bool needsUpdate = true;
     };

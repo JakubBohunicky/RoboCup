@@ -2,6 +2,7 @@
 #include "High/config_app.h"
 
 namespace IN {
+    _Raw::Comms comms;
     _Raw::Goal goalEnemy;
     _Raw::Goal goalOur;
     _Raw::Gyro gyro;

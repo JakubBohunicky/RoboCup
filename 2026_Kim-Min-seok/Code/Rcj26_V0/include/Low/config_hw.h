@@ -4,6 +4,12 @@
 
 namespace HW {
 
+    namespace Comms {
+        constexpr uint8_t MAC_A [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+        constexpr uint8_t MAC_B [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+        constexpr int ESPNOW_CHANNEL = 1;
+    }
+
     namespace MotorCfg {
         //MOTORS
         constexpr gpio_num_t EnPin = GPIO_NUM_38;

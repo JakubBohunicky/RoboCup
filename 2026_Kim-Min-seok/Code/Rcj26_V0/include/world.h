@@ -2,6 +2,7 @@
 #include "robot_types.h"
 
 namespace IN {
+    extern _Raw::Comms comms;
     extern _Raw::Goal goalEnemy;
     extern _Raw::Goal goalOur;
     extern _Raw::Gyro gyro;
