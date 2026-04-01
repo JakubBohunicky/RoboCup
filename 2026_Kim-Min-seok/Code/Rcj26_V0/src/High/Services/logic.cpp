@@ -1,7 +1,7 @@
 #include "High/Services/logic.h"
 #include "High/Modes/mode_soccer.h"
 #include "High/Modes/mode_off.h"
-#include "High/Modes/mode_test.h"
+#include "High/Modes/mode_controller.h"
 #include "Low/Inputs/input_gyro.h"
 #include <Arduino.h>
 
@@ -19,6 +19,13 @@ namespace Logic {
             }
         }
 
+        else if(ST::state.mode == ST::Types::mode_t::Controller) {
+                if(IN::generic.btnPlusIsDown || IN::generic.btnMinusIsDown) {
+                ST::state.mode = ST::Types::mode_t::Off;
+                ST::state.lastSoccerTime = ST::now_ms;
+            }
+        }
+
         else if(ST::state.mode == ST::Types::mode_t::Off) {
             if(ST::offMenu.state != ST::Types::menu_t::SetSpeed) {
 
@@ -30,8 +37,7 @@ namespace Logic {
                 if(IN::generic.btnMinusLongPress) {
                     // input_gyro_calibrate();
                     IN::gyro.offset = random (-180, 180);
-                    //humididty sensor !!!!!!!!
-                    ST::state.mode = ST::Types::mode_t::Test;
+                    ST::state.mode = ST::Types::mode_t::Controller;
                 }
                 if(IN::generic.btnMinusClick) {
                     switch (ST::offMenu.cursor) {
@@ -89,7 +95,7 @@ namespace Logic {
     void applyMode() {
         if(ST::state.mode == ST::Types::mode_t::Soccer) Mode::soccer();
         else if(ST::state.mode == ST::Types::mode_t::Off) Mode::off();
-        else if(ST::state.mode == ST::Types::mode_t::Test) Mode::test();
+        else if(ST::state.mode == ST::Types::mode_t::Controller) Mode::controller();
         ST::state.mode_previous = ST::state.mode;
     }
 }

@@ -5,8 +5,12 @@
 namespace HW {
 
     namespace Comms {
-        constexpr uint8_t MAC_A [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
-        constexpr uint8_t MAC_B [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+        constexpr uint8_t SOCCER_PEER_MAC_A [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+        constexpr uint8_t SOCCER_PEER_MAC_B [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+
+        constexpr uint8_t CONTROLLER_PEER_MAC_A [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+        constexpr uint8_t CONTROLLER_PEER_MAC_B [6] = {0xB0, 0xA7, 0x32, 0x28, 0x60, 0x00};
+
         constexpr int ESPNOW_CHANNEL = 1;
     }
 
@@ -64,6 +68,9 @@ namespace HW {
 
 
     namespace GenericCfg {
+            constexpr int BTN_DEBOUNCE_MS = 20;
+            constexpr int BTN_LONGPRESS_MS = 500;
+
             //BUTTONS
             constexpr gpio_num_t BTN_inc_Pin = GPIO_NUM_20;
             constexpr gpio_num_t BTN_dec_Pin = GPIO_NUM_19;

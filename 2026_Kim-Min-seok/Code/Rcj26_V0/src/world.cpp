@@ -10,6 +10,7 @@ namespace IN {
     _Raw::Line line;
     _Raw::MotionSense motionSens;
     _Raw::Generic generic;
+    // _Raw::Controller controller;
 }
 
 namespace OUT {
@@ -28,6 +29,7 @@ namespace ST {
     _Raw::ST_Attacker attacker;
     _Raw::ST_Soccer soccer;
     _Raw::ST_OffMenu offMenu;
+    _Raw::ST_Controller controller;
     
     void resetToDefaults() {
         state = ST_Default::state;

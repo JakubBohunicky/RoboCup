@@ -23,10 +23,10 @@ namespace Pheripherials {
 
     void inputs_init_() {
         I2C_FastADC_init_();
+        input_motionSense_init_();
         input_generic_init_();
         // input_gyro_init_();
         input_line_init_();
-        input_motionSense_init_();
         // input_pixy_init_();
         input_comm_init_();
     }
@@ -57,12 +57,10 @@ namespace Pheripherials {
             times[4] = ST::now_ms;
         }
 
-        if(ST::now_ms - times[5] >= 200) { //5Hz
+        if(ST::now_ms - times[5] >= 200 || ST::state.mode == ST::Types::mode_t::Controller) { //5Hz
             input_comm_update();
             times[5] = ST::now_ms;
         }
-
-        
 
         if(ST::state.mode == ST::Types::mode_t::Off) {
             if(IN::comms.initialized == false && ST::now_ms - times[6] >= 1000) { //esp now

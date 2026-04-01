@@ -4,10 +4,9 @@
 
 #define STOP_MOTORS false
 #define DISPLAY_DEBUG false
-#define Robot_A true
 
 namespace Const {
-    
+
     namespace Attacker{
         constexpr uint32_t lineBounceFeatureTime_threshold = 2000;
         constexpr float shootAngle = 15.0f;
@@ -20,6 +19,7 @@ namespace Const {
 namespace ST_Default {
 
     inline const _Raw::ST_State state = {
+        .isRobot_A = true,
         .mode = ST::Types::mode_t::Off,
         .mode_previous = ST::Types::mode_t::Off,
         .lastSoccerTime = 0

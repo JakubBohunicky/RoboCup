@@ -13,7 +13,7 @@ static void _drawScreen_MAIN() {
         display.setTextSize(1);
 
         // External_ant_1
-        if(IN::comms.online) display.drawBitmap(108, 1, image_External_ant_1_bits, 19, 11, 1);
+        if(IN::comms.onlineSoccer) display.drawBitmap(108, 1, image_External_ant_1_bits, 19, 11, 1);
 
         // Gyro S
         display.setTextColor(1);

@@ -1,10 +1,11 @@
 #pragma once
 #include <cstdint>
+#include "driver/gpio.h"
 
 namespace ST {
     namespace Types {
-        enum class goal_t : uint16_t { Yellow = 0, Blue = 1 }; 
-        enum class mode_t : int8_t {Off = 0, Soccer = 1, Test = 2}; 
+        enum class goal_t : uint8_t { Yellow = 0, Blue = 1 }; 
+        enum class mode_t : int8_t {Off = 0, Soccer = 1, Controller = 2}; 
         enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
         enum class menu_t : int8_t {None = -1, SetGoal = 0, SetRole = 1, SetSpeed = 2};
         enum class pid_t : int8_t {Slow = 0, Normal = 1, Fast = 2}; 
@@ -19,6 +20,7 @@ namespace ST {
 namespace _Raw {
 
     struct ST_State {
+        bool isRobot_A;
         ST::Types::mode_t mode;
         ST::Types::mode_t mode_previous;
         uint32_t lastSoccerTime;
@@ -34,6 +36,21 @@ namespace _Raw {
         float PID_lastErr;
         uint16_t PID_dt_last_ms;
     };
+
+    struct BTNs { //button state
+        gpio_num_t pin;
+        bool LastPos = false;
+        bool StablePos = false;
+        uint32_t ChangeTime = 0;
+
+        bool Click = false;
+        bool LongPress = false;
+        bool IsDown = false;
+        
+        uint32_t PressStartTime = 0;
+        bool LongSent = false;
+    };
+
 
     struct ST_Attacker {
       bool lineBounceFeature;
@@ -51,39 +68,109 @@ namespace _Raw {
         ST::Types::menu_t cursor;
     };
 
-    struct Comms_MSG {
-        uint8_t version;
-        uint8_t robotId;
-        uint8_t mode;
-        uint8_t hasBall;
-
-        uint32_t seq;
-        uint32_t uptimeMs;
-
-        uint8_t seesBall;
-        uint8_t reserved1;
-        uint16_t reserved2;
-    };
-
-    struct Comms {
-        uint8_t PEER_MAC[6];
-
-
-        bool initialized = false;
-        bool online = false;
-
-        Comms_MSG rx_msg = {};
-        Comms_MSG tx_msg = {};
-
-        volatile bool lastSendOk = false;
-        volatile bool sendDone = false;
-        volatile bool newRxPacket = false;
-        uint32_t lastRxMsg_ms = 0;
-        uint32_t lastTxMsg_ms = 0;
-
-        uint32_t txSeq = 0;
+    struct ST_Controller {
+        
+        bool autoPlay = false;
 
     };
+
+
+struct Soccer_MSG {
+    uint8_t mode = 0;
+    uint8_t role = 0;
+
+    uint8_t drbF = 0;
+    uint8_t drbR = 0;
+    uint16_t ball_angle_ToNField = 0;
+    uint16_t ball_distRaw = 0;
+
+    uint8_t line_seen = 0;
+    uint16_t gyro_offset_ToNField = 0;
+    uint8_t goalEnemy_seen = 0;
+};
+
+struct ControllerRx_MSG {
+    uint8_t version = 1;
+    uint8_t connected = 0;
+    uint16_t reserved0 = 0;
+
+    uint32_t seq = 0;
+    uint32_t uptimeMs = 0;
+
+    uint8_t right = 0;
+    uint8_t down = 0;
+    uint8_t up = 0;
+    uint8_t left = 0;
+
+    uint8_t square = 0;
+    uint8_t cross = 0;
+    uint8_t circle = 0;
+    uint8_t triangle = 0;
+
+    uint8_t l1 = 0;
+    uint8_t r1 = 0;
+    uint8_t l3 = 0;
+    uint8_t r3 = 0;
+
+    uint8_t share = 0;
+    uint8_t options = 0;
+    uint8_t psButton = 0;
+    uint8_t touchpad = 0;
+
+    uint8_t l2Pressed = 0;
+    uint8_t r2Pressed = 0;
+    uint16_t reserved1 = 0;
+
+    int16_t l2 = 0;
+    int16_t r2 = 0;
+    int16_t lStickX = 0;
+    int16_t lStickY = 0;
+    int16_t rStickX = 0;
+    int16_t rStickY = 0;
+};
+
+struct ControllerTx_MSG {
+    uint8_t version = 1;
+    uint8_t ledR = 0;
+    uint8_t ledG = 0;
+    uint8_t ledB = 0;
+
+    uint32_t seq = 0;
+    uint32_t uptimeMs = 0;
+
+    uint8_t rumbleLeft = 0;
+    uint8_t rumbleRight = 0;
+    uint8_t flashOn = 0;
+    uint8_t flashOff = 0;
+};
+
+
+struct Comms {
+    uint8_t SOCCER_PEER_MAC[6] = {0};
+    uint8_t CONTROLLER_PEER_MAC[6] = {0};
+
+    bool initialized = false;
+    bool onlineSoccer = false;
+    bool onlineController = false;
+
+    Soccer_MSG rx_soccer_msg = {};
+    Soccer_MSG tx_soccer_msg = {};
+
+    ControllerRx_MSG rx_controller_msg = {};
+    ControllerTx_MSG tx_controller_msg = {};
+
+    volatile bool lastSendOk = false;
+    volatile bool sendDone = false;
+
+    volatile bool newSoccerRxPacket = false;
+    volatile bool newControllerRxPacket = false;
+
+    uint32_t lastSoccerRxMsg_ms = 0;
+    uint32_t lastControllerRxMsg_ms = 0;
+    uint32_t lastTxMsg_ms = 0;
+
+    uint32_t txSeq = 0;
+};
 
     struct Display {
         bool needsUpdate = true;

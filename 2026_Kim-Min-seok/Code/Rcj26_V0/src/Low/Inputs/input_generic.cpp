@@ -18,11 +18,8 @@ struct BTNs { //button state
     bool LongSent = false;
 };
 
-constexpr int BTN_DEBOUNCE_MS = 20;
-constexpr int BTN_LONGPRESS_MS = 500;
-
-BTNs btnSPlus;
-BTNs btnSMinus;
+static BTNs btnSPlus;
+static BTNs btnSMinus;
 
 void I2C_FastADC_init_() {
 
@@ -54,7 +51,7 @@ static void _input_generic_btn_update(BTNs& btn) {
     bool raw = !gpio_get_level(btn.pin); //active LOW
 
     if(raw != btn.StablePos) { //edge detection
-        if(ST::now_ms - btn.ChangeTime >= BTN_DEBOUNCE_MS) { //debounde
+        if(ST::now_ms - btn.ChangeTime >= HW::GenericCfg::BTN_DEBOUNCE_MS) { //debounde
             btn.StablePos = raw;
             btn.ChangeTime = ST::now_ms;
             
@@ -69,7 +66,7 @@ static void _input_generic_btn_update(BTNs& btn) {
     btn.Click = (btn.LastPos == true && btn.StablePos == false && btn.LongSent == false);
 
     if(btn.StablePos == true && btn.LongSent == false) {
-        if(ST::now_ms - btn.PressStartTime >= BTN_LONGPRESS_MS) {
+        if(ST::now_ms - btn.PressStartTime >= HW::GenericCfg::BTN_LONGPRESS_MS) {
             btn.LongPress = true;
             btn.LongSent = true; //dont send again
         }

@@ -10,6 +10,7 @@ namespace IN {
     extern _Raw::Line line;
     extern _Raw::MotionSense motionSens;
     extern _Raw::Generic generic;
+    // extern _Raw::Controller controller;
 }
 
 namespace OUT {
@@ -29,6 +30,7 @@ namespace ST {
     extern _Raw::ST_Attacker attacker;
     extern _Raw::ST_Soccer soccer;
     extern _Raw::ST_OffMenu offMenu;
+    extern _Raw::ST_Controller controller;
 
     void resetToDefaults();
 }
