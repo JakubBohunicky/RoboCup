@@ -34,8 +34,9 @@ void onDataRecv(const uint8_t *mac_addr, const uint8_t *data, int len) {
     }
 
     if (_mac_equal(mac_addr, IN::comms.CONTROLLER_PEER_MAC)) {
+        // Serial.println("Recieved1");
         if (len != sizeof(_Raw::ControllerRx_MSG)) return;
-
+        // Serial.println("Recieved2");
         memcpy(&isr_rx_controller_msg, data, sizeof(_Raw::ControllerRx_MSG));
         IN::comms.newControllerRxPacket = true;
         return;
@@ -101,6 +102,10 @@ void input_comm_init_() {
     }
 
     Serial.println("ESP-NOW ready with soccer peer");
+
+    Serial.print("ESP32 STA MAC: ");
+    Serial.println(WiFi.macAddress());
+
 }
 
 
@@ -156,9 +161,18 @@ void input_comm_controller_update() {  //!!!call only when controller is connect
         IN::comms.lastControllerRxMsg_ms = ST::now_ms;
     }
 
-    esp_now_send(IN::comms.CONTROLLER_PEER_MAC, (uint8_t*)&IN::comms.tx_controller_msg, sizeof(IN::comms.tx_controller_msg));
+    // IN::comms.tx_controller_msg.ledR = IN::controller.ledR;
+    // IN::comms.tx_controller_msg.ledG = IN::controller.ledG;
+    // IN::comms.tx_controller_msg.ledB = IN::controller.ledB;
+    // IN::comms.tx_controller_msg.rumbleLeft = IN::controller.rumbleLeft;
+    // IN::comms.tx_controller_msg.rumbleRight = IN::controller.rumbleRight;
+    // IN::comms.tx_controller_msg.flashOn = IN::controller.flashOn;
+    // IN::comms.tx_controller_msg.flashOff = IN::controller.flashOff;
 
-    if (ST::now_ms - IN::comms.lastSoccerRxMsg_ms <= 100){
+
+    // esp_now_send(IN::comms.CONTROLLER_PEER_MAC, (uint8_t*)&IN::comms.tx_controller_msg, sizeof(IN::comms.tx_controller_msg));
+
+    if (ST::now_ms - IN::comms.lastControllerRxMsg_ms <= 100){
         IN::comms.onlineController == true;
         // Serial.println("online");
     } else {

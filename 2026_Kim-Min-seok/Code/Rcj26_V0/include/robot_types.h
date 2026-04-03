@@ -74,7 +74,7 @@ struct Soccer_MSG {
     uint8_t goalEnemy_seen = 0;
 };
 
-struct ControllerRx_MSG {
+struct __attribute__((packed)) ControllerRx_MSG {
     uint8_t version = 1;
     uint8_t connected = 0;
 
@@ -113,19 +113,20 @@ struct ControllerRx_MSG {
     int16_t rStickY = 0;
 };
 
-struct ControllerTx_MSG {
-    uint8_t ledR = 0;
-    uint8_t ledG = 0;
-    uint8_t ledB = 0;
+// struct __attribute__((packed)) ControllerTx_MSG {
+//     uint8_t ledR = 0;
+//     uint8_t ledG = 0;
+//     uint8_t ledB = 0;
+//     uint8_t reserved0 = 0;
 
-    uint32_t seq = 0;
-    uint32_t uptimeMs = 0;
+//     uint32_t seq = 0;
+//     uint32_t uptimeMs = 0;
 
-    uint8_t rumbleLeft = 0;
-    uint8_t rumbleRight = 0;
-    uint8_t flashOn = 0;
-    uint8_t flashOff = 0;
-};
+//     uint8_t rumbleLeft = 0;
+//     uint8_t rumbleRight = 0;
+//     uint8_t flashOn = 0;
+//     uint8_t flashOff = 0;
+// };
 
 struct Controller {
 
@@ -166,15 +167,15 @@ struct Controller {
     int16_t rStickX = 0;
     int16_t rStickY = 0;
 
-    //outputs
-    uint8_t ledR = 0;
-    uint8_t ledG = 0;
-    uint8_t ledB = 0;
+    // //outputs
+    // uint8_t ledR = 0;
+    // uint8_t ledG = 0;
+    // uint8_t ledB = 0;
 
-    uint8_t rumbleLeft = 0;
-    uint8_t rumbleRight = 0;
-    uint8_t flashOn = 0;
-    uint8_t flashOff = 0;
+    // uint8_t rumbleLeft = 0;
+    // uint8_t rumbleRight = 0;
+    // uint8_t flashOn = 0;
+    // uint8_t flashOff = 0;
 };
 
 struct Comms {
@@ -189,7 +190,7 @@ struct Comms {
     Soccer_MSG tx_soccer_msg = {};
 
     ControllerRx_MSG rx_controller_msg = {};
-    ControllerTx_MSG tx_controller_msg = {};
+    // ControllerTx_MSG tx_controller_msg = {};
 
     volatile bool lastSendOk = false;
     volatile bool sendDone = false;

@@ -32,7 +32,7 @@ namespace Logic {
 
 
                 if(IN::generic.btnPlusClick && ST::now_ms - ST::state.lastSoccerTime >= 1000) {
-                    ST::state.mode = ST::Types::mode_t::Soccer;            
+                    ST::state.mode = ST::Types::mode_t::Controller;            
                 }
                 if(IN::generic.btnMinusLongPress) {
                     // input_gyro_calibrate();
