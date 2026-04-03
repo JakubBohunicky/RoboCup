@@ -148,7 +148,7 @@ void input_comm_update() {
     }
 }
 
-void input_controller_update() {
+void input_comm_controller_update() {  //!!!call only when controller is connected and from controller API
 
     if(IN::comms.newControllerRxPacket) {
         IN::comms.newControllerRxPacket = false;

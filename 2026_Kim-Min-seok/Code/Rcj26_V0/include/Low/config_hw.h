@@ -68,8 +68,12 @@ namespace HW {
 
 
     namespace GenericCfg {
-            constexpr int BTN_DEBOUNCE_MS = 20;
-            constexpr int BTN_LONGPRESS_MS = 500;
+
+            constexpr int HW_BTN_DEBOUNCE_MS = 20;
+            constexpr int HW_BTN_LONGPRESS_MS = 500;
+        
+            constexpr int SW_BTN_DEBOUNCE_MS = 20;
+            constexpr int SW_BTN_LONGPRESS_MS = 500;
 
             //BUTTONS
             constexpr gpio_num_t BTN_inc_Pin = GPIO_NUM_20;

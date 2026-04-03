@@ -4,22 +4,8 @@
 #include "Low/config_hw.h"
 #include "driver/gpio.h"
 
-struct BTNs { //button state
-    gpio_num_t pin;
-    bool LastPos = false;
-    bool StablePos = false;
-    uint32_t ChangeTime = 0;
-
-    bool Click = false;
-    bool LongPress = false;
-    bool IsDown = false;
-    
-    uint32_t PressStartTime = 0;
-    bool LongSent = false;
-};
-
-static BTNs btnSPlus;
-static BTNs btnSMinus;
+static _Raw::HW_BTNs btnSPlus;
+static _Raw::HW_BTNs btnSMinus;
 
 void I2C_FastADC_init_() {
 
@@ -44,14 +30,14 @@ void input_generic_init_() {
     btnSMinus.pin = HW::GenericCfg::BTN_dec_Pin;
 }
 
-static void _input_generic_btn_update(BTNs& btn) {
+static void _input_generic_hw_btn_update(_Raw::HW_BTNs& btn) {
     btn.Click = false;
     btn.LongPress = false;
 
     bool raw = !gpio_get_level(btn.pin); //active LOW
 
     if(raw != btn.StablePos) { //edge detection
-        if(ST::now_ms - btn.ChangeTime >= HW::GenericCfg::BTN_DEBOUNCE_MS) { //debounde
+        if(ST::now_ms - btn.ChangeTime >= HW::GenericCfg::HW_BTN_DEBOUNCE_MS) { //debounde
             btn.StablePos = raw;
             btn.ChangeTime = ST::now_ms;
             
@@ -66,7 +52,7 @@ static void _input_generic_btn_update(BTNs& btn) {
     btn.Click = (btn.LastPos == true && btn.StablePos == false && btn.LongSent == false);
 
     if(btn.StablePos == true && btn.LongSent == false) {
-        if(ST::now_ms - btn.PressStartTime >= HW::GenericCfg::BTN_LONGPRESS_MS) {
+        if(ST::now_ms - btn.PressStartTime >= HW::GenericCfg::HW_BTN_LONGPRESS_MS) {
             btn.LongPress = true;
             btn.LongSent = true; //dont send again
         }
@@ -79,8 +65,8 @@ void input_generic_update() {
 
     IN::generic.bukajModuleEn = gpio_get_level(HW::GenericCfg::BukajModule_Pin);
 
-    _input_generic_btn_update(btnSPlus);
-    _input_generic_btn_update(btnSMinus);
+    _input_generic_hw_btn_update(btnSPlus);
+    _input_generic_hw_btn_update(btnSMinus);
 
     IN::generic.btnPlusClick = btnSPlus.Click;
     IN::generic.btnMinusClick = btnSMinus.Click;

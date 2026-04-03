@@ -10,7 +10,7 @@ namespace IN {
     _Raw::Line line;
     _Raw::MotionSense motionSens;
     _Raw::Generic generic;
-    // _Raw::Controller controller;
+    _Raw::Controller controller;
 }
 
 namespace OUT {
