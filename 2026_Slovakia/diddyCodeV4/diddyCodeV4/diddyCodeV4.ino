@@ -741,13 +741,13 @@ getLineAngle() {
     digitalWrite(multiplexerPin3, outputArray[lighNumber][2]);
     digitalWrite(multiplexerPin4, outputArray[lighNumber][3]);
 
-    if (analogRead(multiplexerIn1) < 100) {
+    if (analogRead(multiplexerIn1) < 250) {
       itCheck = 1;
       xCor += sin(radians(lightSensorAngles[lighNumber]));
       yCor += cos(radians(lightSensorAngles[lighNumber]));
       //Serial.println(lighNumber);
     }
-    if (analogRead(multiplexerIn2) < 100) {
+    if (analogRead(multiplexerIn2) < 250) {
       if (lighNumber != 12) {
         itCheck = 1;
         xCor += sin(radians(lightSensorAngles[lighNumber + 16]));
