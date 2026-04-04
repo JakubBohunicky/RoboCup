@@ -40,6 +40,10 @@ namespace Mode {
             
             input_controller_update();
 
+            if(IN::controller.options.Click) {
+                ST::controller.autoPlay = !ST::controller.autoPlay;
+            }
+
             Role::controller();
             
 
@@ -48,6 +52,7 @@ namespace Mode {
 
             } else { //auto-play
                 Role::attacker();
+                //zmena led pri automode
             }
         //}
     } 
