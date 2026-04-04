@@ -7,7 +7,7 @@
 
 
 namespace Role {
-    void attack() {
+    void attacker() {
         if(IN::motionSens.drbF || IN::motionSens.drbR) {
             Prim::find_goal();
         }

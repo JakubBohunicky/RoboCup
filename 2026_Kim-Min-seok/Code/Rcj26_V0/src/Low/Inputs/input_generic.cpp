@@ -9,6 +9,7 @@ static _Raw::HW_BTNs btnSMinus;
 
 void I2C_FastADC_init_() {
 
+    Wire.setBufferSize(128);
     Wire.begin(HW::GenericCfg::I2C_SDA_Pin, HW::GenericCfg::I2C_SCL_Pin);
     Wire.setClock(HW::GenericCfg::I2C_SPEED);
 

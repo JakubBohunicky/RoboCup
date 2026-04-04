@@ -6,6 +6,8 @@ static constexpr unsigned char PROGMEM image_EviSmile1_bits[] = {0x0f,0x00,0x00,
 
 static void _drawScreen_SOCCER() {
     OUT::display.needsUpdate = true;
+    
+    Serial.println("Controller Mode");
 
     // display.setTextColor(SSD1306_WHITE);
     // display.setTextWrap(false);
@@ -18,7 +20,7 @@ namespace Mode {
         void soccer() {
             if(ST::state.mode_previous != ST::Types::mode_t::Soccer) { _drawScreen_SOCCER(); OUT::motorAcc.motEn = true;}
             
-            Role::attack();
+            Role::attacker();
     
         } 
 }

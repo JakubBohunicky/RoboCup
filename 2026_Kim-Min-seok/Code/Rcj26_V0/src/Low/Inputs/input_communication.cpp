@@ -25,22 +25,22 @@ void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 
 
 void onDataRecv(const uint8_t *mac_addr, const uint8_t *data, int len) {
-    if (_mac_equal(mac_addr, IN::comms.SOCCER_PEER_MAC)) {
+    // if (_mac_equal(mac_addr, IN::comms.SOCCER_PEER_MAC)) {
         if (len != sizeof(_Raw::Soccer_MSG)) return;
 
         memcpy(&isr_rx_soccer_msg, data, sizeof(_Raw::Soccer_MSG));
         IN::comms.newSoccerRxPacket = true;
         return;
-    }
+    // }
 
-    if (_mac_equal(mac_addr, IN::comms.CONTROLLER_PEER_MAC)) {
-        // Serial.println("Recieved1");
-        if (len != sizeof(_Raw::ControllerRx_MSG)) return;
-        // Serial.println("Recieved2");
-        memcpy(&isr_rx_controller_msg, data, sizeof(_Raw::ControllerRx_MSG));
-        IN::comms.newControllerRxPacket = true;
-        return;
-    }
+    // if (_mac_equal(mac_addr, IN::comms.CONTROLLER_PEER_MAC)) {
+    //     // Serial.println("Recieved1");
+    //     if (len != sizeof(_Raw::ControllerRx_MSG)) return;
+    //     // Serial.println("Recieved2");
+    //     memcpy(&isr_rx_controller_msg, data, sizeof(_Raw::ControllerRx_MSG));
+    //     IN::comms.newControllerRxPacket = true;
+    //     return;
+    // }
 }
 
 
@@ -69,14 +69,14 @@ void input_comm_init_() {
         }
     }
 
-    IN::comms.initialized = true;
-
+    WiFi.setSleep(false);
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
     delay(100);
-
+    
     esp_wifi_set_channel(HW::Comms::ESPNOW_CHANNEL, WIFI_SECOND_CHAN_NONE);
-
+    
+    IN::comms.initialized = true;
     if (esp_now_init() != ESP_OK) {
         Serial.println("ESP-NOW init failed");
         IN::comms.initialized = false;
@@ -105,21 +105,20 @@ void input_comm_init_() {
 
     Serial.print("ESP32 STA MAC: ");
     Serial.println(WiFi.macAddress());
-
 }
 
 
-bool input_comm_enable_controller_peer_() {
-    if (!IN::comms.initialized) return false;
+// bool input_comm_enable_controller_peer_() {
+//     if (!IN::comms.initialized) return false;
 
-    if (!_add_peer(IN::comms.CONTROLLER_PEER_MAC)) {
-        Serial.println("Failed to add controller peer");
-        return false;
-    }
+//     if (!_add_peer(IN::comms.CONTROLLER_PEER_MAC)) {
+//         Serial.println("Failed to add controller peer");
+//         return false;
+//     }
 
-    Serial.println("Controller peer enabled");
-    return true;
-}
+//     Serial.println("Controller peer enabled");
+//     return true;
+// }
 
 
 void input_comm_update() {
@@ -128,8 +127,6 @@ void input_comm_update() {
         IN::comms.newSoccerRxPacket = false;
         memcpy(&IN::comms.rx_soccer_msg, &isr_rx_soccer_msg, sizeof(_Raw::Soccer_MSG));
         IN::comms.lastSoccerRxMsg_ms = ST::now_ms;
-
-        // Serial.println(IN::comms.rx_soccer_msg.ball_angle_ToNField);
     }
 
     IN::comms.tx_soccer_msg.mode = (uint8_t)ST::state.mode;
@@ -153,30 +150,34 @@ void input_comm_update() {
     }
 }
 
-void input_comm_controller_update() {  //!!!call only when controller is connected and from controller API
+// void input_comm_controller_update() {  //!!!call only when controller is connected and from controller API
 
-    if(IN::comms.newControllerRxPacket) {
-        IN::comms.newControllerRxPacket = false;
-        memcpy(&IN::comms.rx_controller_msg, &isr_rx_controller_msg, sizeof(_Raw::ControllerRx_MSG));
-        IN::comms.lastControllerRxMsg_ms = ST::now_ms;
-    }
+//     if(IN::comms.newControllerRxPacket) {
+//         IN::comms.newControllerRxPacket = false;
+//         memcpy(&IN::comms.rx_controller_msg, &isr_rx_controller_msg, sizeof(_Raw::ControllerRx_MSG));
+//         IN::comms.lastControllerRxMsg_ms = ST::now_ms;
 
-    // IN::comms.tx_controller_msg.ledR = IN::controller.ledR;
-    // IN::comms.tx_controller_msg.ledG = IN::controller.ledG;
-    // IN::comms.tx_controller_msg.ledB = IN::controller.ledB;
-    // IN::comms.tx_controller_msg.rumbleLeft = IN::controller.rumbleLeft;
-    // IN::comms.tx_controller_msg.rumbleRight = IN::controller.rumbleRight;
-    // IN::comms.tx_controller_msg.flashOn = IN::controller.flashOn;
-    // IN::comms.tx_controller_msg.flashOff = IN::controller.flashOff;
+//         // Serial.print(IN::comms.rx_controller_msg.l2);
+//         // Serial.print("      ");
+//         // Serial.println(IN::comms.rx_controller_msg.r2);
+//         Serial.println(IN::comms.rx_controller_msg.seq);
+//     } //else {Serial.println("no");}
 
+//     // IN::comms.tx_controller_msg.ledR = IN::controller.ledR;
+//     // IN::comms.tx_controller_msg.ledG = IN::controller.ledG;
+//     // IN::comms.tx_controller_msg.ledB = IN::controller.ledB;
+//     // IN::comms.tx_controller_msg.rumbleLeft = IN::controller.rumbleLeft;
+//     // IN::comms.tx_controller_msg.rumbleRight = IN::controller.rumbleRight;
+//     // IN::comms.tx_controller_msg.flashOn = IN::controller.flashOn;
+//     // IN::comms.tx_controller_msg.flashOff = IN::controller.flashOff;
 
-    // esp_now_send(IN::comms.CONTROLLER_PEER_MAC, (uint8_t*)&IN::comms.tx_controller_msg, sizeof(IN::comms.tx_controller_msg));
+//     // esp_now_send(IN::comms.CONTROLLER_PEER_MAC, (uint8_t*)&IN::comms.tx_controller_msg, sizeof(IN::comms.tx_controller_msg));
 
-    if (ST::now_ms - IN::comms.lastControllerRxMsg_ms <= 100){
-        IN::comms.onlineController == true;
-        // Serial.println("online");
-    } else {
-        IN::comms.onlineController == false;
-        // Serial.println("offline");
-    }
-}
+//     if (ST::now_ms - IN::comms.lastControllerRxMsg_ms <= 100){
+//         IN::comms.onlineController == true;
+//         // Serial.println("online");
+//     } else {
+//         IN::comms.onlineController == false;
+//         // Serial.println("offline");
+//     }
+// }

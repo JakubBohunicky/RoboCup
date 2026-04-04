@@ -14,6 +14,13 @@ namespace HW {
         constexpr int ESPNOW_CHANNEL = 1;
     }
 
+    namespace Controller { 
+        constexpr uint8_t I2C_ADDR = 0x42;
+
+        constexpr float TRIGG_CONST = 1.0f/255;
+        constexpr float DEAD_CONST = 0.1f;
+    }
+
     namespace MotorCfg {
         //MOTORS
         constexpr gpio_num_t EnPin = GPIO_NUM_38;
@@ -84,6 +91,8 @@ namespace HW {
             constexpr int I2C_SDA_Pin = 8;
             constexpr int I2C_SCL_Pin = 9;
             constexpr int I2C_SPEED = 1000000UL;
+            // constexpr int I2C_SPEED = 400000UL;
+            
             constexpr int SERIAL_SPEED = 921600;
     }
 

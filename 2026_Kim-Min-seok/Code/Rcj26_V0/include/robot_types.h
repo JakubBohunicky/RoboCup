@@ -19,6 +19,33 @@ namespace ST {
 
 namespace _Raw {
 
+    struct SW_BTNs { //button state
+        bool LastPos = false;
+        bool StablePos = false;
+        uint32_t ChangeTime = 0;
+
+        bool Click = false;
+        bool LongPress = false;
+        bool IsDown = false;
+        
+        uint32_t PressStartTime = 0;
+        bool LongSent = false;
+    };
+
+    struct HW_BTNs { //button state
+        gpio_num_t pin;
+        bool LastPos = false;
+        bool StablePos = false;
+        uint32_t ChangeTime = 0;
+
+        bool Click = false;
+        bool LongPress = false;
+        bool IsDown = false;
+        
+        uint32_t PressStartTime = 0;
+        bool LongSent = false;
+    };
+
     struct ST_State {
         bool isRobot_A;
         ST::Types::mode_t mode;
@@ -75,11 +102,9 @@ struct Soccer_MSG {
 };
 
 struct __attribute__((packed)) ControllerRx_MSG {
-    uint8_t version = 1;
+    
     uint8_t connected = 0;
-
     uint32_t seq = 0;
-    uint32_t uptimeMs = 0;
 
     uint8_t right = 0;
     uint8_t down = 0;
@@ -103,7 +128,6 @@ struct __attribute__((packed)) ControllerRx_MSG {
 
     uint8_t l2Pressed = 0;
     uint8_t r2Pressed = 0;
-    uint16_t reserved1 = 0;
 
     int16_t l2 = 0;
     int16_t r2 = 0;
@@ -117,7 +141,6 @@ struct __attribute__((packed)) ControllerRx_MSG {
 //     uint8_t ledR = 0;
 //     uint8_t ledG = 0;
 //     uint8_t ledB = 0;
-//     uint8_t reserved0 = 0;
 
 //     uint32_t seq = 0;
 //     uint32_t uptimeMs = 0;
@@ -128,54 +151,54 @@ struct __attribute__((packed)) ControllerRx_MSG {
 //     uint8_t flashOff = 0;
 // };
 
+struct _Controller_Trigger {
+    SW_BTNs pressed;
+
+    int16_t raw = 0;
+    float val = 0.0f;
+
+};
+
+struct _Controller_Stick {
+    uint16_t X = 0;
+    uint16_t Y = 0;
+
+    float angle = 0.0f;
+    float mag = 0.0f;
+};
+
 struct Controller {
 
     //inputs
     uint8_t connected = 0;
-
     uint32_t seq = 0;
-    uint32_t uptimeMs = 0;
+    // uint32_t uptimeMs = 0;
 
-    uint8_t right = 0;
-    uint8_t down = 0;
-    uint8_t up = 0;
-    uint8_t left = 0;
+    SW_BTNs right;
+    SW_BTNs down;
+    SW_BTNs up;
+    SW_BTNs left;
 
-    uint8_t square = 0;
-    uint8_t cross = 0;
-    uint8_t circle = 0;
-    uint8_t triangle = 0;
+    SW_BTNs square;
+    SW_BTNs cross;
+    SW_BTNs circle;
+    SW_BTNs triangle;
 
-    uint8_t l1 = 0;
-    uint8_t r1 = 0;
-    uint8_t l3 = 0;
-    uint8_t r3 = 0;
+    SW_BTNs l1;
+    SW_BTNs r1;
+    SW_BTNs l3;
+    SW_BTNs r3;
 
-    uint8_t share = 0;
-    uint8_t options = 0;
-    uint8_t psButton = 0;
-    uint8_t touchpad = 0;
+    SW_BTNs share;
+    SW_BTNs options;
+    SW_BTNs psButton;
+    SW_BTNs touchpad;
+    
+    _Controller_Trigger l2;
+    _Controller_Trigger r2;
 
-    uint8_t l2Pressed = 0;
-    uint8_t r2Pressed = 0;
-    uint16_t reserved1 = 0;
-
-    int16_t l2 = 0;
-    int16_t r2 = 0;
-    int16_t lStickX = 0;
-    int16_t lStickY = 0;
-    int16_t rStickX = 0;
-    int16_t rStickY = 0;
-
-    // //outputs
-    // uint8_t ledR = 0;
-    // uint8_t ledG = 0;
-    // uint8_t ledB = 0;
-
-    // uint8_t rumbleLeft = 0;
-    // uint8_t rumbleRight = 0;
-    // uint8_t flashOn = 0;
-    // uint8_t flashOff = 0;
+    _Controller_Stick lStick;
+    _Controller_Stick rStick;
 };
 
 struct Comms {
@@ -228,34 +251,6 @@ struct Comms {
         bool kickF = false;
         bool kickR = false;
     };
-
-    struct SW_BTNs { //button state
-        bool LastPos = false;
-        bool StablePos = false;
-        uint32_t ChangeTime = 0;
-
-        bool Click = false;
-        bool LongPress = false;
-        bool IsDown = false;
-        
-        uint32_t PressStartTime = 0;
-        bool LongSent = false;
-    };
-
-    struct HW_BTNs { //button state
-        gpio_num_t pin;
-        bool LastPos = false;
-        bool StablePos = false;
-        uint32_t ChangeTime = 0;
-
-        bool Click = false;
-        bool LongPress = false;
-        bool IsDown = false;
-        
-        uint32_t PressStartTime = 0;
-        bool LongSent = false;
-    };
-
     
     struct Generic
     {

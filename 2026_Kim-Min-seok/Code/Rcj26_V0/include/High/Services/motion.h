@@ -11,6 +11,8 @@ namespace Motion {
     void addMotion(float angle, float weight = weight_Normal);
     void addMotion_ToNField(float angle, float weight = weight_Normal);
     void rotate(float angle, ST::Types::pidCfg_t& PID_type = ST::pid.normalPIDCfg);
-    void rotate_ToNField(float angle, ST::Types::pidCfg_t& PID_type = ST::pid.normalPIDCfg);
+    void rotate_ToNField(float angle, ST::Types::pidCfg_t& PID_type = ST::pid.normalPIDCfg, float weight = 1.0f);
     void addRotation(float omega);
+    void kickFront();
+    void kickRear();
 }

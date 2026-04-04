@@ -2,5 +2,5 @@
 #include "world.h"
 
 namespace Role {
-    void attack();
+    void attacker();
 }

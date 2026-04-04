@@ -20,7 +20,7 @@ namespace ST_Default {
 
     inline const _Raw::ST_State state = {
         .isRobot_A = true,
-        .mode = ST::Types::mode_t::Off,
+        .mode = ST::Types::mode_t::Controller,
         .mode_previous = ST::Types::mode_t::Off,
         .lastSoccerTime = 0
     };
