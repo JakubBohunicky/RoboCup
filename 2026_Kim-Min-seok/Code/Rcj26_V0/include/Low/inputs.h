@@ -4,7 +4,10 @@
 //namespace World { struct In; }   // iba dopredu
 
 
-int16_t input_wrap180(int16_t a);  //normalize from -180 to 180
+float input_wrap180(float a);  //normalize from -180 to 180
+float wrap360(float a);
+float deg2rad(float d);
+float rad2deg(float r);
 
 
 namespace Pheripherials {

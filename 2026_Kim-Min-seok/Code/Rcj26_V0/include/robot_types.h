@@ -281,9 +281,10 @@ struct Comms {
         struct Ball {
         int16_t angle = 0; 
         int16_t angle_ToNField = 0;
-        uint16_t distRaw = 0; //higher number is means the ball is further away
-        float strength = 0.0f; //from 1-closest to 0-furthest 
-        
+        uint16_t distanceRaw = 0; //higher number is means the ball is further away
+        float proximity = 0.0f; //from 1-closest to 0-furthest 
+        bool nearMode = false;
+        bool valid = false;
     };
 
     struct Line {

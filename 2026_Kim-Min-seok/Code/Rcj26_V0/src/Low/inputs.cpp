@@ -11,13 +11,27 @@
 static uint32_t times[] = {0, 0, 0, 0, 0, 0, 0};
                         // 0, 1, 2, 3, 4, 5, 6
 
-
-int16_t input_wrap180(int16_t a) { //normalize from -180 to 180
-    a %= 360; 
-    if(a<0) a+=360;
-    if(a>180) a-=360;
+float input_wrap180(float a) { //normalize from -180 to 180
+    while (a > 180.0f)  a -= 360.0f;
+    while (a <= -180.0f) a += 360.0f;
     return a;
 }
+
+float wrap360(float a) {
+  while (a < 0.0f) a += 360.0f;
+  while (a >= 360.0f) a -= 360.0f;
+  return a;
+}
+
+float deg2rad(float d) {
+  return d * 0.01745329251994329577f;
+}
+
+float rad2deg(float r) {
+  return r * 57.29577951308232088f;
+}
+
+
 
 namespace Pheripherials {
 

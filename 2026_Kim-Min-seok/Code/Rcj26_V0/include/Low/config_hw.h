@@ -130,8 +130,30 @@ namespace HW {
 
 
     namespace BallCfg {
-        constexpr int IR_ADR = 0x10;
-        constexpr int IR_REG = 0x00;
+        constexpr int IR_ADRR = 0x10;
+        constexpr int IR_AngDis_REG = 0x00;
+        constexpr int IR_RAW_REG = 0x01;
+        constexpr int IR_RAW_COUNT = 13;
+
+        static const float FRONT_OFFSET_DEG = 145.0f;
+
+        static const float NEAR_SENSOR_ANGLE_DEG[12] = {
+            0.0f, 30.0f, 60.0f, 90.0f, 120.0f, 150.0f,
+            180.0f, 210.0f, 240.0f, 270.0f, 300.0f, 330.0f };
+
+        static const float FAR_SENSOR_ANGLE_DEG[6] = {
+            0.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f };
+
+        // filter tuning
+        const float ALPHA_NEAR = 0.40f;
+        const float ALPHA_FAR = 0.18f;
+        const float MAX_JUMP_NEAR = 55.0f;
+        const float MAX_JUMP_FAR = 25.0f;
+
+        const int MIN_SUM_NEAR = 20;
+        const int MIN_SUM_FAR = 8;
+        const float MIN_DIR_NEAR = 0.08f;
+        const float MIN_DIR_FAR = 0.05f;
 
         constexpr int c_ballignoreDistance = 1000;
         constexpr int c_ballEffectiveInputClosest = 2500;
