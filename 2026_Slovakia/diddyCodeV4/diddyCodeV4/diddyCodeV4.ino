@@ -1,6 +1,6 @@
-#define Ferrari false
-#define STOP_MOTORS false
-#define DISPLAY_DEBUG false
+#define Ferrari true
+#define STOP_MOTORS true
+#define DISPLAY_DEBUG true
 
 #if Ferrari
   int speed = 300;  //350  //400
@@ -678,7 +678,7 @@ int16_t ballAngleRaw;
   if(ballAngleRaw != 0) {
     ballAngle = ballAngleRaw;
   } else if(ballRawDistance >= 1800) {
-    ballAngle = ballAngleRaw;
+    ballAngle = ballAngleRaw; 
   }
 
   if (ballRawDistance < 1800) {

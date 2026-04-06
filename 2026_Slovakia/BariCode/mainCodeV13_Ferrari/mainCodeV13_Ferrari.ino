@@ -447,9 +447,9 @@ uint16_t ballRawDistance;
 #define motorDINB 25  //INA pin motor A
 #define motorDINA 27  //INB pin motor A
 
-#define motorAPWM 8 //5   //PWM pin motor B
-#define motorAINB 11 //29  //INA pin motor B
-#define motorAINA 12  //33  //INB pin motor B
+#define motorAPWM  5//8 //5   //PWM pin motor B
+#define motorAINB 29 //11 //29  //INA pin motor B
+#define motorAINA 33 //12  //33  //INB pin motor B
 
 #define motorCPWM 7   //PWM pin motor C
 #define motorCINB 37  //INA pin motor C
