@@ -1,11 +1,11 @@
-#define Ferrari true
-#define STOP_MOTORS false
-#define DISPLAY_DEBUG false
+#define Ferrari 0
+#define STOP_MOTORS 0
+#define DISPLAY_DEBUG 0
 
 #if Ferrari
-int speed = 300;  //350  //400
+int speed = 300;  //300 //350  //400
 #else             //cladic
-int speed = 400;
+int speed = 400;  //400;
 #endif
 
 
@@ -1012,23 +1012,22 @@ getLineAngle() {
   float lineAngle = 999;
   float xCor = 0;
   float yCor = 0;
-  bool itCheck;
-  itCheck = 0;
+  uint8_t itCheck = 0;
   for (int lighNumber = 0; lighNumber < 16; lighNumber++) {
     digitalWrite(multiplexerPin1, outputArray[lighNumber][0]);
     digitalWrite(multiplexerPin2, outputArray[lighNumber][1]);
     digitalWrite(multiplexerPin3, outputArray[lighNumber][2]);
     digitalWrite(multiplexerPin4, outputArray[lighNumber][3]);
 
-    if (analogRead(multiplexerIn1) < 0) {
-      itCheck = 1;
+    if (analogRead(multiplexerIn1) < 100) {
+      itCheck++;
       xCor += sin(radians(lightSensorAngles[lighNumber]));
       yCor += cos(radians(lightSensorAngles[lighNumber]));
       //Serial.println(lighNumber);
     }
-    if (analogRead(multiplexerIn2) < 0) {
+    if (analogRead(multiplexerIn2) < 100) {
       if (lighNumber != 12) {
-        itCheck = 1;
+        itCheck++;
         xCor += sin(radians(lightSensorAngles[lighNumber + 16]));
         yCor += cos(radians(lightSensorAngles[lighNumber + 16]));
         //Serial.println(lighNumber + 16);
@@ -1036,9 +1035,9 @@ getLineAngle() {
     }
   }
 
-  if (itCheck == 1) {
+  if (itCheck >= 2) {
     lineAngle = round((atan2(yCor, xCor) * (180 / M_PI)) + 90);
-
+    digitalWrite(A8, 1);
     if (lineAngle == -0) {
       lineAngle = 0;
     } else if (lineAngle < 0) {
@@ -1048,8 +1047,12 @@ getLineAngle() {
     if (lineAngle > 359) {
       lineAngle -= 360;
     }
+  } else if (itCheck == 1) {
+    lineAngle = 999;
+    digitalWrite(A8, 1);
   } else {
     lineAngle = 999;
+    digitalWrite(A8, 0);
   }
 
   // Serial.println(lineAngle);
@@ -1080,7 +1083,7 @@ int finalAngle(float ang1) {
 
 #pragma region didka2
 #define alpha 0.05
-#define orbitScale 1
+#define orbitScale 0.95
 
   ballDistance = alpha * ballRawDistance + (1.0 - alpha) * ballDistance;
 
@@ -1155,6 +1158,9 @@ void setup() {
   pinMode(4, OUTPUT);  //kicker
 
   pinMode(46, INPUT);  //ball detection
+
+  pinMode(A8, OUTPUT);  //debug led
+
 
   define_motors();
   define_irMultiplexer();
