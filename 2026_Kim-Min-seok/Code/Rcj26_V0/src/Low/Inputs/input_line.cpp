@@ -4,6 +4,7 @@
 #include "driver/gpio.h"
 #include <Arduino.h>
 #include <FastADC_Mux.h>
+#include "High/Services/debug.h"
 
 
 static uint16_t line_ADC_ring[32];
@@ -49,6 +50,22 @@ static void _input_scanMux() {
         line_ADC_ring[addr] = analogReadFast(CH_A);
         line_ADC_ring[addr+16] = analogReadFast(CH_B);
         line_ADC_depth[addr] = analogReadFast(CH_X);
+
+
+        #ifdef DEBUG_LINE_RAW
+            Serial.println("Ring: ");
+            for(int i = 0; i<32; i++) {
+                Serial.print(i + ": ");
+                Serial.print(line_ADC_ring[i]);
+            }
+
+            Serial.println("Depth: ");
+            for(int i = 0; i<16; i++) {
+                Serial.print(i + ": ");
+                Serial.print(line_ADC_ring[i]);
+            }
+        #endif
+
     }
 }
 
@@ -135,4 +152,9 @@ void input_line_update() {
     IN::line.depth = line_Depth;
     IN::line.angle_ToNField = input_wrap180(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
+
+    #ifdef DEBUG_LINE_ANG
+        Serial.print("Ang: " +  IN::line.angle);
+        Serial.printf(" || Depth: &0.2f", IN::line.depth);
+    #endif
 }

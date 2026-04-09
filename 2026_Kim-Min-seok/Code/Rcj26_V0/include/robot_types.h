@@ -88,6 +88,7 @@ namespace _Raw {
 
 
 struct Soccer_MSG {
+    uint16_t seq = 0;
     uint8_t mode = 0;
     uint8_t role = 0;
 

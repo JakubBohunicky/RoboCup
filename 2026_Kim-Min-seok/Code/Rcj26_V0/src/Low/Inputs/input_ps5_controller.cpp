@@ -3,6 +3,7 @@
 #include "Low/config_hw.h"
 #include <Arduino.h>
 #include <Wire.h>
+#include "High/Services/debug.h"
 
 struct BTNs { //button state
     gpio_num_t pin;
@@ -104,7 +105,9 @@ void input_controller_update() {
         return;
     }
 
-    // _debug_print_controller_rx(IN::comms.rx_controller_msg);
+    #ifdef DEBUG_CONTROLLER
+        _debug_print_controller_rx(IN::comms.rx_controller_msg);
+    #endif
 
     IN::controller.connected = IN::comms.rx_controller_msg.connected;
     IN::controller.seq = IN::comms.rx_controller_msg.seq;

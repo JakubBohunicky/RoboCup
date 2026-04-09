@@ -3,6 +3,7 @@
 #include "Low/inputs.h"
 #include <Arduino.h>
 #include <Wire.h>
+#include "High/Services/debug.h"
 
 
 // filter state
@@ -79,7 +80,7 @@ bool readBallRaw(uint8_t raw[12], bool &nearMode, int16_t &ballAngleRaw, uint16_
     return true;
 }
 
-void getBallFromRaw() {
+void input_ballIR_update() {
     uint8_t raw[12];
     bool nearMode = false;
     int16_t ballAngleRaw = 0;
@@ -194,6 +195,11 @@ void getBallFromRaw() {
     IN::ball.proximity = dirStrength;//(int16_t)lroundf(dirStrength);
     IN::ball.nearMode = nearMode;
     IN::ball.valid = true;
+
+    #ifdef DEBUG_BALL
+        Serial.print("Ang: " + IN::ball.angle);
+        Serial.printf(" || Prox: %0.2f\n", IN::ball.proximity);
+    #endif
 
     // if (millis() - lastPrintMs > 100) {
     //   lastPrintMs = millis();

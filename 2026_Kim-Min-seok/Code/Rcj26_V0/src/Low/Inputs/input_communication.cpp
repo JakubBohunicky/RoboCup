@@ -6,6 +6,7 @@
 #include <esp_wifi.h>
 #include <esp_now.h>
 #include <Arduino.h>
+#include "High/Services/debug.h"
 
 static _Raw::Soccer_MSG isr_rx_soccer_msg = {};
 static _Raw::ControllerRx_MSG isr_rx_controller_msg = {};
@@ -121,6 +122,25 @@ void input_comm_init_() {
 // }
 
 
+static void _debug_print_comm_rx(const _Raw::Soccer_MSG& m) {
+    Serial.printf(
+        "seq=%d, mode:%u, role:%u | drbF:%u, drbR:%u, BAngN: %d, BDis: %d| line:%u, gyroN: %d, goal:%u\n",
+        (int)m.seq,
+        m.mode,
+        m.role,
+
+        m.drbF,
+        m.drbR,
+        (int)m.ball_angle_ToNField,
+        (int)m.ball_distRaw,
+
+        m.line_seen,
+        (int)m.gyro_offset_ToNField,
+        m.goalEnemy_seen
+    );
+}
+
+
 void input_comm_update() {
 
     if(IN::comms.newSoccerRxPacket) {
@@ -148,6 +168,10 @@ void input_comm_update() {
         IN::comms.onlineSoccer == false;
         // Serial.println("offline");
     }
+
+    #ifdef DEBUG_COMMs
+        _debug_print_comm_rx(IN::comms.rx_soccer_msg);
+    #endif
 }
 
 // void input_comm_controller_update() {  //!!!call only when controller is connected and from controller API
