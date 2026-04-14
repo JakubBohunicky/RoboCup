@@ -50,10 +50,10 @@ void output_motor_init_() {
 
 void output_motor_update() {
 
-    if(_motEn_lastState != OUT::motorAcc.motEn) { 
+    // if(_motEn_lastState != OUT::motorAcc.motEn) { 
         gpio_set_level(HW::MotorCfg::EnPin, OUT::motorAcc.motEn);
-        _motEn_lastState = OUT::motorAcc.motEn;
-    }
+        // _motEn_lastState = OUT::motorAcc.motEn;
+    // }
 
     if(OUT::motorAcc.motEn) {
         if(OUT::motorAcc.mainOut[0] > 0) { gpio_set_level(HW::MotorCfg::A_DirPin, 0);}

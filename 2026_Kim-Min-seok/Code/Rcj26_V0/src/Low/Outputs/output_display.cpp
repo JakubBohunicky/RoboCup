@@ -7,7 +7,7 @@
 
 
 // static Adafruit_SSD1306 display(HW::DisplayCfg::width, HW::DisplayCfg::height, &Wire);
-Adafruit_SSD1306 display(HW::DisplayCfg::width, HW::DisplayCfg::height, &Wire, -1, HW::GenericCfg::I2C_SPEED, HW::GenericCfg::I2C_SPEED);
+Adafruit_SSD1306 display(HW::DisplayCfg::width, HW::DisplayCfg::height, &Wire, -1, 400000UL, 400000UL);
 
 void output_display_init_() {
     if (!display.begin(SSD1306_SWITCHCAPVCC, HW::DisplayCfg::ADRR, true, false)) {

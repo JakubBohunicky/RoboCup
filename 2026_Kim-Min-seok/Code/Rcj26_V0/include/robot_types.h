@@ -1,20 +1,21 @@
 #pragma once
 #include <cstdint>
 #include "driver/gpio.h"
+#include "FastLED.h"
 
 namespace ST {
     namespace Types {
-        enum class goal_t : uint8_t { Yellow = 0, Blue = 1 }; 
-        enum class mode_t : int8_t {Off = 0, Soccer = 1, Controller = 2}; 
+    enum class goal_t : uint8_t { Yellow = 0, Blue = 1 }; 
+        enum class mode_t : int8_t {None = -1, Off = 0, Soccer = 1, Controller = 2, KickerTest = 3}; 
         enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
-        enum class menu_t : int8_t {None = -1, SetGoal = 0, SetRole = 1, SetSpeed = 2};
         enum class pid_t : int8_t {Slow = 0, Normal = 1, Fast = 2}; 
+        enum class screen_t : int8_t {Main = 0, Settings = 1};
         struct pidCfg_t {
             float P;
             float D;
             float maxLimit;
         };
-    }
+    }   
 }
 
 namespace _Raw {
@@ -50,7 +51,7 @@ namespace _Raw {
         bool isRobot_A;
         ST::Types::mode_t mode;
         ST::Types::mode_t mode_previous;
-        uint32_t lastSoccerTime;
+        uint32_t lastActiveTime;
     };
 
     struct ST_PID {
@@ -76,13 +77,15 @@ namespace _Raw {
     };
 
     struct ST_OffMenu {
-        ST::Types::menu_t state;
-        ST::Types::menu_t cursor;
+        ST::Types::screen_t screen;
+        // ST::Types::menu_t state;
+        int8_t cursor;
     };
 
     struct ST_Controller {
         
         bool autoPlay = false;
+        bool previousAutoPlay = false;
 
     };
 
@@ -103,6 +106,7 @@ struct Soccer_MSG {
 };
 
 struct __attribute__((packed)) ControllerRx_MSG {
+    uint16_t magicHead = 0;
     
     uint8_t connected = 0;
     uint32_t seq = 0;
@@ -136,6 +140,8 @@ struct __attribute__((packed)) ControllerRx_MSG {
     int16_t lStickY = 0;
     int16_t rStickX = 0;
     int16_t rStickY = 0;
+
+    uint16_t magicTail = 0;
 };
 
 // struct __attribute__((packed)) ControllerTx_MSG {
@@ -169,6 +175,8 @@ struct _Controller_Stick {
 };
 
 struct Controller {
+
+    uint32_t lastReadTime = 0;
 
     //inputs
     uint8_t connected = 0;
@@ -241,8 +249,8 @@ struct Comms {
 
     struct LED {
         bool needsUpdate = true;
-        uint8_t brightness = 0;
-        uint32_t color = 0xFFFFFF;
+        uint8_t brightness = 255;
+        uint32_t color = CRGB::Black;
     };
     
     struct KickerDrb
@@ -252,16 +260,14 @@ struct Comms {
         bool kickF = false;
         bool kickR = false;
     };
-    
+
+
+
     struct Generic
     {
         bool bukajModuleEn = false;
-        bool btnPlusClick = false;
-        bool btnMinusClick = false;
-        bool btnPlusLongPress = false;
-        bool btnMinusLongPress = false;
-        bool btnPlusIsDown = false;
-        bool btnMinusIsDown = false;
+        HW_BTNs btnPlus;
+        HW_BTNs btnMinus;
     };
     
     struct Goal {

@@ -15,4 +15,5 @@ namespace Motion {
     void addRotation(float omega);
     void kickFront();
     void kickRear();
+    void dribbler(bool on_off);
 }

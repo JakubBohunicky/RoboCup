@@ -2,6 +2,7 @@
 #include "High/Modes/mode_soccer.h"
 #include "High/Modes/mode_off.h"
 #include "High/Modes/mode_controller.h"
+#include "High/Modes/mode_kickerTest.h"
 #include "Low/Inputs/input_gyro.h"
 #include <Arduino.h>
 
@@ -13,89 +14,62 @@ namespace Logic {
     void determineMode() {
 
         if(ST::state.mode == ST::Types::mode_t::Soccer) {
-            if(IN::generic.btnPlusIsDown || IN::generic.btnMinusIsDown) {
+            if(IN::generic.btnPlus.IsDown || IN::generic.btnMinus.IsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
-                ST::state.lastSoccerTime = ST::now_ms;
+                ST::state.lastActiveTime = ST::now_ms;
             }
         }
 
         else if(ST::state.mode == ST::Types::mode_t::Controller) {
-                if(IN::generic.btnPlusIsDown || IN::generic.btnMinusIsDown) {
+                if(IN::generic.btnPlus.IsDown || IN::generic.btnMinus.IsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
-                ST::state.lastSoccerTime = ST::now_ms;
+                ST::state.lastActiveTime = ST::now_ms;
             }
         }
 
+        else if(ST::state.mode == ST::Types::mode_t::KickerTest) {
+            if(IN::generic.btnPlus.LongPress) {
+                ST::state.mode = ST::Types::mode_t::Off;
+                ST::state.lastActiveTime = ST::now_ms;
+            }
+        }
+
+
+
+
         else if(ST::state.mode == ST::Types::mode_t::Off) {
-            if(ST::offMenu.state != ST::Types::menu_t::SetSpeed) {
+            if(ST::offMenu.screen == ST::Types::screen_t::Main) {
 
-
-
-                if(IN::generic.btnPlusClick && ST::now_ms - ST::state.lastSoccerTime >= 1000) {
-                    ST::state.mode = ST::Types::mode_t::Controller;            
+                if(IN::generic.btnPlus.Click && ST::now_ms - ST::state.lastActiveTime >= 1000){
+                    ST::state.mode = ST::Types::mode_t::Soccer;
                 }
-                if(IN::generic.btnMinusLongPress) {
-                    // input_gyro_calibrate();
-                    IN::gyro.offset = random (-180, 180);
+
+                if(IN::generic.btnMinus.Click && ST::now_ms - ST::state.lastActiveTime >= 1000){
                     ST::state.mode = ST::Types::mode_t::Controller;
                 }
-                if(IN::generic.btnMinusClick) {
-                    switch (ST::offMenu.cursor) {
-                    case ST::Types::menu_t::SetGoal: 
-                        ST::offMenu.cursor = ST::Types::menu_t::SetRole;
-                        break;
 
-                    case ST::Types::menu_t::SetRole: 
-                        ST::offMenu.cursor = ST::Types::menu_t::SetSpeed;
-                        break;
-                    
-                    case ST::Types::menu_t::SetSpeed: 
-                        ST::offMenu.cursor = ST::Types::menu_t::SetGoal;
-                        break;
-                    default:
-                        ST::offMenu.cursor = ST::Types::menu_t::SetGoal;
-                        break;
-                    }
+                if(IN::generic.btnPlus.LongPress){
+                    IN::gyro.offset = random(-180.0f, 180.0f);
                 }
 
-                if(IN::generic.btnPlusLongPress) {
-                    switch (ST::offMenu.cursor) {
-                        case ST::Types::menu_t::SetGoal:
-                            if(ST::soccer.enemyGoal == ST::Types::goal_t::Yellow) {
-                                ST::soccer.enemyGoal = ST::Types::goal_t::Blue;
-                            } else {
-                                ST::soccer.enemyGoal = ST::Types::goal_t::Yellow;
-                            } break;
-
-                        case ST::Types::menu_t::SetRole:
-                            if(ST::soccer.role == ST::Types::role_t::Attacker) {
-                                ST::soccer.role = ST::Types::role_t::Defender;
-                            } else {
-                                ST::soccer.role = ST::Types::role_t::Attacker;
-                            } break;
-
-                        case ST::Types::menu_t::SetSpeed:
-                            ST::offMenu.state = ST::Types::menu_t::SetSpeed;
-                            break;
-                        default:
-                            break;
-                    }
+                if(IN::generic.btnMinus.LongPress) {
+                    ST::offMenu.screen = ST::Types::screen_t::Settings;
                 }
             }
-
-            else { //set speed menu
-                if(IN::generic.btnPlusLongPress || IN::generic.btnMinusLongPress) ST::offMenu.state = ST::Types::menu_t::None;
-                if(IN::generic.btnPlusClick) ST::soccer.baseSpeed +=0.05f;
-                if(IN::generic.btnMinusClick) ST::soccer.baseSpeed -=0.05f;
+            
+            else if(ST::offMenu.screen == ST::Types::screen_t::Settings) {
+                if(IN::generic.btnMinus.LongPress) {
+                    ST::offMenu.screen = ST::Types::screen_t::Main;
+                }
             }
         }
     }
-
 
     void applyMode() {
         if(ST::state.mode == ST::Types::mode_t::Soccer) Mode::soccer();
         else if(ST::state.mode == ST::Types::mode_t::Off) Mode::off();
         else if(ST::state.mode == ST::Types::mode_t::Controller) Mode::controller();
+        // else if(ST::state.mode == ST::Types::mode_t::KickerTest) Mode::kickerTest();
         ST::state.mode_previous = ST::state.mode;
     }
 }

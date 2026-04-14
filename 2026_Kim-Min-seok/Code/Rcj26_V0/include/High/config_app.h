@@ -21,8 +21,8 @@ namespace ST_Default {
     inline const _Raw::ST_State state = {
         .isRobot_A = true,
         .mode = ST::Types::mode_t::Off,
-        .mode_previous = ST::Types::mode_t::Off,
-        .lastSoccerTime = 0
+        .mode_previous = ST::Types::mode_t::None,
+        .lastActiveTime = 0
     };
 
     inline const _Raw::ST_PID pid = {
@@ -55,8 +55,9 @@ namespace ST_Default {
     };
 
     inline const _Raw::ST_OffMenu offMenu = {
-        .state = ST::Types::menu_t::None,
-        .cursor = ST::Types::menu_t::SetGoal
+        .screen = ST::Types::screen_t::Main,
+        // .state = ST::Types::menu_t::None,
+        .cursor = 0
     };
 }
 

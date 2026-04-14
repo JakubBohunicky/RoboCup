@@ -23,9 +23,9 @@ static constexpr int dir_Eeast = 3;
 static int8_t line_X_EncounterDir = dir_None;
 static uint8_t line_angle_O_Active = 0;
 
-static constexpr uint8_t CH_A = 0;
-static constexpr uint8_t CH_B = 1;
-static constexpr uint8_t CH_X = 2;
+static constexpr uint8_t CH_A = 3;
+static constexpr uint8_t CH_B = 4;
+static constexpr uint8_t CH_X = 5;
 
 
 static void _input_setMuxAddr(uint8_t a) {
@@ -47,26 +47,46 @@ static void _input_scanMux() {
         // (void)analogReadFast(CH_B);
         // (void)analogReadFast(CH_X);
 
+
+        // delayMicroseconds(3);
+
+        // (void)analogReadFast(CH_A);
+        // (void)analogReadFast(CH_B);
+        // (void)analogReadFast(CH_X);
+
         line_ADC_ring[addr] = analogReadFast(CH_A);
         line_ADC_ring[addr+16] = analogReadFast(CH_B);
         line_ADC_depth[addr] = analogReadFast(CH_X);
 
+        // line_ADC_ring[addr] = analogRead(HW::LineCfg::Line_A_Read_Pin);
+        // line_ADC_ring[addr+16] = analogRead(HW::LineCfg::Line_B_Read_Pin);
+        // line_ADC_depth[addr]= analogRead(HW::LineCfg::Line_X_Read_Pin);
 
-        #ifdef DEBUG_LINE_RAW
-            Serial.println("Ring: ");
-            for(int i = 0; i<32; i++) {
-                Serial.print(i + ": ");
-                Serial.print(line_ADC_ring[i]);
-            }
-
-            Serial.println("Depth: ");
-            for(int i = 0; i<16; i++) {
-                Serial.print(i + ": ");
-                Serial.print(line_ADC_ring[i]);
-            }
-        #endif
 
     }
+
+        #if DEBUG_LINE_RAW_RING
+
+        Serial.print("Ring: ");
+        for(int i = 0; i<32; i++) {
+            Serial.print("|");
+            Serial.print(i);
+            Serial.print(": ");
+            Serial.print(line_ADC_ring[i]);
+        }
+        Serial.println("");
+        #endif
+
+        #if DEBUG_LINE_RAW_DEPTH
+        Serial.print("Depth: ");
+        for(int i = 0; i<16; i++) {
+            Serial.print("|");
+            Serial.print(i);
+            Serial.print(": ");
+            Serial.print(line_ADC_depth[i]);
+        }
+        Serial.println("");
+        #endif
 }
 
 
@@ -138,14 +158,28 @@ void input_line_init_() {
     gpio_set_direction(HW::LineCfg::LineSet2_Pin, GPIO_MODE_OUTPUT);
     gpio_set_direction(HW::LineCfg::LineSet3_Pin, GPIO_MODE_OUTPUT);
 
+
+    //   analogReadResolution(12);
+
+    // analogSetPinAttenuation(HW::LineCfg::Line_A_Read_Pin, ADC_11db);
+    // analogSetPinAttenuation(HW::LineCfg::Line_B_Read_Pin, ADC_11db);
+    // analogSetPinAttenuation(HW::LineCfg::Line_X_Read_Pin, ADC_11db);
+
+
+    // pinMode(HW::LineCfg::Line_A_Read_Pin, INPUT);
+    // pinMode(HW::LineCfg::Line_B_Read_Pin, INPUT);
+    // pinMode(HW::LineCfg::Line_X_Read_Pin, INPUT);
     //fastADC init is in own cpp file
-    //fadcInit(3, HW::LineCfg::Line_A_Read_Pin, HW::LineCfg::Line_B_Read_Pin, HW::LineCfg::Line_X_Read_Pin);
+    fadcInit(3, HW::LineCfg::Line_A_Read_Pin, HW::LineCfg::Line_B_Read_Pin, HW::LineCfg::Line_X_Read_Pin);
 }
 
 
-
 void input_line_update() {
+
+    // uint32_t t0 = micros();
     _input_scanMux();
+    // uint32_t dt = micros() - t0;
+    // Serial.printf("scan time = %lu us\n", dt);
     _input_calculate_Angle();
     _input_calculate_Depth();
     IN::line.angle = line_Angle;
@@ -153,7 +187,7 @@ void input_line_update() {
     IN::line.angle_ToNField = input_wrap180(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
 
-    #ifdef DEBUG_LINE_ANG
+    #if DEBUG_LINE_ANG
         Serial.print("Ang: " +  IN::line.angle);
         Serial.printf(" || Depth: &0.2f", IN::line.depth);
     #endif

@@ -4,6 +4,7 @@
 #include "High/Services/logic.h"
 #include "Low/outputs.h"
 #include "Low/config_hw.h"
+#include "FastLED.h"
 
 void setup()
 {
@@ -12,6 +13,7 @@ void setup()
     ST::resetToDefaults();
     Pheripherials::inputs_init_();
     Pheripherials::outputs_init_();
+
 }
 
 void loop()
@@ -21,7 +23,17 @@ void loop()
     Logic::determineMode();
     Logic::applyMode();
 
+    // OUT::led_Debug.color =  CRGB::Beige;
+    // OUT::led_Debug.needsUpdate = true;
 
-    
+    // OUT::led_O.color =  CRGB::Beige;
+    // OUT::led_O.needsUpdate = true;
+
+    // OUT::led_X.color =  CRGB::Beige;
+    // OUT::led_X.needsUpdate = true;
+
+    // OUT::motorAcc.motEn = true;
+    // OUT::kicker_Drb.drbEn = true;
+
     Pheripherials::outputs_update();
 }

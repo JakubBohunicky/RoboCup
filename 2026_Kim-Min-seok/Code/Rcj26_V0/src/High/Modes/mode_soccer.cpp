@@ -7,19 +7,28 @@ static constexpr unsigned char PROGMEM image_EviSmile1_bits[] = {0x0f,0x00,0x00,
 static void _drawScreen_SOCCER() {
     OUT::display.needsUpdate = true;
     
-    Serial.println("Controller Mode");
+    Serial.println("Soccer Mode");
 
     // display.setTextColor(SSD1306_WHITE);
     // display.setTextWrap(false);
     // display.setTextSize(1);
     display.drawBitmap(50, 11, image_EviSmile1_bits, 36, 42, 1);
+
+
+    OUT::led_Debug.color = CRGB::Black;
+    OUT::led_Debug.needsUpdate = true;
+    OUT::led_O.color = CRGB::DarkOrange;
+    OUT::led_O.needsUpdate = true;
+    OUT::led_X.color = CRGB:: DarkMagenta;
+    OUT::led_X.needsUpdate = true;
+    OUT::display.needsUpdate = true;
 }
 
 
 namespace Mode {
         void soccer() {
-            if(ST::state.mode_previous != ST::Types::mode_t::Soccer) { _drawScreen_SOCCER(); OUT::motorAcc.motEn = true;}
-            
+            if(ST::state.mode_previous != ST::Types::mode_t::Soccer) { _drawScreen_SOCCER();}
+            OUT::motorAcc.motEn = true;
             Role::attacker();
     
         } 

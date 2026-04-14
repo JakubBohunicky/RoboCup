@@ -55,11 +55,11 @@ void input_motionSense_update() {
         (float)speeds_ADC[motion_motRL] * motion_ADC_Const +
         (float)speeds_ADC[motion_motRR] * motion_ADC_Const );
 
-    if(ST::state.isRobot_A == true) { //ROBOT_A
-        IN::motionSens.drbSpeed = speeds_ADC[motion_motDRBRF] * motion_ADC_Const;
-    } else { //ROBOT_B
-        IN::motionSens.drbSpeed = 1.0f - (speeds_ADC[motion_motDRBRF] * motion_ADC_Const);
-    }
+    // if(ST::state.isRobot_A == true) { //ROBOT_A
+    //     IN::motionSens.drbSpeed = speeds_ADC[motion_motDRBRF] * motion_ADC_Const;
+    // } else { //ROBOT_B
+    //     IN::motionSens.drbSpeed = 1.0f - (speeds_ADC[motion_motDRBRF] * motion_ADC_Const);
+    // }
     IN::motionSens.drbF = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_F_Pin);
     IN::motionSens.drbR = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_R_Pin);
 }

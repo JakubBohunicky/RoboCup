@@ -81,4 +81,8 @@ namespace Motion {
     void kickRear() {
         OUT::kicker_Drb.kickR = true;
     }
+
+    void dribler(bool on_off){
+        OUT::kicker_Drb.drbEn = on_off;
+    }
 }
