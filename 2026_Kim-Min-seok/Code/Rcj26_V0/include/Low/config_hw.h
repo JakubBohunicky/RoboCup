@@ -58,12 +58,14 @@ namespace HW {
 
     namespace MotionSenseCfg{
         //MOTORS SENSE
-        constexpr gpio_num_t DRBFR_Spd_Pin = GPIO_NUM_1;
+        
+        // constexpr gpio_num_t DRBFR_Spd_Pin = GPIO_NUM_1;
         constexpr gpio_num_t A_Spd_Pin = GPIO_NUM_15;
         constexpr gpio_num_t B_Spd_Pin = GPIO_NUM_16;
         constexpr gpio_num_t C_Spd_Pin = GPIO_NUM_17;
         constexpr gpio_num_t D_Spd_Pin = GPIO_NUM_18;
-
+        
+        
         constexpr uint16_t ADC_maxVal = 4095;
 
         //SWITCHES
@@ -102,6 +104,9 @@ namespace HW {
         constexpr int Line_A_Read_Pin = 4;
         constexpr int Line_B_Read_Pin = 5;
         constexpr int Line_X_Read_Pin = 6;
+        constexpr int Line_A_Read_ADC_CH = 3;
+        constexpr int Line_B_Read_ADC_CH = 4;
+        constexpr int Line_X_Read_ADC_CH = 5;
         constexpr gpio_num_t LineSet0_Pin = GPIO_NUM_0;
         constexpr gpio_num_t LineSet1_Pin = GPIO_NUM_45;
         constexpr gpio_num_t LineSet2_Pin = GPIO_NUM_46;

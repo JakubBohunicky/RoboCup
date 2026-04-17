@@ -4,17 +4,14 @@
 #include "Low/config_hw.h"
 #include "driver/gpio.h"
 
-// static _Raw::HW_BTNs btnSPlus;
-// static _Raw::HW_BTNs btnSMinus;
 
-void I2C_FastADC_init_() {
+void I2C_init_() {
 
     Wire.setBufferSize(128);
     Wire.begin(HW::GenericCfg::I2C_SDA_Pin, HW::GenericCfg::I2C_SCL_Pin);
     Wire.setClock(HW::GenericCfg::I2C_SPEED);
 
-    // fadcInit(8, HW::LineCfg::Line_A_Read_Pin, HW::LineCfg::Line_B_Read_Pin, HW::LineCfg::Line_X_Read_Pin, HW::MotionSenseCfg::A_Spd_Pin, HW::MotionSenseCfg::B_Spd_Pin, HW::MotionSenseCfg::C_Spd_Pin, HW::MotionSenseCfg::D_Spd_Pin, HW::MotionSenseCfg::DRBFR_Spd_Pin);
-    // fadcInit(1, HW::LineCfg::Line_B_Read_Pin);
+    // fadcInit(7, HW::LineCfg::Line_A_Read_Pin, HW::LineCfg::Line_B_Read_Pin, HW::LineCfg::Line_X_Read_Pin, HW::MotionSenseCfg::A_Spd_Pin, HW::MotionSenseCfg::B_Spd_Pin, HW::MotionSenseCfg::C_Spd_Pin, HW::MotionSenseCfg::D_Spd_Pin);
 
 }
 
@@ -69,13 +66,4 @@ void input_generic_update() {
 
     _input_generic_hw_btn_update(IN::generic.btnPlus);
     _input_generic_hw_btn_update(IN::generic.btnMinus);
-
-    // IN::generic.btnPlusClick = btnSPlus.Click;
-    // IN::generic.btnMinusClick = btnSMinus.Click;
-
-    // IN::generic.btnPlusLongPress = btnSPlus.LongPress;
-    // IN::generic.btnMinusLongPress = btnSMinus.LongPress;
-
-    // IN::generic.btnPlusIsDown = btnSPlus.IsDown;
-    // IN::generic.btnMinusIsDown = btnSMinus.IsDown;
 }

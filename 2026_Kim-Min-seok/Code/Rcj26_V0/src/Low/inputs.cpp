@@ -36,13 +36,13 @@ float rad2deg(float r) {
 namespace Pheripherials {
 
     void inputs_init_() {
-        I2C_FastADC_init_();
-    //     input_motionSense_init_();
+        I2C_init_();
+        input_motionSense_init_();
         input_generic_init_();
         // input_gyro_init_();
         input_line_init_();
     //     input_pixy_init_();
-    //     input_comm_init_();
+        input_comm_init_();
     }
 
     void inputs_update() {
@@ -53,7 +53,7 @@ namespace Pheripherials {
         }
         if(ST::now_ms - times[1] >= 3) { //333Hz
             input_line_update();
-            // input_motionSense_update();
+            input_motionSense_update();
             times[1] = ST::now_ms;
         }
         if(ST::now_ms - times[2] >= 5) { //200Hz
@@ -72,13 +72,13 @@ namespace Pheripherials {
         }
 
         if(ST::now_ms - times[5] >= 200 || ST::state.mode == ST::Types::mode_t::Controller) { //5Hz
-            // input_comm_update();
+            input_comm_update();
             times[5] = ST::now_ms;
         }
 
         if(ST::state.mode == ST::Types::mode_t::Off) {
             if(IN::comms.initialized == false && ST::now_ms - times[6] >= 1000) { //esp now
-                // input_comm_init_();
+                input_comm_init_();
                 times[6] = ST::now_ms;
             }
             

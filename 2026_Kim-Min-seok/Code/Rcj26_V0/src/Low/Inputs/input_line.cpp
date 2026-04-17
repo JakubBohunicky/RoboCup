@@ -23,10 +23,6 @@ static constexpr int dir_Eeast = 3;
 static int8_t line_X_EncounterDir = dir_None;
 static uint8_t line_angle_O_Active = 0;
 
-static constexpr uint8_t CH_A = 3;
-static constexpr uint8_t CH_B = 4;
-static constexpr uint8_t CH_X = 5;
-
 
 static void _input_setMuxAddr(uint8_t a) {
     gpio_set_level(HW::LineCfg::LineSet0_Pin, a & 1);
@@ -42,26 +38,9 @@ static void _input_scanMux() {
 
         _input_setMuxAddr(addr);
 
-        //dummy read aby sa usabilizoval MUX pozriet ci je to treba asi ne
-        // (void)analogReadFast(CH_A); 
-        // (void)analogReadFast(CH_B);
-        // (void)analogReadFast(CH_X);
-
-
-        // delayMicroseconds(3);
-
-        // (void)analogReadFast(CH_A);
-        // (void)analogReadFast(CH_B);
-        // (void)analogReadFast(CH_X);
-
-        line_ADC_ring[addr] = analogReadFast(CH_A);
-        line_ADC_ring[addr+16] = analogReadFast(CH_B);
-        line_ADC_depth[addr] = analogReadFast(CH_X);
-
-        // line_ADC_ring[addr] = analogRead(HW::LineCfg::Line_A_Read_Pin);
-        // line_ADC_ring[addr+16] = analogRead(HW::LineCfg::Line_B_Read_Pin);
-        // line_ADC_depth[addr]= analogRead(HW::LineCfg::Line_X_Read_Pin);
-
+        line_ADC_ring[addr] = analogReadFast(HW::LineCfg::Line_A_Read_ADC_CH);
+        line_ADC_ring[addr+16] = analogReadFast(HW::LineCfg::Line_B_Read_ADC_CH);
+        line_ADC_depth[addr] = analogReadFast(HW::LineCfg::Line_X_Read_ADC_CH);
 
     }
 
@@ -117,7 +96,7 @@ static void _input_calculate_Depth() {
     float depth_currentMaxVal = 0.0f;
     int8_t line_X_CurrentDir = dir_None;
 
-    for(uint8_t i = 0; i < 16; i++) { //arraay iteration
+    for(uint8_t i = 0; i < 16; i++) { 
         if(line_ADC_depth[i] <= HW::LineCfg::line_analog_treshold) { //sensor see line 
             float depth_pom_val = HW::LineCfg::line_depth_XArr[i%4];
             if(depth_pom_val > depth_currentMaxVal) { //bigger val caounts
@@ -158,28 +137,14 @@ void input_line_init_() {
     gpio_set_direction(HW::LineCfg::LineSet2_Pin, GPIO_MODE_OUTPUT);
     gpio_set_direction(HW::LineCfg::LineSet3_Pin, GPIO_MODE_OUTPUT);
 
-
-    //   analogReadResolution(12);
-
-    // analogSetPinAttenuation(HW::LineCfg::Line_A_Read_Pin, ADC_11db);
-    // analogSetPinAttenuation(HW::LineCfg::Line_B_Read_Pin, ADC_11db);
-    // analogSetPinAttenuation(HW::LineCfg::Line_X_Read_Pin, ADC_11db);
-
-
-    // pinMode(HW::LineCfg::Line_A_Read_Pin, INPUT);
-    // pinMode(HW::LineCfg::Line_B_Read_Pin, INPUT);
-    // pinMode(HW::LineCfg::Line_X_Read_Pin, INPUT);
-    //fastADC init is in own cpp file
     fadcInit(3, HW::LineCfg::Line_A_Read_Pin, HW::LineCfg::Line_B_Read_Pin, HW::LineCfg::Line_X_Read_Pin);
 }
 
 
 void input_line_update() {
 
-    // uint32_t t0 = micros();
     _input_scanMux();
-    // uint32_t dt = micros() - t0;
-    // Serial.printf("scan time = %lu us\n", dt);
+
     _input_calculate_Angle();
     _input_calculate_Depth();
     IN::line.angle = line_Angle;

@@ -1,5 +1,8 @@
 #pragma once
 
+#define ENABLE_CONTROLLER 1
+#define ENABLE_MOTION 1
+
 #define DEBUG_LINE_RAW_RING 0
 #define DEBUG_LINE_RAW_DEPTH 0
 #define DEBUG_LINE_ANG 0

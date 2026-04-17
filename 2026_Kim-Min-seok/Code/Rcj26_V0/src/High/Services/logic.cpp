@@ -69,7 +69,7 @@ namespace Logic {
         if(ST::state.mode == ST::Types::mode_t::Soccer) Mode::soccer();
         else if(ST::state.mode == ST::Types::mode_t::Off) Mode::off();
         else if(ST::state.mode == ST::Types::mode_t::Controller) Mode::controller();
-        // else if(ST::state.mode == ST::Types::mode_t::KickerTest) Mode::kickerTest();
+        else if(ST::state.mode == ST::Types::mode_t::KickerTest) Mode::kickerTest();
         ST::state.mode_previous = ST::state.mode;
     }
 }

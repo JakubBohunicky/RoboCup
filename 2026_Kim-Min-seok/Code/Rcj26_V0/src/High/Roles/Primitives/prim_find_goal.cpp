@@ -12,7 +12,7 @@ namespace Prim {
                     ST::attacker.lineBounceFeature = true;
                     ST::attacker.lineBounceFeatureTime = ST::now_ms;
                 }
-                Motion::addMotion(IN::line.angle + 180, Motion::weight_Normal - (IN::motionSens.motSpeed * Const::Attacker::ballDecelerationConst));
+                Motion::addMotion(IN::line.angle + 180, Motion::weight_Soft);
             }
 
             if(IN::goalEnemy.seen) {

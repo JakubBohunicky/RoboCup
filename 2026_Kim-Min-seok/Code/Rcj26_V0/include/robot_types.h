@@ -302,8 +302,9 @@ struct Comms {
     };
 
     struct MotionSense {
-        float motSpeed = 0.0f;
-        float drbSpeed = 0.0f;
+        // float motSpeed = 0.0f;
+        // float drbSpeed = 0.0f;
+        bool fastSpeed = false;
         bool drbR = false;
         bool drbF = false;
     };
