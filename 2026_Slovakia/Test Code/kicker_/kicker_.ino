@@ -20,7 +20,7 @@ void loop() {
 
     
     digitalWrite(4,HIGH);
-    delay(100);
+    delay(200);
     digitalWrite(4,LOW);
     //analogWrite(10, 255);
     delay(2000);

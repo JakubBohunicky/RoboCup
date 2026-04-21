@@ -5,7 +5,7 @@
 #if Ferrari
 int speed = 300;  //300 //350  //400
 #else             //cladic
-int speed = 400;  //400;
+int speed = 300;  //400;
 #endif
 
 
@@ -493,25 +493,6 @@ const int outputArray[16][4] = {
   { 1, 1, 1, 1 }
 };
 
-// const int outputArray2[16][4] = {
-//   { 0, 0, 0, 0 },
-//   { 0, 0, 0, 1 },
-//   { 1, 1, 0, 0 },
-//   { 0, 0, 1, 0 },
-//   { 1, 1, 0, 1 },
-//   { 0, 0, 1, 1 },
-//   { 1, 1, 1, 0 },
-//   { 0, 1, 0, 0 },
-//   { 1, 1, 1, 1 },
-//   { 0, 1, 0, 1 },
-//   { 0, 1, 1, 0 },
-//   { 0, 1, 1, 1 },
-//   { 1, 0, 0, 0 },
-//   { 1, 0, 0, 1 },
-//   { 1, 0, 1, 0 },
-//   { 1, 0, 1, 1 }
-
-// };
 
 const float sensorAngles[16] = { 90, 60, 45, 30, 15, 360, 345, 330, 315, 300, 270, 240, 210, 180, 150, 120 };
 const float lightSensorAngles[32] = { 343.125, 354.375, 5.625, 16.875, 28.125, 39.375, 50.625, 61.875, 106.875, 95.625, 84.375, 73.125, 118.125, 129.375, 140.625, 151.875, 163.125, 174.375, 185.625, 196.875, 208.125, 219.375, 230.625, 241.875, 253.125, 264.375, 275.625, 286.875, 298.125, 309.375, 320.625 };
@@ -653,46 +634,6 @@ float errorCalculation() {
   return outPid;
 }
 
-// void getBallAngle() {
-// #pragma region didka
-
-// int16_t ballAngleRaw;
-// #define outputMin 1.0
-// #define outputMax 1.5
-//   Wire.beginTransmission(IR_I2C_ADDRESS);
-//   Wire.write((uint8_t)IR_REGISTER_ANGLE_AND_DISTANCE);
-//   Wire.endTransmission();
-
-//   Wire.requestFrom((int)IR_I2C_ADDRESS, 4);
-//   ballAngleRaw = Wire.read() << 8;
-//   ballAngleRaw |= Wire.read();
-//   ballRawDistance = Wire.read() << 8;
-//   ballRawDistance |= Wire.read();
-
-//   ballAngleRaw = 180 - ballAngleRaw;
-//   if (ballAngleRaw < 0) {
-//     ballAngleRaw += 360;
-//   }
-
-//   if(ballAngleRaw != 0) {
-//     ballAngle = ballAngleRaw;
-//   } else if(ballRawDistance >= 1800) {
-//     ballAngle = ballAngleRaw;
-//   }
-
-//   if (ballRawDistance < 1800) {
-//     ballDistanceFinalAngleOffset = 1;
-//   } else {
-//     ballDistanceFinalAngleOffset = outputMin + ((float)(ballRawDistance - ballEffectiveInputFurthes) / (ballEffectiveInputClosest - ballEffectiveInputFurthes)) * (outputMax - outputMin);
-//   }
-
-//   if (ballDistanceFinalAngleOffset > outputMax) ballDistanceFinalAngleOffset = outputMax;
-//   if (ballDistanceFinalAngleOffset < outputMin) ballDistanceFinalAngleOffset = outputMin;
-//     // Serial.println("Distance: " + (String)ballDistance + ", angle: " + (String)ballAngle + "°" + ", angleOffset: " + (String)ballDistanceFinalAngleOffset);
-
-// #pragma endregion didka
-
-// }
 
 
 #define IR_I2C_ADDRESS 0x10
@@ -1026,12 +967,12 @@ getLineAngle() {
       //Serial.println(lighNumber);
     }
     if (analogRead(multiplexerIn2) < 100) {
-      if (lighNumber != 12) {
+      // if (lighNumber != 12) {
         itCheck++;
         xCor += sin(radians(lightSensorAngles[lighNumber + 16]));
         yCor += cos(radians(lightSensorAngles[lighNumber + 16]));
         //Serial.println(lighNumber + 16);
-      }
+      // }
     }
   }
 
