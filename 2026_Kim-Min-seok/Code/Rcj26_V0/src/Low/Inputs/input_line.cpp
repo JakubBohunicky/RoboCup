@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include <FastADC_Mux.h>
 #include "High/Services/debug.h"
+#include "Low/Outputs/output_display.h"
 
 
 static uint16_t line_ADC_ring[32];
@@ -22,6 +23,11 @@ static constexpr int dir_Eeast = 3;
 
 static int8_t line_X_EncounterDir = dir_None;
 static uint8_t line_angle_O_Active = 0;
+
+#if DEBUG_LED_LINE
+    bool debug_line_LED_enabled = false; 
+    uint32_t debug_line_last_display_time = 0;
+#endif
 
 
 static void _input_setMuxAddr(uint8_t a) {
@@ -81,7 +87,7 @@ static void _input_calculate_Angle() {
     }
     if(line_angle_O_Active != 0) { 
         line_Depth = HW::LineCfg::line_depth_O_Val; 
-        line_Angle = (int16_t)round((atan2(angle_yCor, angle_xCor) * (180.0f / M_PI)) + 90.0f);
+        line_Angle = (int16_t)round((atan2(angle_yCor, angle_xCor) * (180.0f / M_PI)) + 292.5f);
         line_Angle = input_wrap180(line_Angle);
     }
 
@@ -151,6 +157,58 @@ void input_line_update() {
     IN::line.depth = line_Depth;
     IN::line.angle_ToNField = input_wrap180(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
+
+    #if DEBUG_LED_LINE
+        if(debug_line_LED_enabled != IN::line.seen) {
+            debug_line_LED_enabled = IN::line.seen;
+            OUT::led_Debug.needsUpdate = true;
+            if(IN::line.seen == true) {
+                OUT::led_Debug.color = CRGB::DarkRed;
+            } else {
+                OUT::led_Debug.color = CRGB::DarkGreen;
+            }
+        }
+    #endif
+
+    #if DEBUG_DISPLAY_LINE
+        if(ST::now_ms - debug_line_last_display_time >= 100) {
+            if(ST::state.mode != ST::Types::mode_t::Off && ST::state.mode == ST::state.mode_previous){
+                debug_line_last_display_time = ST::now_ms;
+                OUT::display.needsUpdate = true;
+                display.setTextColor(1);
+                display.setTextWrap(false);
+                display.setCursor(2, 21);
+                display.print("Angle:");
+
+                display.setCursor(3, 53);
+                display.print("Depth:");
+
+                display.setCursor(3, 37);
+                display.print("Num(O):");
+
+                display.setCursor(37, 21);
+                if(IN::line.seen) {
+                display.print(line_Angle);
+                } else {
+                    display.print("-");
+                }
+
+                display.setCursor(41, 53);
+                if(IN::line.seen) {
+                    display.print(line_Depth);
+                } else {
+                    display.print("-");
+                }
+
+                display.setCursor(46, 37);
+                display.print(line_angle_O_Active);
+
+                display.setCursor(2, 5);
+                display.print(">Line<");
+            }
+        }
+
+    #endif
 
     #if DEBUG_LINE_ANG
         Serial.print("Ang: " +  IN::line.angle);

@@ -41,7 +41,7 @@ static void _output_LED_set_O() {
 
 
 static void _output_LED_set_X() {
-    for (uint8_t i = HW::LEDsCfg::LED_DEBUG_num; i < HW::LEDsCfg::LED_X_num; ++i) { //zapis do vsetkych X
+    for (uint8_t i = HW::LEDsCfg::LED_DEBUG_num; i < HW::LEDsCfg::LED_X_num - 1; ++i) { //zapis do vsetkych X
         LEDs_X[i] = OUT::led_X.color;
     }
 }

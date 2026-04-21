@@ -169,7 +169,7 @@ void input_comm_update() {
         // Serial.println("offline");
     }
 
-    #ifdef DEBUG_COMMs
+    #if DEBUG_COMMs
         _debug_print_comm_rx(IN::comms.rx_soccer_msg);
     #endif
 }

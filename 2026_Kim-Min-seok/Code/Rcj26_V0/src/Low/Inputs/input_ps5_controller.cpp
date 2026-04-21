@@ -80,7 +80,7 @@ void input_controller_init_() {
 
 void input_controller_update() {
 
-        IN::controller.right.Click    = false;  IN::controller.right.LongPress    = false;
+    IN::controller.right.Click    = false;  IN::controller.right.LongPress    = false;
     IN::controller.down.Click     = false;  IN::controller.down.LongPress     = false;
     IN::controller.up.Click       = false;  IN::controller.up.LongPress       = false;
     IN::controller.left.Click     = false;  IN::controller.left.LongPress     = false;
