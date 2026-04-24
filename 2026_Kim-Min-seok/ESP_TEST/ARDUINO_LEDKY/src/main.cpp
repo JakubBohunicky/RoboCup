@@ -9,7 +9,7 @@
 #define NUM_LEDS    52
 #define BRIGHTNESS  255
 
-int16_t state = 0;
+int16_t state = 4;
 
 CRGB leds[NUM_LEDS];
 
