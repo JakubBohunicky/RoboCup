@@ -48,7 +48,7 @@ static void fill_msg(ControllerTx_MSG& m) {
     m.lStickX    = ps5.LStickX();
     m.lStickY    = ps5.LStickY();
     m.rStickX    = ps5.RStickX();
-    m.rStickY    = ps5.RStickY();
+    m.rStickY    = ps5.RStickY();   
     m.magicTail  = 0x55AA;
 }
 
@@ -56,7 +56,8 @@ void setup() {
     Serial.begin(921600);
     // TX=17, RX=-1 (nepotrebujeme)
     Serial2.begin(UART_BAUD, SERIAL_8N1, -1, UART_TX_PIN);
-    ps5.begin("58:10:31:2f:f7:f0");
+    //ps5.begin("58:10:31:2f:f7:f0");
+    ps5.begin("D3:7F:D4:05:06:07");
     Serial.println("UART sender ready");
 }
 

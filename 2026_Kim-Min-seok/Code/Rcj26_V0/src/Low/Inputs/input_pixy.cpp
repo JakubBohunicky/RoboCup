@@ -44,5 +44,3 @@ void input_pixy_update() { //Angle from -180 to 180
         }
     }
 }
-
-

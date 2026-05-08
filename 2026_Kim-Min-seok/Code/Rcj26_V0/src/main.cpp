@@ -12,7 +12,6 @@ void setup()
     ST::resetToDefaults();
     Pheripherials::inputs_init_();
     Pheripherials::outputs_init_();
-    
 
 }
 
@@ -22,6 +21,9 @@ void loop()
     Pheripherials::inputs_update();
     Logic::determineMode();
     Logic::applyMode();
+
+    // OUT::kicker_Drb.drbEn = true;
+    // OUT::motorAcc.motEn = true;
 
     Pheripherials::outputs_update();
 }

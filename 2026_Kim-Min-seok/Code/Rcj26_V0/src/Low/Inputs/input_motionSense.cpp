@@ -36,9 +36,9 @@ void input_motionSense_init_() {
 
     // speeds_ADC[motion_motDRBRF] = analogReadFast(motion_CH_DRBFR);
 
-    // if(speeds_ADC[motion_motDRBRF] > (HW::MotionSenseCfg::ADC_maxVal/2)) {
-        // ST::state.isRobot_A = false;
-    // }
+    if(speeds[0] == 1) {
+        ST::state.isRobot_A = false;
+    }
 
     //fastADC init is in own cpp file
 }
@@ -53,10 +53,18 @@ void input_motionSense_update() {
     //     (float)speeds_ADC[2] * motion_ADC_Const +
     //     (float)speeds_ADC[3] * motion_ADC_Const );
 
-    speeds[0] = gpio_get_level(HW::MotionSenseCfg::A_Spd_Pin);
-    speeds[1] = gpio_get_level(HW::MotionSenseCfg::B_Spd_Pin);
-    speeds[2] = gpio_get_level(HW::MotionSenseCfg::C_Spd_Pin);
-    speeds[3] = gpio_get_level(HW::MotionSenseCfg::D_Spd_Pin);
+
+    if(ST::state.isRobot_A) {
+        speeds[0] = gpio_get_level(HW::MotionSenseCfg::A_Spd_Pin);
+        speeds[1] = gpio_get_level(HW::MotionSenseCfg::B_Spd_Pin);
+        speeds[2] = gpio_get_level(HW::MotionSenseCfg::C_Spd_Pin);
+        speeds[3] = gpio_get_level(HW::MotionSenseCfg::D_Spd_Pin);
+    } else {
+        speeds[0] = !gpio_get_level(HW::MotionSenseCfg::A_Spd_Pin);
+        speeds[1] = !gpio_get_level(HW::MotionSenseCfg::B_Spd_Pin);
+        speeds[2] = !gpio_get_level(HW::MotionSenseCfg::C_Spd_Pin);
+        speeds[3] = !gpio_get_level(HW::MotionSenseCfg::D_Spd_Pin);
+    }
     
     uint8_t motFastCount = 0;
 
