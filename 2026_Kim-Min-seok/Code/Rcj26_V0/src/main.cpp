@@ -22,8 +22,7 @@ void loop()
     Logic::determineMode();
     Logic::applyMode();
 
-    // OUT::kicker_Drb.drbEn = true;
-    // OUT::motorAcc.motEn = true;
 
+    
     Pheripherials::outputs_update();
 }
