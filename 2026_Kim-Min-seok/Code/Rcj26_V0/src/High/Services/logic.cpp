@@ -49,7 +49,8 @@ namespace Logic {
                 }
 
                 if(IN::generic.btnPlus.LongPress){
-                    IN::gyro.offset = random(-180.0f, 180.0f);
+                    // IN::gyro.offset = random(-180.0f, 180.0f); 
+                    input_gyro_calibrate();
                 }
 
                 if(IN::generic.btnMinus.LongPress) {

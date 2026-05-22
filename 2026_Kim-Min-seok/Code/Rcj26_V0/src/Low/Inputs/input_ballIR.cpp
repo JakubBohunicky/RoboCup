@@ -77,6 +77,9 @@ bool readBallRaw(uint8_t raw[12], bool &nearMode, int16_t &ballAngleRaw, uint16_
     ballAngleRaw = (int16_t)((Wire.read() << 8) | Wire.read());
     ballRawDistance = (uint16_t)((Wire.read() << 8) | Wire.read());
 
+
+    //traba zjednotit ball proximity medzi 0 - 1
+
     return true;
 }
 

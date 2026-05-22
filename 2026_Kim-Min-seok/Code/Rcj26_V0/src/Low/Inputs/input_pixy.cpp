@@ -30,6 +30,8 @@ void input_pixy_update() { //Angle from -180 to 180
     for(int i = 0; i < n; i++) {
         auto &b = pixy.ccc.blocks[i];
 
+        //!!!! pixyyy - spravit to tak ze prva polovica blokov bude zlta branka a druha polovica modra branka a nech si vyberie ze kde streli ale primarne cela branka cize asi prva nech tym preloopuje
+
         if(b.m_y >= HW::PixyCfg::c_pixy_objMinHeight) {
             if(b.m_signature == (uint16_t)ST::soccer.enemyGoal) { //if blue SIG == 1
                 IN::goalEnemy.seen = true;
