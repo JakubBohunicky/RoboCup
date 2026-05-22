@@ -18,9 +18,13 @@ namespace Role {
         }
         
         if(test_fw) {
-                Motion::addMotion(0.0f , 1.0f);
+            OUT::kicker_Drb.drbReverseDir = 0;
+                Motion::dribler(1);
+                Motion::addMotion(45.0f , 1.0f);
             } else {
-                Motion::addMotion(180.0f , 1.0f);
+                OUT::kicker_Drb.drbReverseDir = 1;
+                Motion::dribler(1);
+                Motion::addMotion(135.0f , 1.0f);
         }
 
         // if(IN::motionSens.drbF || IN::motionSens.drbR) {

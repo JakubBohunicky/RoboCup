@@ -14,9 +14,10 @@ static bool _motEn_lastState = !OUT::motorAcc.motEn;
 
 
 static uint32_t _output_motor_normDutyCycle(float duty) {
+    if(duty < 0.0f) {duty = -duty;}
     duty = duty * ST::soccer.baseSpeed;
     duty = constrain(duty, 0.0f, 1.0f); //normalize from 0.0f to 1.0f
-    duty = 0.10f + 0.80f * duty; //transforms from 0.1f to 0.9f  for maxon driver PWM range
+    duty = 0.09f + 0.8f * duty; //transforms from 0.1f to 0.9f  for maxon driver PWM range
     return (uint32_t)lround(duty * (float)PWM_MAX_VAL);
 }
 
