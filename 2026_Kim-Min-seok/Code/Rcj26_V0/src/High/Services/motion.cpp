@@ -17,7 +17,7 @@ static int16_t _motion_wrap180(int16_t a) { //normalize from -180 to 180
 
 namespace Motion {
 
-    void addMotion(float angle, float weight) {
+    void addMotion(float angle, float weight) { //weight - pri 1.0f je pow 50%
         int16_t a = _motion_wrap360((int16_t)lround(angle));
 
         OUT::motorAcc.mainOut[0] += motionAngles[a][0] * weight * ST::soccer.baseSpeed;
