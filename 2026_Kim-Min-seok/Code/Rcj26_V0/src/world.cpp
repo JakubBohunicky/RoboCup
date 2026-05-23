@@ -1,5 +1,6 @@
 #include "world.h"
 #include "High/config_app.h"
+#include <Preferences.h>
 
 namespace IN {
     _Raw::Comms comms;
@@ -30,11 +31,32 @@ namespace ST {
     _Raw::ST_Soccer soccer;
     _Raw::ST_OffMenu offMenu;
     _Raw::ST_Controller controller;
+
+}
+
+namespace ST_CFG {
+    void saveToMem_SoccerState() {
+        Preferences prefs;
+        prefs.begin("soccer", false);
+        prefs.putUChar("defaulRole", (uint8_t)ST::soccer.defaultRole);
+        prefs.putUChar("enemyGoal", (uint8_t)ST::soccer.enemyGoal);
+        prefs.putFloat("baseSpeed", ST::soccer.baseSpeed);
+    }
+    
+    void LoadFromMem_SoccerState() {
+        Preferences prefs;
+        prefs.begin("soccer", true);
+        ST::soccer.defaultRole = (ST::Types::role_t)prefs.getUChar("defaulRole", (uint8_t)ST::soccer.defaultRole);
+        ST::soccer.enemyGoal = (ST::Types::goal_t)prefs.getUChar("enemyGoal", (uint8_t)ST::soccer.enemyGoal);
+        ST::soccer.baseSpeed = prefs.getUChar("baseSpeed", ST::soccer.baseSpeed);
+    }
     
     void resetToDefaults() {
-        state = ST_Default::state;
-        pid = ST_Default::pid;
-        soccer = ST_Default::soccer;
-        offMenu = ST_Default::offMenu;
+        ST::state = ST_Default::state;
+        ST::pid = ST_Default::pid;
+        ST::soccer = ST_Default::soccer;
+        ST::offMenu = ST_Default::offMenu;
+    
+        LoadFromMem_SoccerState();
     }
 }

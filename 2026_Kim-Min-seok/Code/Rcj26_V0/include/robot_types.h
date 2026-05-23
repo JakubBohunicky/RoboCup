@@ -6,7 +6,7 @@
 namespace ST {
     namespace Types {
     enum class goal_t : uint8_t { Yellow = 0, Blue = 1 }; 
-        enum class mode_t : int8_t {None = -1, Off = 0, Soccer = 1, Controller = 2, KickerTest = 3}; 
+        enum class mode_t : int8_t {None = -1, Off = 0, Soccer = 1, Controller = 2, KickerTest = 3, LedCal = 4}; 
         enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
         enum class pid_t : int8_t {Slow = 0, Normal = 1, Fast = 2}; 
         enum class screen_t : int8_t {Main = 0, Settings = 1};
@@ -72,6 +72,7 @@ namespace _Raw {
 
     struct ST_Soccer {
         ST::Types::role_t role;
+        ST::Types::role_t defaultRole;
         ST::Types::goal_t enemyGoal;
         float baseSpeed;
     };

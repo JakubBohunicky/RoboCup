@@ -9,7 +9,7 @@ void setup()
 {
     Serial.begin(HW::GenericCfg::SERIAL_SPEED);
     Serial.print("rcj26 V0 TIME:  "); Serial.print(__TIME__); Serial.print("  DATA:  "); Serial.println(__DATE__);
-    ST::resetToDefaults();
+    ST_CFG::resetToDefaults();
     Pheripherials::inputs_init_();
     Pheripherials::outputs_init_();
 

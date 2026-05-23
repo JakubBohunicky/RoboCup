@@ -31,6 +31,9 @@ namespace ST {
     extern _Raw::ST_Soccer soccer;
     extern _Raw::ST_OffMenu offMenu;
     extern _Raw::ST_Controller controller;
+}
 
+namespace ST_CFG {
     void resetToDefaults();
+    void saveToMem_SoccerState();
 }
