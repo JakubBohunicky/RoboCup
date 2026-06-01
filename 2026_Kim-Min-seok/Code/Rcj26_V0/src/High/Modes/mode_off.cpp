@@ -25,7 +25,7 @@ static void _drawScreen_0() {
 
     // Layer 4
     display.setCursor(114, 4);
-    display.print("3");
+    display.print(IN::gyro.calSys);
 
     // Layer 6
     display.setCursor(53, 4);
@@ -37,7 +37,7 @@ static void _drawScreen_0() {
 
     // Layer 4 copy 1
     display.setCursor(23, 50);
-    display.print("0");
+    display.print(IN::gyro.calMag);
 
     // Layer 3 copy 2
     display.setCursor(50, 50);
@@ -45,7 +45,7 @@ static void _drawScreen_0() {
 
     // Layer 4 copy 2
     display.setCursor(71, 50);
-    display.print("1");
+    display.print(IN::gyro.calAcl);
 
     // Layer 3 copy 3
     display.setCursor(93, 50);
@@ -53,7 +53,7 @@ static void _drawScreen_0() {
 
     // Layer 4 copy 3
     display.setCursor(114, 50);
-    display.print("2");
+    display.print(IN::gyro.calMag);
 
     // Layer 6 copy 1
     display.setCursor(53, 27);
@@ -79,6 +79,7 @@ static void _drawScreen_0() {
 
 static void _drawScreen_1() {
 
+    display.setTextSize(1);
     display.setTextColor(1);
     display.setTextWrap(false);
 

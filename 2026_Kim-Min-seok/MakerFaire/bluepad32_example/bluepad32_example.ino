@@ -137,12 +137,12 @@ void loop() {
 
     BP32.update();  // MUSÍ byť volaný pravidelne!
 
-    if (millis() - lastUpdate >= 0) {
+    if (millis() - lastUpdate >= 10) {   // ← OPRAVA: 10ms = 100Hz, nie ∞
         lastUpdate = millis();
         tx_msg.seq = ++seqCounter;
         fill_msg(tx_msg, myController);
         Serial2.write((uint8_t*)&tx_msg, sizeof(tx_msg));
-        // dump_msg(tx_msg);  // kompletný dump    
+        // dump_msg(const ControllerTx_MSG &m);
     }
 
     // if (millis() - lastPrint >= 500) {

@@ -1,6 +1,7 @@
 #include "Low/Outputs/output_motor.h"
 #include "Low/config_hw.h"
 #include "driver/gpio.h"
+#include "High/Services/debug.h"
 #include <Arduino.h>
 
 static constexpr int motCH_A = 0;
@@ -25,6 +26,8 @@ static uint32_t _output_motor_normDutyCycle(float duty) {
 void output_motor_init_() {
     gpio_set_direction(HW::MotorCfg::EnPin, GPIO_MODE_OUTPUT);
     gpio_set_level(HW::MotorCfg::EnPin, OUT::motorAcc.motEn);
+
+    gpio_reset_pin(HW::MotorCfg::A_DirPin);
 
     gpio_set_direction(HW::MotorCfg::A_DirPin, GPIO_MODE_OUTPUT);
     gpio_set_direction(HW::MotorCfg::B_DirPin, GPIO_MODE_OUTPUT);
@@ -51,6 +54,8 @@ void output_motor_init_() {
 
 void output_motor_update() {
 
+    #if ENABLE_MOTION
+
     // if(_motEn_lastState != OUT::motorAcc.motEn) { 
         gpio_set_level(HW::MotorCfg::EnPin, OUT::motorAcc.motEn);
         // _motEn_lastState = OUT::motorAcc.motEn;
@@ -61,16 +66,16 @@ void output_motor_update() {
         else { gpio_set_level(HW::MotorCfg::A_DirPin, 1); }
         ledcWrite(motCH_A, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[0]));
 
-        if(OUT::motorAcc.mainOut[1] > 0) { gpio_set_level(HW::MotorCfg::B_DirPin, 0);}
-        else { gpio_set_level(HW::MotorCfg::B_DirPin, 1); }
+        if(OUT::motorAcc.mainOut[1] > 0) { gpio_set_level(HW::MotorCfg::B_DirPin, 1);}
+        else { gpio_set_level(HW::MotorCfg::B_DirPin, 0); }
         ledcWrite(motCH_B, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[1]));
 
         if(OUT::motorAcc.mainOut[2] > 0) { gpio_set_level(HW::MotorCfg::C_DirPin, 0);}
         else { gpio_set_level(HW::MotorCfg::C_DirPin, 1); }
         ledcWrite(motCH_C, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[2]));
 
-        if(OUT::motorAcc.mainOut[3] > 0) { gpio_set_level(HW::MotorCfg::D_DirPin, 0);}
-        else { gpio_set_level(HW::MotorCfg::D_DirPin, 1); }
+        if(OUT::motorAcc.mainOut[3] > 0) { gpio_set_level(HW::MotorCfg::D_DirPin, 1);}
+        else { gpio_set_level(HW::MotorCfg::D_DirPin, 0); }
         ledcWrite(motCH_D, _output_motor_normDutyCycle(OUT::motorAcc.mainOut[3]));
     }
     else {
@@ -79,6 +84,8 @@ void output_motor_update() {
         ledcWrite(motCH_C, 0);
         ledcWrite(motCH_D, 0);
     }
+
+    #endif
 
     OUT::motorAcc = {};
 }

@@ -1,19 +1,24 @@
 #include "High/Roles/role_controller.h"
 #include "High/Services/motion.h"
 // #include "High/config_app.h"
+#include "High/Roles/Primitives/prim_avoid_line.h"
 
 
 namespace Role {
     void controller() {
 
-        Motion::addMotion_ToNField(IN::controller.lStick.angle, IN::controller.lStick.mag * (0.5f + 0.5f * IN::controller.r2.val - 0.5f * IN::controller.l2.val));
-        Motion::rotate_ToNField(IN::controller.rStick.angle, ST::pid.normalPIDCfg, IN::controller.rStick.mag * (0.5f + 0.5f * IN::controller.r2.val - 0.5f * IN::controller.l2.val));
-
+        Motion::addMotion(IN::controller.lStick.angle, IN::controller.lStick.mag * (0.5f + 0.5f * IN::controller.r2.val - 0.5f * IN::controller.l2.val) * constrain((1.0f - 4*IN::line.depth), 0.0f, 1.0f));
+        Motion::addRotation(IN::controller.rStick.X * 0.25f);
         
+        if(IN::line.seen) {
+            Prim::avoid_line();
+        }
+
+
         if(IN::controller.square.Click) {
             OUT::kicker_Drb.drbEn = !OUT::kicker_Drb.drbEn;
         }
-
+        
         if(IN::controller.triangle.Click) {
             Motion::kickFront();
         }

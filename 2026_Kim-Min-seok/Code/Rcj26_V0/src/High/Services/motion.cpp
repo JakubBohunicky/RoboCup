@@ -35,7 +35,7 @@ namespace Motion {
         OUT::motorAcc.mainOut[3] += motionAngles[a][3] * weight * ST::soccer.baseSpeed;
     }
 
-    void rotate(float angle, ST::Types::pidCfg_t& PID_type) {
+    void rotate(float angle, ST::Types::pidCfg_t& PID_type, float weight) {
         angle = _motion_wrap180(angle);
         float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms)*0.001f;
 
@@ -43,34 +43,40 @@ namespace Motion {
         ST::pid.PID_lastErr = angle;
         ST::pid.PID_dt_last_ms = ST::now_ms;
         
-        ST::pid.PID_sumP = (-1.0f)*(angle * PID_type.P);
+        ST::pid.PID_sumP = (angle * PID_type.P);
         ST::pid.PID_out = ST::pid.PID_sumP + ST::pid.PID_sumD;
 
         if(ST::pid.PID_out > PID_type.maxLimit) ST::pid.PID_out = PID_type.maxLimit;
         if(ST::pid.PID_out < -PID_type.maxLimit) ST::pid.PID_out = -PID_type.maxLimit;
+
+        addRotation(ST::pid.PID_out);
     }
 
     void rotate_ToNField(float angle, ST::Types::pidCfg_t& PID_type, float weight) {
         angle = _motion_wrap180(angle - IN::gyro.offset_ToNField);
 
-        float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms)*0.001f;
-
+        float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms) * 0.001f;
+        if (dt_s < 0.001f) dt_s = 0.001f;
+        
         ST::pid.PID_sumD = ((angle - ST::pid.PID_lastErr) / dt_s) * PID_type.D;
         ST::pid.PID_lastErr = angle;
         ST::pid.PID_dt_last_ms = ST::now_ms;
         
-        ST::pid.PID_sumP = (-1.0f)*(angle * PID_type.P);
+        ST::pid.PID_sumP = (angle * PID_type.P);
         ST::pid.PID_out = (ST::pid.PID_sumP + ST::pid.PID_sumD) * weight;
 
         if(ST::pid.PID_out > PID_type.maxLimit) ST::pid.PID_out = PID_type.maxLimit;
         if(ST::pid.PID_out < -PID_type.maxLimit) ST::pid.PID_out = -PID_type.maxLimit;
+        
+        // Serial.println(ST::pid.PID_out);
+        addRotation(ST::pid.PID_out);
     }
 
     void addRotation(float omega) {
         OUT::motorAcc.mainOut[0] -= omega;
         OUT::motorAcc.mainOut[1] += omega;
-        OUT::motorAcc.mainOut[2] += omega;
-        OUT::motorAcc.mainOut[3] -= omega;
+        OUT::motorAcc.mainOut[2] -= omega;
+        OUT::motorAcc.mainOut[3] += omega;
     }
 
 

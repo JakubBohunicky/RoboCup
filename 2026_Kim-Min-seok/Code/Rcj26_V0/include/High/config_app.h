@@ -32,9 +32,9 @@ namespace ST_Default {
             .maxLimit = 100.0f,
         },
         .normalPIDCfg = {
-            .P = 1.0f,
-            .D = 1.0f,
-            .maxLimit = 10.0f,
+            .P = 0.2f,
+            .D = 0.0f,
+            .maxLimit = 1.0f,
         },
         .slowPIDCfg = {
             .P = 1.0f,

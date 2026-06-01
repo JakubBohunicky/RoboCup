@@ -106,43 +106,20 @@ struct Soccer_MSG {
     uint8_t goalEnemy_seen = 0;
 };
 
+
 struct __attribute__((packed)) ControllerRx_MSG {
-    uint16_t magicHead = 0;
-    
-    uint8_t connected = 0;
+    uint16_t magicHead = 0xA55A;
+    uint8_t  connected = 0;
     uint32_t seq = 0;
-
-    uint8_t right = 0;
-    uint8_t down = 0;
-    uint8_t up = 0;
-    uint8_t left = 0;
-
-    uint8_t square = 0;
-    uint8_t cross = 0;
-    uint8_t circle = 0;
-    uint8_t triangle = 0;
-
-    uint8_t l1 = 0;
-    uint8_t r1 = 0;
-    uint8_t l3 = 0;
-    uint8_t r3 = 0;
-
-    uint8_t share = 0;
-    uint8_t options = 0;
-    uint8_t psButton = 0;
-    uint8_t touchpad = 0;
-
-    uint8_t l2Pressed = 0;
-    uint8_t r2Pressed = 0;
-
-    int16_t l2 = 0;
-    int16_t r2 = 0;
-    int16_t lStickX = 0;
-    int16_t lStickY = 0;
-    int16_t rStickX = 0;
-    int16_t rStickY = 0;
-
-    uint16_t magicTail = 0;
+    uint8_t right=0, down=0, up=0, left=0;
+    uint8_t square=0, cross=0, circle=0, triangle=0;
+    uint8_t l1=0, r1=0, l3=0, r3=0;
+    uint8_t share=0, options=0, psButton=0, touchpad=0;
+    uint8_t l2Pressed=0, r2Pressed=0;
+    int16_t l2=0, r2=0;
+    int16_t lStickX=0, lStickY=0;
+    int16_t rStickX=0, rStickY=0;
+    uint16_t magicTail = 0x55AA;
 };
 
 // struct __attribute__((packed)) ControllerTx_MSG {
@@ -168,8 +145,8 @@ struct _Controller_Trigger {
 };
 
 struct _Controller_Stick {
-    uint16_t X = 0;
-    uint16_t Y = 0;
+    float X = 0.0f;
+    float Y = 0.0f;
 
     float angle = 0.0f;
     float mag = 0.0f;

@@ -12,16 +12,18 @@ uint32_t _rgbToGrb(uint32_t rgb) {
     return ((uint32_t)g << 16) | ((uint32_t)r << 8) | b;
 }
 
-uint32_t _reduceBrightness(uint32_t color, float brightness) {
-    uint8_t r = (color >> 16) & 0xFF;
-    uint8_t g = (color >>  8) & 0xFF;
-    uint8_t b = (color >>  0) & 0xFF;
+namespace OUT {
+    uint32_t LedReduceBrightness(uint32_t color, float brightness) {
+        uint8_t r = (color >> 16) & 0xFF;
+        uint8_t g = (color >>  8) & 0xFF;
+        uint8_t b = (color >>  0) & 0xFF;
 
-    r = (uint8_t)(r * brightness);
-    g = (uint8_t)(g * brightness);
-    b = (uint8_t)(b * brightness);
-    
-    return ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
+        r = (uint8_t)(r * brightness);
+        g = (uint8_t)(g * brightness);
+        b = (uint8_t)(b * brightness);
+        
+        return ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
+    }
 }
 
 void output_LED_init_() {
@@ -49,9 +51,9 @@ static void _output_LED_set_X() {
 
 
 static void _output_LED_set_DEBUG() {
-    LEDs_X[0] = _rgbToGrb(_reduceBrightness(OUT::led_Debug.color, HW::LEDsCfg::DEBUG_BRIGHTNESS));
+    LEDs_X[0] = _rgbToGrb(OUT::LedReduceBrightness(OUT::led_Debug.color, HW::LEDsCfg::DEBUG_BRIGHTNESS));
     for (uint8_t i = 1; i < HW::LEDsCfg::LED_DEBUG_num; ++i) { //zapis do vsetkych DEBUG
-        LEDs_X[i] = _reduceBrightness(OUT::led_Debug.color, HW::LEDsCfg::DEBUG_BRIGHTNESS);
+        LEDs_X[i] = OUT::LedReduceBrightness(OUT::led_Debug.color, HW::LEDsCfg::DEBUG_BRIGHTNESS);
     }
 }
 
@@ -62,7 +64,7 @@ void output_LED_update() {
     if(OUT::led_Debug.needsUpdate) { _output_LED_set_DEBUG(); OUT::led_Debug.needsUpdate = false; }
 
 
-    Serial.println("llt");
+    // Serial.println("llt");
     
     // FastLED.setBrightness(20);
     // fill_solid(LEDs_X, 20, CRGB::Red1);

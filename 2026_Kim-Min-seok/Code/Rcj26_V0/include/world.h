@@ -1,5 +1,6 @@
 #pragma once
 #include "robot_types.h"
+#include "Low/Outputs/output_LED.h"
 
 namespace IN {
     extern _Raw::Comms comms;

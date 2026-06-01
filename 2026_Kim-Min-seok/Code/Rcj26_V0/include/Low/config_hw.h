@@ -17,8 +17,9 @@ namespace HW {
     namespace Controller { 
         constexpr uint8_t I2C_ADDR = 0x42;
 
-        constexpr float TRIGG_CONST = 1.0f/255;
+        constexpr float TRIGG_CONST = 1.0f/255.0f;
         constexpr float DEAD_CONST = 0.1f;
+        constexpr float STICK_CONST = 1.0f/512.0f;
     }
 
     namespace MotorCfg {
@@ -133,7 +134,7 @@ namespace HW {
 
     namespace GyroCfg {
         constexpr int GYRO_ID = 55;
-        constexpr int GYRO_ADR = 0x22;
+        constexpr int GYRO_ADR = 0x28;
     }
 
 

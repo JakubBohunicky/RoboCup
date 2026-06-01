@@ -39,7 +39,7 @@ namespace Pheripherials {
         I2C_init_();
         input_motionSense_init_();
         input_generic_init_();
-        // input_gyro_init_();
+        input_gyro_init_();
         input_line_init_();
     //     input_pixy_init_();
         input_comm_init_();
@@ -48,7 +48,7 @@ namespace Pheripherials {
     void inputs_update() {
     
         if(ST::now_ms - times[0] >= 1) { //1kHz
-            // input_gyro_update();
+            input_gyro_update();
             times[0] = ST::now_ms;
         }
         if(ST::now_ms - times[1] >= 3) { //333Hz
@@ -57,12 +57,12 @@ namespace Pheripherials {
             times[1] = ST::now_ms;
         }
         if(ST::now_ms - times[2] >= 5) { //200Hz
-            // input_ballIR_update();
+            input_ballIR_update();
             times[2] = ST::now_ms;
         }
 
         if(ST::now_ms - times[3] >= 100) { //10Hz
-            input_pixy_update();
+            // input_pixy_update();
             times[3] = ST::now_ms;
         }
 

@@ -12,20 +12,24 @@ namespace Role {
     void attacker() {
 
 
-        if(ST::now_ms - testTime1 >= 1000) {
-            testTime1 = ST::now_ms;
-            test_fw = !test_fw;
-        }
+        // if(ST::now_ms - testTime1 >= 1000) {
+        //     testTime1 = ST::now_ms;
+        //     test_fw = !test_fw;
+        // }
         
-        if(test_fw) {
-            OUT::kicker_Drb.drbReverseDir = 0;
-                Motion::dribler(1);
-                Motion::addMotion(45.0f , 1.0f);
-            } else {
-                OUT::kicker_Drb.drbReverseDir = 1;
-                Motion::dribler(1);
-                Motion::addMotion(135.0f , 1.0f);
-        }
+        // if(test_fw) {
+        //     OUT::kicker_Drb.drbReverseDir = 0;
+        //         Motion::dribler(1);
+        //         // Motion::addMotion(45.0f , 1.0f);
+        //         Motion::addMotion(0.0f, 1.0f);
+        //     } else {
+        //         OUT::kicker_Drb.drbReverseDir = 1;
+        //         Motion::dribler(1);
+        //         // Motion::addMotion(135.0f , 1.0f);
+        //         Motion::addMotion(180.0f, 1.0f);
+        // }
+
+        Motion::rotate_ToNField(95.0f, ST::pid.normalPIDCfg, 0.01f);
 
         // if(IN::motionSens.drbF || IN::motionSens.drbR) {
         //     Prim::find_goal();

@@ -62,7 +62,7 @@ static void _debug_print_controller_rx(const _Raw::ControllerRx_MSG& m) {
 
 // ── UART receive buffer ───────────────────────────────────────────
 constexpr int UART_RX_PIN = 1;
-constexpr int UART_BAUD   = 921600;
+constexpr int UART_BAUD   = 1000000;
 constexpr size_t MSG_SIZE = sizeof(_Raw::ControllerRx_MSG);
 
 static uint8_t  _uart_buf[MSG_SIZE * 2]; // dvojnásobný buffer pre sync
@@ -100,13 +100,16 @@ void input_controller_update() {
     IN::controller.r2.pressed.Click = false; IN::controller.r2.pressed.LongPress = false;
 
     // Načítaj všetky dostupné byty
+    // Zväčši buffer len ak je to nutné, ale pridaj flush pri pretečení
     while (Serial2.available()) {
         if (_uart_buf_pos < sizeof(_uart_buf)) {
             _uart_buf[_uart_buf_pos++] = Serial2.read();
         } else {
-            Serial2.read(); // buffer plný — zahoď
+            // Buffer plný a žiadny platný paket nenájdený → flush celého buffera
+            Serial2.read();
+            _uart_buf_pos = 0;  // ← OPRAVA: reset pri pretečení, nie len zahoď
         }
-    }
+}
 
     // Spracuj VŠETKY kompletné pakety, použi len POSLEDNÝ
     _Raw::ControllerRx_MSG latest = {};
@@ -182,25 +185,76 @@ void input_controller_update() {
     IN::controller.r2.raw = IN::comms.rx_controller_msg.r2;
     IN::controller.r2.val = r2Val;
 
-    float lx = (float)IN::comms.rx_controller_msg.lStickX * HW::Controller::TRIGG_CONST;
-    float ly = (float)IN::comms.rx_controller_msg.lStickY * HW::Controller::TRIGG_CONST;
+    // float lx = (float)IN::comms.rx_controller_msg.lStickX * HW::Controller::TRIGG_CONST;
+    // float ly = (float)IN::comms.rx_controller_msg.lStickY * HW::Controller::TRIGG_CONST;
+    // float lmag = sqrtf(lx*lx + ly*ly);
+    // if (lmag < HW::Controller::DEAD_CONST) { lx = ly = lmag = 0.0f; }
+    // float lang = atan2f(ly, lx) * 180.0f / M_PI - 90.0f;
+    // if (lang < 0.0f) lang += 360.0f;
+    // IN::controller.lStick.X     = IN::comms.rx_controller_msg.lStickX;
+    // IN::controller.lStick.Y     = IN::comms.rx_controller_msg.lStickY;
+    // IN::controller.lStick.angle = lang;
+    // IN::controller.lStick.mag   = lmag;
+
+    // float rx = (float)IN::comms.rx_controller_msg.rStickX * HW::Controller::TRIGG_CONST;
+    // float ry = (float)IN::comms.rx_controller_msg.rStickY * HW::Controller::TRIGG_CONST;
+    // float rmag = sqrtf(rx*rx + ry*ry);
+    // if (rmag < HW::Controller::DEAD_CONST) { rx = ry = rmag = 0.0f; }
+    // float rang = atan2f(ry, rx) * 180.0f / M_PI - 90.0f;
+    // if (rang < 0.0f) rang += 360.0f;
+    // IN::controller.rStick.X     = IN::comms.rx_controller_msg.rStickX;
+    // IN::controller.rStick.Y     = IN::comms.rx_controller_msg.rStickY;
+    // IN::controller.rStick.angle = rang;
+    // IN::controller.rStick.mag   = rmag;
+
+
+
+    float lx = (float)IN::comms.rx_controller_msg.lStickX * HW::Controller::STICK_CONST;
+    float ly = (float)IN::comms.rx_controller_msg.lStickY * HW::Controller::STICK_CONST;
+
+    // clamp na -1..1 pre istotu
+    lx = constrain(lx, -1.0f, 1.0f);
+    ly = constrain(ly, -1.0f, 1.0f);
+
+    IN::controller.lStick.X = lx;
+    IN::controller.lStick.Y = ly;
+
     float lmag = sqrtf(lx*lx + ly*ly);
-    if (lmag < HW::Controller::DEAD_CONST) { lx = ly = lmag = 0.0f; }
-    float lang = atan2f(ly, lx) * 180.0f / M_PI - 90.0f;
+    if (lmag > 1.0f) lmag = 1.0f;  // kruhový clamp
+
+    if (lmag < HW::Controller::DEAD_CONST) {
+        lx = ly = lmag = 0.0f;
+    }
+
+    float lang = atan2f(ly, lx) * 180.0f / M_PI + 90.0f;
     if (lang < 0.0f) lang += 360.0f;
-    IN::controller.lStick.X     = IN::comms.rx_controller_msg.lStickX;
-    IN::controller.lStick.Y     = IN::comms.rx_controller_msg.lStickY;
+
+   
     IN::controller.lStick.angle = lang;
     IN::controller.lStick.mag   = lmag;
 
-    float rx = (float)IN::comms.rx_controller_msg.rStickX * HW::Controller::TRIGG_CONST;
-    float ry = (float)IN::comms.rx_controller_msg.rStickY * HW::Controller::TRIGG_CONST;
+
+    float rx = (float)IN::comms.rx_controller_msg.rStickX * HW::Controller::STICK_CONST;
+    float ry = (float)IN::comms.rx_controller_msg.rStickY * HW::Controller::STICK_CONST;
+
+    // clamp na -1..1 pre istotu
+    rx = constrain(rx, -1.0f, 1.0f);
+    ry = constrain(ry, -1.0f, 1.0f);
+
+    IN::controller.rStick.X = rx;
+    IN::controller.rStick.Y = ry;
+
     float rmag = sqrtf(rx*rx + ry*ry);
-    if (rmag < HW::Controller::DEAD_CONST) { rx = ry = rmag = 0.0f; }
-    float rang = atan2f(ry, rx) * 180.0f / M_PI - 90.0f;
+    if (rmag > 1.0f) rmag = 1.0f;  // kruhový clamp
+
+    if (rmag < HW::Controller::DEAD_CONST) {
+        rx = ry = rmag = 0.0f;
+    }
+
+    float rang = atan2f(ry, rx) * 180.0f / M_PI + 90.0f;
     if (rang < 0.0f) rang += 360.0f;
-    IN::controller.rStick.X     = IN::comms.rx_controller_msg.rStickX;
-    IN::controller.rStick.Y     = IN::comms.rx_controller_msg.rStickY;
+
+
     IN::controller.rStick.angle = rang;
     IN::controller.rStick.mag   = rmag;
 }

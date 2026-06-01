@@ -43,9 +43,11 @@ namespace Mode {
             Serial.println("Controller Mode");
             _drawScreen_CONTROLLER();
             OUT::led_O.needsUpdate = true;
-            OUT::led_O.color = CRGB::White;
+            OUT::led_O.color = OUT::LedReduceBrightness(CRGB::Red, 1.0f);
+            // OUT::led_O.color = CRGB::White;
             OUT::led_X.needsUpdate = true;
-            OUT::led_X.color = CRGB::White;
+            OUT::led_X.color = OUT::LedReduceBrightness(CRGB::Red, 1.0f);
+            // OUT::led_X.color = CRGB::White;
         }
 
         if (IN::controller.connected != previouslyConnected) {

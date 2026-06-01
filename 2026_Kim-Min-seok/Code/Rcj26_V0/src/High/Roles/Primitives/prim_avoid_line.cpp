@@ -4,6 +4,6 @@
 
 namespace Prim {
     void avoid_line() {
-        
+        Motion::addMotion(IN::line.angle + 180.f, IN::line.depth*2);
     }
 }

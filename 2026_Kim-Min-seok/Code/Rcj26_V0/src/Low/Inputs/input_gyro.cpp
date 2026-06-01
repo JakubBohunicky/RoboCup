@@ -11,11 +11,11 @@ void input_gyro_init_() {
 }
 
 static void _input_gyro_normalize() {
-        if(IN::gyro.offset > 180) IN::gyro.offset -= 360;
-        if(IN::gyro.offset < -180) IN::gyro.offset += 360;
+        if(IN::gyro.offset > 180.0f) {IN::gyro.offset -= 360.0f;}
+        if(IN::gyro.offset < -180.0f) {IN::gyro.offset += 360.0f;}
 
-        IN::gyro.offset_ToNField = IN::gyro.offset += 360;
-        if(IN::gyro.offset_ToNField >= 360) IN::gyro.offset_ToNField -= 360;
+        IN::gyro.offset_ToNField = IN::gyro.offset + 360.0f;
+        if(IN::gyro.offset_ToNField >= 360.0f) {IN::gyro.offset_ToNField -= 360.0f;}
     }
 
 
@@ -31,10 +31,11 @@ void input_gyro_update(){
     sensors_event_t event;
     gyro.getEvent(&event);
     IN::gyro.offset = (float)event.orientation.x - baseOffset;
-    
+    // Serial.print(IN::gyro.offset);
+    // Serial.print("    ");
     _input_gyro_normalize();
 
-    //Get callibration status
+//Get callibration status
     if(ST::state.mode == ST::Types::mode_t::Off) {
         gyro.getCalibration(&IN::gyro.calSys, &IN::gyro.calGyr, &IN::gyro.calAcl, &IN::gyro.calMag);
     }
