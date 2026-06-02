@@ -6,13 +6,14 @@
 
 namespace Role {
     void controller() {
-
-        Motion::addMotion(IN::controller.lStick.angle, IN::controller.lStick.mag * (0.5f + 0.5f * IN::controller.r2.val - 0.5f * IN::controller.l2.val) * constrain((1.0f - 4*IN::line.depth), 0.0f, 1.0f));
-        Motion::addRotation(IN::controller.rStick.X * 0.25f);
-        
+    
         if(IN::line.seen) {
             Prim::avoid_line();
+        } if(IN::line.depth < 0.4f) {
+            Motion::addMotion(IN::controller.lStick.angle, IN::controller.lStick.mag * (0.5f + 0.5f * IN::controller.r2.val - 0.5f * IN::controller.l2.val) * constrain((1.0f - 4*IN::line.depth), 0.0f, 1.0f));
+            Motion::addRotation(IN::controller.rStick.X * 0.25f);
         }
+
 
 
         if(IN::controller.square.Click) {

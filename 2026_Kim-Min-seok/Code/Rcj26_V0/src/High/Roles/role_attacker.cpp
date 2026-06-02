@@ -29,14 +29,18 @@ namespace Role {
         //         Motion::addMotion(180.0f, 1.0f);
         // }
 
-        Motion::rotate_ToNField(95.0f, ST::pid.normalPIDCfg, 0.01f);
+        // Motion::rotate_ToNField(95.0f, ST::pid.normalPIDCfg, 0.01f);
 
         // if(IN::motionSens.drbF || IN::motionSens.drbR) {
         //     Prim::find_goal();
         // }
         
         // else {
-        //     Prim::chase_ball();
+            if(IN::line.seen) {
+                Prim::avoid_line();
+            } else {
+                Prim::chase_ball();
+            }
         // }
 
     }

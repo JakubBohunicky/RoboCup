@@ -10,6 +10,6 @@
 
 
 #define DEBUG_LINE_ANG 0
-#define DEBUG_BALL 1
+#define DEBUG_BALL 0
 #define DEBUG_COMMs 0
 #define DEBUG_CONTROLLER 0

@@ -199,7 +199,7 @@ void input_ballIR_update() {
     IN::ball.nearMode = nearMode;
     IN::ball.valid = true;
 
-    #ifdef DEBUG_BALL
+    #if DEBUG_BALL
         Serial.print("Ang: ");
         Serial.print(IN::ball.angle);
         Serial.printf(" || Prox: %0.2f\n", IN::ball.proximity);

@@ -15,13 +15,18 @@ static void _drawScreen_SOCCER() {
     display.drawBitmap(50, 11, image_EviSmile1_bits, 36, 42, 1);
 
 
-    OUT::led_Debug.color = CRGB::Black;
-    OUT::led_Debug.needsUpdate = true;
-    OUT::led_O.color = CRGB::DarkOrange;
+    // OUT::led_Debug.color = CRGB::Black;
+    // OUT::led_Debug.needsUpdate = true;
+    // OUT::led_O.color = CRGB::DarkOrange;
+    // OUT::led_O.needsUpdate = true;
+    // OUT::led_X.color = CRGB:: DarkMagenta;
+    // OUT::led_X.needsUpdate = true;
+    // OUT::display.needsUpdate = true;
+
     OUT::led_O.needsUpdate = true;
-    OUT::led_X.color = CRGB:: DarkMagenta;
+    OUT::led_O.color = OUT::LedReduceBrightness(0xFF0040, 1.0f);
     OUT::led_X.needsUpdate = true;
-    OUT::display.needsUpdate = true;
+    OUT::led_X.color = OUT::LedReduceBrightness(0xFF0040, 1.0f);
 }
 
 

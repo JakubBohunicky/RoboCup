@@ -37,7 +37,8 @@ namespace Motion {
 
     void rotate(float angle, ST::Types::pidCfg_t& PID_type, float weight) {
         angle = _motion_wrap180(angle);
-        float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms)*0.001f;
+        float dt_s = (ST::now_ms - ST::pid.PID_dt_last_ms) * 0.001f;
+        if (dt_s < 0.001f) dt_s = 0.001f;
 
         ST::pid.PID_sumD = ((angle - ST::pid.PID_lastErr) / dt_s) * PID_type.D;
         ST::pid.PID_lastErr = angle;
