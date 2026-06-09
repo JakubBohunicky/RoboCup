@@ -2,8 +2,7 @@
 #include "Low/Outputs/output_display.h"
 #include "High/Services/motion.h"
 
-
-void _drawScreen() {
+static void _drawScreen() {
     display.setTextColor(1);
     display.setTextWrap(false);
     display.setCursor(17, 1);
@@ -12,13 +11,13 @@ void _drawScreen() {
     display.setCursor(3, 17);
     display.print("Kicker");
 
-    if(IN::generic.btnPlus.Click) {    
+    if(OUT::kicker_Drb.kickF) {    
         display.setTextSize(3);
         display.setCursor(6, 36);
         display.print("F");
     }
 
-    if(IN::generic.btnMinus.Click) { 
+    if(OUT::kicker_Drb.kickR) { 
         display.setTextSize(3);
         display.setCursor(30, 36);
         display.print("R"); 
@@ -28,9 +27,6 @@ void _drawScreen() {
     display.setCursor(80, 18);
     display.print("Dribbler");
 
-    if(IN::generic.btnPlus.LongPress) {
-        OUT::kicker_Drb.drbEn = !OUT::kicker_Drb.drbEn;
-    } 
 
     if(OUT::kicker_Drb.drbEn) {
         display.setTextSize(3);
@@ -45,6 +41,23 @@ void _drawScreen() {
 namespace Mode {
     void kickerTest() {
 
+        //!!!!avoid using: IN::generic.btnPlus.LongPress;
+
+        if(IN::generic.btnPlus.Click) {
+            Motion::kickFront();
+        }
+
+        if(IN::generic.btnMinus.Click) {
+            Motion::kickRear();
+        }
+
+        if(IN::generic.btnMinus.LongPress) {
+            OUT::kicker_Drb.drbEn = !OUT::kicker_Drb.drbEn;
+        }
+
         _drawScreen();
+
+
+
     }
 }

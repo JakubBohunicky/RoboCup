@@ -4,6 +4,7 @@
 #include "High/Modes/mode_controller.h"
 #include "High/Modes/mode_kickerTest.h"
 #include "High/Modes/mode_ledCal.h"
+// #include "High/Services/motion.h"
 #include "Low/Inputs/input_gyro.h"
 #include <Arduino.h>
 
@@ -32,6 +33,7 @@ namespace Logic {
                 ST::state.mode = ST::Types::mode_t::Off;
                 ST::state.lastActiveTime = ST::now_ms;
             }
+            //logic is written in its own file 
         }
 
 
@@ -40,6 +42,7 @@ namespace Logic {
                 ST::state.mode = ST::Types::mode_t::Off;
                 ST::state.lastActiveTime = ST::now_ms;
             }
+            //logic is written in its own file 
         }
 
 
