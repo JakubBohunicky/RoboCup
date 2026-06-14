@@ -3,6 +3,8 @@
 #include "High/Services/motion.h"
 
 static void _drawScreen() {
+    OUT::display.needsUpdate = true;
+
     display.setTextColor(1);
     display.setTextWrap(false);
     display.setCursor(17, 1);
@@ -29,7 +31,7 @@ static void _drawScreen() {
 
 
     if(OUT::kicker_Drb.drbEn) {
-        display.setTextSize(3);
+        display.setTextSize(1);
         display.setCursor(81, 36);
         display.print("F");
         display.setCursor(107, 36);
@@ -41,7 +43,11 @@ static void _drawScreen() {
 namespace Mode {
     void kickerTest() {
 
+        OUT::motorAcc.motEn = true;
+
         //!!!!avoid using: IN::generic.btnPlus.LongPress;
+
+        // Serial.print("kicker Test");
 
         if(IN::generic.btnPlus.Click) {
             Motion::kickFront();
@@ -51,7 +57,7 @@ namespace Mode {
             Motion::kickRear();
         }
 
-        if(IN::generic.btnMinus.LongPress) {
+        if(IN::generic.btnPlus.LongPress && ST::state.mode_previous == ST::state.mode) {
             OUT::kicker_Drb.drbEn = !OUT::kicker_Drb.drbEn;
         }
 

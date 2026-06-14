@@ -11,7 +11,7 @@
 static uint32_t times[] = {0, 0, 0, 0, 0, 0, 0};
                         // 0, 1, 2, 3, 4, 5, 6
 
-float input_wrap180(float a) { //normalize from -180 to 180
+float wrap180(float a) { //normalize from -180 to 180
     while (a > 180.0f)  a -= 360.0f;
     while (a <= -180.0f) a += 360.0f;
     return a;
@@ -76,7 +76,7 @@ namespace Pheripherials {
             times[5] = ST::now_ms;
         }
 
-        if(ST::state.mode == ST::Types::mode_t::Off) {
+        if(ST::state.mode != ST::Types::mode_t::Soccer && ST::state.mode != ST::Types::mode_t::Controller) {
             if(IN::comms.initialized == false && ST::now_ms - times[6] >= 1000) { //esp now
                 input_comm_init_();
                 times[6] = ST::now_ms;

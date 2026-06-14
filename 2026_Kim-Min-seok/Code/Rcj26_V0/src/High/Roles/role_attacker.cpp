@@ -11,6 +11,22 @@ bool test_fw = true;
 namespace Role {
     void attacker() {
 
+        if(IN::motionSens.hasBall) {
+            Prim::find_goal();
+        } else {
+            Prim::chase_ball();
+        }
+
+
+
+        // Motion::rotate_ToNField(0.0f);
+
+        if(IN::line.seen){
+            Prim::avoid_line(); //must blend vectors by line depth 
+        }
+    }
+}
+
 
         // if(ST::now_ms - testTime1 >= 1000) {
         //     testTime1 = ST::now_ms;
@@ -36,15 +52,16 @@ namespace Role {
         // }
         
         // else {
-            if(IN::line.seen) {
-                Prim::avoid_line();
-            } else {
-                Prim::chase_ball();
-            }
+            // if(IN::line.seen) {
+            //     Prim::avoid_line();
+            // } else {
+            //     Prim::chase_ball();
+                
+            // }
         // }
 
-    }
-}
+//     }
+// }
 
 
 

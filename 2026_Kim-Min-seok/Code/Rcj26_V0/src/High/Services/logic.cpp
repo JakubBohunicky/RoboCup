@@ -29,7 +29,7 @@ namespace Logic {
         }
 
         else if (ST::state.mode == ST::Types::mode_t::LedCal) {
-            if(IN::generic.btnPlus.LongPress) {
+            if(IN::generic.btnMinus.LongPress) {
                 ST::state.mode = ST::Types::mode_t::Off;
                 ST::state.lastActiveTime = ST::now_ms;
             }
@@ -38,7 +38,7 @@ namespace Logic {
 
 
         else if(ST::state.mode == ST::Types::mode_t::KickerTest) {
-            if(IN::generic.btnPlus.LongPress) {
+            if(IN::generic.btnMinus.LongPress) {
                 ST::state.mode = ST::Types::mode_t::Off;
                 ST::state.lastActiveTime = ST::now_ms;
             }
@@ -76,11 +76,11 @@ namespace Logic {
                 }
 
                 if(IN::generic.btnPlus.Click) { 
-                    ST::offMenu.cursor++;
+                    ST::offMenu.cursor--;
                     if(ST::offMenu.cursor > 4) { ST::offMenu.cursor = 0; }  
                 }
                 if(IN::generic.btnMinus.Click) {
-                    ST::offMenu.cursor--;
+                    ST::offMenu.cursor++;
                     if(ST::offMenu.cursor < 0) { ST::offMenu.cursor = 4; }
                 }
 

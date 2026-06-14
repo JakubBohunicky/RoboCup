@@ -87,8 +87,9 @@ static void _input_calculate_Angle() {
     }
     if(line_angle_O_Active != 0) { 
         line_Depth = HW::LineCfg::line_depth_O_Val; 
-        line_Angle = (int16_t)round((atan2(angle_yCor, angle_xCor) * (180.0f / M_PI)) + 292.5f);
-        line_Angle = input_wrap180(line_Angle);
+        // line_Angle = (int16_t)round((atan2(angle_yCor, angle_xCor) * (180.0f / M_PI)) + 292.5f);
+        line_Angle = (int16_t)round((atan2(angle_yCor, angle_xCor) * (180.0f / M_PI)) + 270.0f);
+        line_Angle = wrap180(line_Angle);
     }
 
     else { 
@@ -126,12 +127,12 @@ static void _input_calculate_Depth() {
     if(line_X_CurrentDir == (line_X_EncounterDir ^ 2)) { //XOR ^2 flips direction
         line_Depth = 1.0f - depth_currentMaxVal;
 
-        if(line_angle_O_Active == 0) { line_Angle = input_wrap180((line_X_CurrentDir * 90) + 180); }
-        else { line_Angle = input_wrap180(line_Angle + 180); }
+        if(line_angle_O_Active == 0) { line_Angle = wrap180((line_X_CurrentDir * 90) + 180); }
+        else { line_Angle = wrap180(line_Angle + 180); }
 
     } else {
         line_Depth = depth_currentMaxVal;
-        if(line_angle_O_Active == 0) { line_Angle = input_wrap180(line_X_CurrentDir * 90); }
+        if(line_angle_O_Active == 0) { line_Angle = wrap180(line_X_CurrentDir * 90); }
     }
 }
 
@@ -155,7 +156,7 @@ void input_line_update() {
     _input_calculate_Depth();
     IN::line.angle = line_Angle;
     IN::line.depth = line_Depth;
-    IN::line.angle_ToNField = input_wrap180(line_Angle - IN::gyro.offset);
+    IN::line.angle_ToNField = wrap360(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
 
     #if DEBUG_LED_LINE
@@ -175,6 +176,7 @@ void input_line_update() {
             if(ST::state.mode != ST::Types::mode_t::Off && ST::state.mode == ST::state.mode_previous){
                 debug_line_last_display_time = ST::now_ms;
                 OUT::display.needsUpdate = true;
+                display.setTextSize(1);
                 display.setTextColor(1);
                 display.setTextWrap(false);
                 display.setCursor(2, 21);
@@ -188,7 +190,7 @@ void input_line_update() {
 
                 display.setCursor(37, 21);
                 if(IN::line.seen) {
-                display.print(line_Angle);
+                display.print(IN::line.angle);
                 } else {
                     display.print("-");
                 }
@@ -211,7 +213,7 @@ void input_line_update() {
     #endif
 
     #if DEBUG_LINE_ANG
-        Serial.print("Ang: " +  IN::line.angle);
-        Serial.printf(" || Depth: &0.2f", IN::line.depth);
+        Serial.printf("Ang: %0.2f", IN::line.angle_ToNField);
+        Serial.printf(" || Depth: %0.2f \n", IN::line.depth);
     #endif
 }

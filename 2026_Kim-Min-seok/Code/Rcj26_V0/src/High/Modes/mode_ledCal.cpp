@@ -5,6 +5,8 @@
 static int8_t _mot_state = 0;
 
 static void _drawScreen() {
+    OUT::display.needsUpdate = true;
+    
     display.setTextColor(1);
     display.setTextWrap(false);
     display.setCursor(17, 1);
@@ -37,6 +39,7 @@ namespace Mode {
     void ledCal() {
         // ST::offMenu.screen = ST::Types::screen_t::Main;
 
+        OUT::motorAcc.motEn = true;
 
         //!!!!avoid using: IN::generic.btnPlus.LongPress;
 
@@ -52,12 +55,15 @@ namespace Mode {
 
         switch (_mot_state) {
         case 1:
-            Motion::addMotion(0, 1.0f);
+            Motion::addMotion(90, 1.0f);
+            Motion::dribler(1);
             break;
         case -1:
-            Motion::addMotion(180, 1.0f);
+            Motion::addMotion(-90, 1.0f);
+            Motion::dribler(1);
             break;
         default:
+            Motion::dribler(0);
             break;
         }
 

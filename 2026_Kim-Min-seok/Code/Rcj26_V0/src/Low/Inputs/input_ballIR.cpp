@@ -4,6 +4,12 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "High/Services/debug.h"
+#include "Low/Outputs/output_display.h"
+
+
+#if DEBUG_LED_LINE
+    uint32_t debug_last_display_time = 0;
+#endif
 
 
 // filter state
@@ -190,19 +196,53 @@ void input_ballIR_update() {
         }
     }
 
-    IN::ball.angle = (int16_t)lroundf(filteredAngle);
+    IN::ball.angle_ToNField = (int16_t)lroundf(filteredAngle);
     // ballAngle = (ballAngle + 180) % 360;
     if (IN::ball.angle >= 360) IN::ball.angle -= 360;
     if (IN::ball.angle < 0) IN::ball.angle += 360;
+
+    IN::ball.angle = wrap180(IN::ball.angle_ToNField);
 
     IN::ball.proximity = dirStrength;//(int16_t)lroundf(dirStrength);
     IN::ball.nearMode = nearMode;
     IN::ball.valid = true;
 
     #if DEBUG_BALL
-        Serial.print("Ang: ");
+        Serial.print(">Ang: ");
         Serial.print(IN::ball.angle);
-        Serial.printf(" || Prox: %0.2f\n", IN::ball.proximity);
+        Serial.printf(" || >Prox: %0.2f\n", IN::ball.proximity);
+    #endif
+
+    #if DEBUG_DISPLAY_BALL
+        if(ST::now_ms - debug_last_display_time >= 100) {
+            if(ST::state.mode != ST::Types::mode_t::Off && ST::state.mode == ST::state.mode_previous){
+                debug_last_display_time = ST::now_ms;
+                OUT::display.needsUpdate = true;
+                display.setTextSize(1);
+                display.setTextColor(1);
+                display.setTextWrap(false);
+                display.setCursor(2, 21);
+                display.print("Angle:");
+
+                display.setCursor(3, 53);
+                display.print("Prox:");
+
+                display.setCursor(3, 37);
+                // display.print("Num(O):");
+
+                display.setCursor(37, 21);
+                display.print(IN::ball.angle);
+                
+                display.setCursor(41, 53);
+                display.print(IN::ball.proximity);
+
+                display.setCursor(46, 37);
+                // display.print(line_angle_O_Active);
+
+                display.setCursor(2, 5);
+                display.print(">Ball<");
+            }
+        }
     #endif
 
     // if (millis() - lastPrintMs > 100) {

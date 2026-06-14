@@ -3,6 +3,7 @@
 #include <FastADC_Mux.h>
 #include "Low/config_hw.h"
 #include "driver/gpio.h"
+#include "High/Services/debug.h"
 
 
 void I2C_init_() {
@@ -63,6 +64,11 @@ static void _input_generic_hw_btn_update(_Raw::HW_BTNs& btn) {
 void input_generic_update() {
 
     IN::generic.bukajModuleEn = gpio_get_level(HW::GenericCfg::BukajModule_Pin);
+
+    #if DEBUG_BUKAJ_MODUL 
+        Serial.print("Bukaj: ");
+        Serial.println(IN::generic.bukajModuleEn);
+    #endif
 
     _input_generic_hw_btn_update(IN::generic.btnPlus);
     _input_generic_hw_btn_update(IN::generic.btnMinus);

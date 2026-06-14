@@ -273,8 +273,8 @@ struct Comms {
     };
 
     struct Line {
-        int16_t angle = 0; //Angle to the line (NOT THE ESCAPE ANGLE!)
-        int16_t angle_ToNField = 0; // -||-
+        float angle = 0; //Angle to the line (NOT THE ESCAPE ANGLE!)
+        float angle_ToNField = 0; // -||-
         bool seen = false;
         float depth = 0.0f;  //Dept 0.0f means the robot is not on the line
     };
@@ -283,6 +283,7 @@ struct Comms {
         // float motSpeed = 0.0f;
         // float drbSpeed = 0.0f;
         bool fastSpeed = false;
+        bool hasBall = false;
         bool drbR = false;
         bool drbF = false;
     };

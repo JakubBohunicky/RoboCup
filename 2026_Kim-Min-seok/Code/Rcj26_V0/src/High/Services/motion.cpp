@@ -45,7 +45,7 @@ namespace Motion {
         ST::pid.PID_dt_last_ms = ST::now_ms;
         
         ST::pid.PID_sumP = (angle * PID_type.P);
-        ST::pid.PID_out = ST::pid.PID_sumP + ST::pid.PID_sumD;
+        ST::pid.PID_out = (ST::pid.PID_sumP + ST::pid.PID_sumD) * 0.001f *weight; //treba doladit
 
         if(ST::pid.PID_out > PID_type.maxLimit) ST::pid.PID_out = PID_type.maxLimit;
         if(ST::pid.PID_out < -PID_type.maxLimit) ST::pid.PID_out = -PID_type.maxLimit;
@@ -64,7 +64,7 @@ namespace Motion {
         ST::pid.PID_dt_last_ms = ST::now_ms;
         
         ST::pid.PID_sumP = (angle * PID_type.P);
-        ST::pid.PID_out = (ST::pid.PID_sumP + ST::pid.PID_sumD) * weight;
+        ST::pid.PID_out = (ST::pid.PID_sumP + ST::pid.PID_sumD) * 0.001f *weight; //treba doladit
 
         if(ST::pid.PID_out > PID_type.maxLimit) ST::pid.PID_out = PID_type.maxLimit;
         if(ST::pid.PID_out < -PID_type.maxLimit) ST::pid.PID_out = -PID_type.maxLimit;

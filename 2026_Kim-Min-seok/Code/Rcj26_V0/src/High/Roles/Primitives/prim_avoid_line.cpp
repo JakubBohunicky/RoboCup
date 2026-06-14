@@ -4,6 +4,13 @@
 
 namespace Prim {
     void avoid_line() {
-        Motion::addMotion(IN::line.angle + 180.f, IN::line.depth*2);
+        if(IN::line.depth >= 0.3f){
+            OUT::motorAcc = {};
+            OUT::motorAcc.motEn = true;
+            Motion::addMotion(IN::line.angle + 180.f, constrain(IN::line.depth*1000.0f, 0.0f, 1.5f));
+
+        } else {
+            Motion::addMotion(IN::line.angle + 180.f, constrain(IN::line.depth*4.0f, 0.0f, 0.75f));
+        }
     }
 }

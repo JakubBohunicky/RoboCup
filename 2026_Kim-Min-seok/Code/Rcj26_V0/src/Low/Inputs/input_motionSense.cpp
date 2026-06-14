@@ -85,4 +85,10 @@ void input_motionSense_update() {
     // }
     IN::motionSens.drbF = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_F_Pin);
     IN::motionSens.drbR = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_R_Pin);
+
+    if(IN::motionSens.drbF || IN::motionSens.drbR) {
+        IN::motionSens.hasBall = true;
+    } else {
+        IN::motionSens.hasBall = false;
+    }
 }

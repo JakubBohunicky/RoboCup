@@ -11,3 +11,5 @@ esp32 neba klasicky bluetooth ale len BLE
 step down ma na hovno potenciometer
 gate driver asi nebude 4A vystup :) RIP ESP
 diery na kicker su 2.5mm namiesto 3mm
+SDA SDA na jednom gyre
+zle offsetnute diery na kicker 4x
