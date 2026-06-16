@@ -34,11 +34,17 @@ namespace Role {
 
         if(IN::controller.up.Click) {
             OUT::led_Debug.needsUpdate = true;
-            OUT::led_Debug.color = random(0x1000000);
+            OUT::led_Debug.color[0] = random(0x1000000);
+            OUT::led_Debug.color[1] = random(0x1000000);
+            OUT::led_Debug.color[2] = random(0x1000000);
+            OUT::led_Debug.color[3] = random(0x1000000);
         }
         if(IN::controller.up.LongPress) {
             OUT::led_Debug.needsUpdate = true;
-            OUT::led_Debug.color =  CRGB::Black;
+            OUT::led_Debug.color[0] =  CRGB::Black;
+            OUT::led_Debug.color[1] =  CRGB::Black;
+            OUT::led_Debug.color[2] =  CRGB::Black;
+            OUT::led_Debug.color[3] =  CRGB::Black;
         }
 
         if(IN::controller.left.Click) {
@@ -64,7 +70,10 @@ namespace Role {
             OUT::led_X.needsUpdate = true;
             OUT::led_O.needsUpdate = true;
 
-            OUT::led_Debug.color = CRGB::Black;
+            OUT::led_Debug.color[0] = CRGB::Black;
+            OUT::led_Debug.color[1] = CRGB::Black;
+            OUT::led_Debug.color[2] = CRGB::Black;
+            OUT::led_Debug.color[3] = CRGB::Black;
             OUT::led_X.color = CRGB::Black;
             OUT::led_O.color = CRGB::Black;
         }

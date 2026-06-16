@@ -17,7 +17,7 @@ namespace IN {
 namespace OUT {
     extern _Raw::LED led_O; //brightnes je globalna cize plati len pre LED_O ziadna ina
     extern _Raw::LED led_X;
-    extern _Raw::LED led_Debug;
+    extern _Raw::LED_DEBUG led_Debug;
     extern _Raw::Display display;
     extern _Raw::KickerDrb kicker_Drb;
     extern _Raw::MotorAcc motorAcc; //motor output accumulator

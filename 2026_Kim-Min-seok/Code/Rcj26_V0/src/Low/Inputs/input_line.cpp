@@ -164,9 +164,9 @@ void input_line_update() {
             debug_line_LED_enabled = IN::line.seen;
             OUT::led_Debug.needsUpdate = true;
             if(IN::line.seen == true) {
-                OUT::led_Debug.color = CRGB::DarkRed;
+                OUT::led_Debug.color[0] = CRGB::DarkRed;
             } else {
-                OUT::led_Debug.color = CRGB::DarkGreen;
+                OUT::led_Debug.color[0] = CRGB::Black;
             }
         }
     #endif

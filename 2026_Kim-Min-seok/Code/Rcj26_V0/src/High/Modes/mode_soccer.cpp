@@ -27,14 +27,23 @@ static void _drawScreen_SOCCER() {
     OUT::led_O.color = OUT::LedReduceBrightness(0xFF0040, 1.0f);
     OUT::led_X.needsUpdate = true;
     OUT::led_X.color = OUT::LedReduceBrightness(0xFF0040, 1.0f);
+    OUT::led_Debug.needsUpdate = true;
+    OUT::led_Debug.color[0] = CRGB::Black;
+    OUT::led_Debug.color[1] = CRGB::Black;
+    OUT::led_Debug.color[2] = CRGB::Black;
+    OUT::led_Debug.color[3] = CRGB::Black;
 }
 
 
 namespace Mode {
         void soccer() {
             if(ST::state.mode_previous != ST::Types::mode_t::Soccer) { _drawScreen_SOCCER();}
-            OUT::motorAcc.motEn = true;
+
             Role::attacker();
+            
+            if(IN::generic.bukajModuleEn){
+                OUT::motorAcc.motEn = true;
+            }
     
         } 
 }

@@ -41,7 +41,7 @@ namespace Pheripherials {
         input_generic_init_();
         input_gyro_init_();
         input_line_init_();
-    //     input_pixy_init_();
+        input_pixy_init_();
         input_comm_init_();
     }
 
@@ -62,7 +62,7 @@ namespace Pheripherials {
         }
 
         if(ST::now_ms - times[3] >= 100) { //10Hz
-            // input_pixy_update();
+            input_pixy_update();
             times[3] = ST::now_ms;
         }
 

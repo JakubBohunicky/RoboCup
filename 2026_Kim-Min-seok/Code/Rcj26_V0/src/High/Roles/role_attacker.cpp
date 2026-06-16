@@ -11,6 +11,7 @@ bool test_fw = true;
 namespace Role {
     void attacker() {
 
+        // IN::motionSens.hasBall = true;
         if(IN::motionSens.hasBall) {
             Prim::find_goal();
         } else {

@@ -29,7 +29,8 @@ static void _drawScreen_0() {
 
     // Layer 6
     display.setCursor(53, 4);
-    display.print("Yel");
+    if (ST::soccer.enemyGoal == ST::Types::goal_t::Yellow) { display.print("Yel"); }
+    else { display.print("Blu"); }
 
     // Layer 3 copy 1
     display.setCursor(2, 50);
@@ -126,8 +127,11 @@ static void _drawScreen_1() {
 
 void mode_off_begin() {
     Motion::dribler(0);
-    OUT::led_Debug.color = CRGB::Gray;
-    OUT::led_Debug.needsUpdate = false;
+    OUT::led_Debug.color[0] = CRGB::Black;
+    OUT::led_Debug.color[1] = CRGB::Black;
+    OUT::led_Debug.color[2] = CRGB::Black;
+    OUT::led_Debug.color[3] = CRGB::Black;
+    OUT::led_Debug.needsUpdate = true;
     OUT::led_O.color = CRGB::Black;
     OUT::led_O.needsUpdate = true;
     OUT::led_X.color = CRGB::Black;

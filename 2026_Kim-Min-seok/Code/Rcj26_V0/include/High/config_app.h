@@ -37,7 +37,7 @@ namespace ST_Default {
             .maxLimit = 1.0f,
         },
         .slowPIDCfg = {
-            .P = 0.1f,
+            .P = 1.3f,
             .D = 0.0f,
             .maxLimit = 1.0f,
         },

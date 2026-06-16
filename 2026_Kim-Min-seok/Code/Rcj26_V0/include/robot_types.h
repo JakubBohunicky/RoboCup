@@ -5,7 +5,7 @@
 
 namespace ST {
     namespace Types {
-    enum class goal_t : uint8_t { Yellow = 0, Blue = 1 }; 
+    enum class goal_t : uint8_t { Yellow = 1, Blue = 2 }; 
         enum class mode_t : int8_t {None = -1, Off = 0, Soccer = 1, Controller = 2, KickerTest = 3, LedCal = 4}; 
         enum class role_t : int8_t {Attacker = 0, Defender = 1, Test = 2}; 
         enum class pid_t : int8_t {Slow = 0, Normal = 1, Fast = 2}; 
@@ -230,6 +230,12 @@ struct Comms {
         uint8_t brightness = 255;
         uint32_t color = CRGB::Black;
     };
+
+    struct LED_DEBUG {
+        bool needsUpdate = true;
+        uint8_t brightness = 255;
+        uint32_t color[4] = {CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black};
+    };
     
     struct KickerDrb
     {
@@ -263,7 +269,8 @@ struct Comms {
         uint8_t calMag = 0; 
     };
 
-        struct Ball {
+    struct Ball {
+        bool seen = false;
         int16_t angle = 0; 
         int16_t angle_ToNField = 0;
         uint16_t distanceRaw = 0; //higher number is means the ball is further away

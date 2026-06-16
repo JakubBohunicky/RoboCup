@@ -48,6 +48,12 @@ namespace Mode {
             OUT::led_X.needsUpdate = true;
             OUT::led_X.color = OUT::LedReduceBrightness(CRGB::Red, 1.0f);
             // OUT::led_X.color = CRGB::White;
+
+            OUT::led_Debug.needsUpdate = true;
+            OUT::led_Debug.color[0] = CRGB::Black;
+            OUT::led_Debug.color[1] = CRGB::Black;
+            OUT::led_Debug.color[2] = CRGB::Black;
+            OUT::led_Debug.color[3] = CRGB::Black;
         }
 
         if (IN::controller.connected != previouslyConnected) {

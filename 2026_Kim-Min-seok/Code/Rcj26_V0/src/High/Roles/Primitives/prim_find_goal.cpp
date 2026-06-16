@@ -1,10 +1,35 @@
 #include "High/Roles/Primitives/prim_find_goal.h"
 #include "High/config_app.h"
 #include "High/Services/motion.h"
+#include "High/Services/debug.h"
 
+#if DEBUG_LED_GOAL
+    bool debug_goal_LED_enabled = false; 
+#endif
 
 namespace Prim {
     void find_goal() {
+
+
+            if(IN::goalEnemy.seen) {
+                if(IN::goalEnemy.angle >= -Const::Attacker::shootAngle && IN::goalEnemy.angle <= Const::Attacker::shootAngle) { 
+                    // OUT::kicker_Drb.kickF = true; 
+                }
+                Motion::addMotion(IN::goalEnemy.angle, 0.2f);
+                Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
+            } else if(ST::attacker.lineBounceFeature && ST::now_ms - ST::attacker.lineBounceFeatureTime <= 2000){
+                Motion::addMotion_ToNField(180.0f, 0.2f);
+                Motion::rotate_ToNField(0.0f, ST::pid.slowPIDCfg); 
+
+            } else {
+                if(IN::line.seen && (IN::line.angle > -90.0f && IN::line.angle < 90.0f)) {
+                    ST::attacker.lineBounceFeature = true;
+                    ST::attacker.lineBounceFeatureTime = ST::now_ms;
+                } else {
+                    Motion::addMotion_ToNField(0.0f, 0.2f);
+                    Motion::rotate_ToNField(0.0f, ST::pid.slowPIDCfg); 
+                }
+            }
 
         // if(IN::motionSens.drbF) {
         //     if(IN::line.seen) {
@@ -33,6 +58,33 @@ namespace Prim {
         //     } 
         // }
         // else if(IN::motionSens.drbR) { } 
+
+
+
+        #if DEBUG_LED_GOAL
+            if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
+                debug_goal_LED_enabled = IN::goalEnemy.seen;
+                OUT::led_Debug.needsUpdate = true;
+                if(IN::goalEnemy.seen == true) {
+                    OUT::led_Debug.color[1] = CRGB::DarkMagenta;
+            } 
+            } else  if(debug_goal_LED_enabled != ST::attacker.lineBounceFeature) {
+                debug_goal_LED_enabled = ST::attacker.lineBounceFeature;
+                OUT::led_Debug.needsUpdate = true;
+                if(ST::attacker.lineBounceFeature == true) {
+                    OUT::led_Debug.color[1] = CRGB::White;
+                }
+            } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
+                debug_goal_LED_enabled = IN::goalOur.seen;
+                OUT::led_Debug.needsUpdate = true;
+                if(IN::goalOur.seen == true) {
+                    OUT::led_Debug.color[1] = CRGB::DarkGreen;
+                }
+            } else {
+                    OUT::led_Debug.color[1] = CRGB::Black;
+                }
+        #endif
+            
 
     }
 }

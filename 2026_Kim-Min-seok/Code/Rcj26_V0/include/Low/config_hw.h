@@ -153,11 +153,10 @@ namespace HW {
         static const float FAR_SENSOR_ANGLE_DEG[6] = {
             0.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f };
 
-        // filter tuning
-        const float ALPHA_NEAR = 0.40f;
-        const float ALPHA_FAR = 0.18f;
-        const float MAX_JUMP_NEAR = 55.0f;
-        const float MAX_JUMP_FAR = 25.0f;
+        const float ALPHA_NEAR = 0.15f;   // bolo 0.40
+        const float ALPHA_FAR  = 0.08f;   // bolo 0.18
+        const float MAX_JUMP_NEAR = 35.0f; // bolo 55
+        const float MAX_JUMP_FAR  = 18.0f; // bolo 25
 
         const int MIN_SUM_NEAR = 20;
         const int MIN_SUM_FAR = 8;

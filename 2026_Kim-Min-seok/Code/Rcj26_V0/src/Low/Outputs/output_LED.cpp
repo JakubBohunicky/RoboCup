@@ -51,9 +51,9 @@ static void _output_LED_set_X() {
 
 
 static void _output_LED_set_DEBUG() {
-    LEDs_X[0] = _rgbToGrb(OUT::LedReduceBrightness(OUT::led_Debug.color, HW::LEDsCfg::DEBUG_BRIGHTNESS));
-    for (uint8_t i = 1; i < HW::LEDsCfg::LED_DEBUG_num; ++i) { //zapis do vsetkych DEBUG
-        LEDs_X[i] = OUT::LedReduceBrightness(OUT::led_Debug.color, HW::LEDsCfg::DEBUG_BRIGHTNESS);
+    LEDs_X[0] = _rgbToGrb(OUT::LedReduceBrightness(OUT::led_Debug.color[0], HW::LEDsCfg::DEBUG_BRIGHTNESS));
+    for (uint8_t i = 1; i < HW::LEDsCfg::LED_DEBUG_num; ++i) {
+        LEDs_X[i] = OUT::LedReduceBrightness(OUT::led_Debug.color[i], HW::LEDsCfg::DEBUG_BRIGHTNESS);
     }
 }
 
