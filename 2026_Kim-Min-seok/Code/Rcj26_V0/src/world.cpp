@@ -27,7 +27,7 @@ namespace ST {
     uint32_t now_ms;
     _Raw::ST_State state;
     _Raw::ST_PID pid;
-    _Raw::ST_Attacker attacker;
+    // _Raw::ST_Attacker attacker; //uz je v soccer
     _Raw::ST_Soccer soccer;
     _Raw::ST_OffMenu offMenu;
     _Raw::ST_Controller controller;
@@ -38,17 +38,22 @@ namespace ST_CFG {
     void saveToMem_SoccerState() {
         Preferences prefs;
         prefs.begin("soccer", false);
+        prefs.putBool("robotA", ST::state.isRobot_A);
         prefs.putUChar("defaulRole", (uint8_t)ST::soccer.defaultRole);
         prefs.putUChar("enemyGoal", (uint8_t)ST::soccer.enemyGoal);
         prefs.putFloat("baseSpeed", ST::soccer.baseSpeed);
+        prefs.end();
     }
     
     void LoadFromMem_SoccerState() {
         Preferences prefs;
         prefs.begin("soccer", true);
+        ST::state.isRobot_A = prefs.getBool("robotA", ST::state.isRobot_A);
         ST::soccer.defaultRole = (ST::Types::role_t)prefs.getUChar("defaulRole", (uint8_t)ST::soccer.defaultRole);
+        ST::soccer.role = (ST::Types::role_t)prefs.getUChar("defaulRole", (uint8_t)ST::soccer.defaultRole);
         ST::soccer.enemyGoal = (ST::Types::goal_t)prefs.getUChar("enemyGoal", (uint8_t)ST::soccer.enemyGoal);
-        ST::soccer.baseSpeed = prefs.getUChar("baseSpeed", ST::soccer.baseSpeed);
+        ST::soccer.baseSpeed = prefs.getFloat("baseSpeed", ST::soccer.baseSpeed);
+        prefs.end();
     }
     
     void resetToDefaults() {

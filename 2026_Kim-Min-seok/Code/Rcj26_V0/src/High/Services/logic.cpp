@@ -7,6 +7,7 @@
 // #include "High/Services/motion.h"
 #include "Low/Inputs/input_gyro.h"
 #include <Arduino.h>
+#include "High/Services/debug.h"
 
 
 
@@ -53,10 +54,14 @@ namespace Logic {
                     ST::state.mode = ST::Types::mode_t::Soccer;
                 }
 
-                if(IN::generic.btnMinus.Click && ST::now_ms - ST::state.lastActiveTime >= 1000){
-                    ST::state.mode = ST::Types::mode_t::Controller;
-                }
-
+                #if ENABLE_CONTROLLER 
+                    if(IN::generic.btnMinus.Click && ST::now_ms - ST::state.lastActiveTime >= 1000){
+                        ST::state.mode = ST::Types::mode_t::Controller;
+                    }
+                #else
+                    // :)))
+                #endif
+                
                 if(IN::generic.btnPlus.LongPress){
                     // IN::gyro.offset = random(-180.0f, 180.0f); 
                     input_gyro_calibrate();
@@ -77,11 +82,11 @@ namespace Logic {
 
                 if(IN::generic.btnPlus.Click) { 
                     ST::offMenu.cursor--;
-                    if(ST::offMenu.cursor > 4) { ST::offMenu.cursor = 0; }  
+                    if(ST::offMenu.cursor < 0) { ST::offMenu.cursor = 4; }
                 }
                 if(IN::generic.btnMinus.Click) {
                     ST::offMenu.cursor++;
-                    if(ST::offMenu.cursor < 0) { ST::offMenu.cursor = 4; }
+                    if(ST::offMenu.cursor > 4) { ST::offMenu.cursor = 0; }  
                 }
 
                 if(IN::generic.btnPlus.LongPress) {
@@ -91,11 +96,23 @@ namespace Logic {
                                 ST_CFG::saveToMem_SoccerState();
                             break;
                         case 1: ST::state.isRobot_A = !ST::state.isRobot_A;
+                                if(ST::soccer.defaultRole == ST::Types::role_t::Attacker) {
+                                    ST::soccer.defaultRole = ST::Types::role_t::Defender; 
+                                        ST::soccer.role = ST::Types::role_t::Defender;
+                                    } else {
+                                        ST::soccer.defaultRole = ST::Types::role_t::Attacker;
+                                        ST::soccer.role = ST::Types::role_t::Attacker;
+                                    }
                                 ST_CFG::saveToMem_SoccerState();
                             break;
-                        case 2: if(ST::soccer.defaultRole == ST::Types::role_t::Attacker) { ST::soccer.defaultRole = ST::Types::role_t::Defender; }
-                                else { ST::soccer.defaultRole = ST::Types::role_t::Attacker; }
-                                ST_CFG::saveToMem_SoccerState();
+                        case 2: if(ST::soccer.defaultRole == ST::Types::role_t::Attacker) {
+                                    ST::soccer.defaultRole = ST::Types::role_t::Defender; 
+                                        ST::soccer.role = ST::Types::role_t::Defender;
+                                    } else {
+                                        ST::soccer.defaultRole = ST::Types::role_t::Attacker;
+                                        ST::soccer.role = ST::Types::role_t::Attacker;
+                                    }
+                                ST_CFG::saveToMem_SoccerState(); 
                             break;
                         case 3: ST::state.mode = ST::Types::mode_t::LedCal;
                             break;

@@ -75,6 +75,16 @@ static void _drawScreen_0() {
         // network_www
         display.drawBitmap(3, 3, Images::image_network_www_bits, 16, 16, 1);
     }
+
+    display.setTextSize(1);
+    display.setCursor(2, 22);
+    if(ST::soccer.role == ST::Types::role_t::Attacker) {
+        display.print("A");
+    } else if(ST::soccer.role == ST::Types::role_t::Defender) {
+        display.print("D");
+    } else if(ST::soccer.role == ST::Types::role_t::Test) {
+        display.print("T");
+    }
 }
 
 

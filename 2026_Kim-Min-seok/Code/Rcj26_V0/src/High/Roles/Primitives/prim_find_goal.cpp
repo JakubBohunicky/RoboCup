@@ -11,20 +11,21 @@ namespace Prim {
     void find_goal() {
 
 
+        
             if(IN::goalEnemy.seen) {
                 if(IN::goalEnemy.angle >= -Const::Attacker::shootAngle && IN::goalEnemy.angle <= Const::Attacker::shootAngle) { 
-                    // OUT::kicker_Drb.kickF = true; 
+                    OUT::kicker_Drb.kickF = true; 
                 }
                 Motion::addMotion(IN::goalEnemy.angle, 0.2f);
                 Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
-            } else if(ST::attacker.lineBounceFeature && ST::now_ms - ST::attacker.lineBounceFeatureTime <= 2000){
+            } else if(ST::soccer.attacker.lineBounceFeature && ST::now_ms - ST::soccer.attacker.lineBounceFeatureTime <= 2000){
                 Motion::addMotion_ToNField(180.0f, 0.2f);
                 Motion::rotate_ToNField(0.0f, ST::pid.slowPIDCfg); 
 
             } else {
                 if(IN::line.seen && (IN::line.angle > -90.0f && IN::line.angle < 90.0f)) {
-                    ST::attacker.lineBounceFeature = true;
-                    ST::attacker.lineBounceFeatureTime = ST::now_ms;
+                    ST::soccer.attacker.lineBounceFeature = true;
+                    ST::soccer.attacker.lineBounceFeatureTime = ST::now_ms;
                 } else {
                     Motion::addMotion_ToNField(0.0f, 0.2f);
                     Motion::rotate_ToNField(0.0f, ST::pid.slowPIDCfg); 
@@ -68,10 +69,10 @@ namespace Prim {
                 if(IN::goalEnemy.seen == true) {
                     OUT::led_Debug.color[1] = CRGB::DarkMagenta;
             } 
-            } else  if(debug_goal_LED_enabled != ST::attacker.lineBounceFeature) {
-                debug_goal_LED_enabled = ST::attacker.lineBounceFeature;
+            } else  if(debug_goal_LED_enabled != ST::soccer.attacker.lineBounceFeature) {
+                debug_goal_LED_enabled = ST::soccer.attacker.lineBounceFeature;
                 OUT::led_Debug.needsUpdate = true;
-                if(ST::attacker.lineBounceFeature == true) {
+                if(ST::soccer.attacker.lineBounceFeature == true) {
                     OUT::led_Debug.color[1] = CRGB::White;
                 }
             } else if(debug_goal_LED_enabled != IN::goalOur.seen) {

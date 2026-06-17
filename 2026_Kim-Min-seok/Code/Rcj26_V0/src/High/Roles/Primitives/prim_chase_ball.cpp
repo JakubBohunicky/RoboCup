@@ -5,116 +5,76 @@
 #include "Low/Outputs/output_display.h"
 
 namespace CFG {
-    static constexpr float closeProximity = 0.8f;
+    static constexpr float closeProximity = 0.9f;
 
     static constexpr float FRONT_ZONE_DEG  = 90.0f;   // aktívna zóna +-stupne
 }
 
-// vracia finalAngle pre addMotion_ToNField
-// ballAngle = IN::ball.angle (signed, -180..180)
-// vracia float v -180..180
 float closeOrbitAngle(float ballAngle, float proximity) {
     float a = fabs(ballAngle);
 
-    if (a > CFG::FRONT_ZONE_DEG) {
-        return 999;       // mimo zony - nerob nic, riadenie prebera iny kod
+    static constexpr float FRONT_ZONE_DEG   = CFG::FRONT_ZONE_DEG;
+    static constexpr float FRONT_OFFSET_K   = 55.0f;
+    static constexpr float BACK_TARGET_180  = 80.0f;
+    static constexpr float orbitScale       = 1.0f;
+
+    proximity = constrain(proximity, 0.0f, 1.0f);
+
+    // PREDOK POD 90° - NIC NEMENENE
+    if (a <= FRONT_ZONE_DEG) {
+        float rad = deg2rad(ballAngle);
+        float offset = FRONT_OFFSET_K * sinf(rad) * (0.6f + 0.4f * proximity);
+        return wrap180((ballAngle + offset) * orbitScale);
+    }
+    else if (a > 90.0f && a <= 135.0f) {
+        float t = (a - 90.0f) / 45.0f;   // 90 -> 0, 135 -> 1
+        t = t * t * (3.0f - 2.0f * t);   // smoothstep
+
+        float targetAbs = 180.0f - t * 45.0f;   // 180 -> 135
+
+        float target;
+        if (ballAngle > 0.0f) {
+            target = targetAbs;
+        } else {
+            target = -targetAbs;
+        }
+
+        return wrap180(target);
     }
 
-    static constexpr float FRONT_OFFSET_K  = 55.0f;   // sila orbitu, 0 = rovno, 90 = max uhol
-    static constexpr float orbitScale = 1.0f;
-    float rad = deg2rad(ballAngle);
-    float offset = FRONT_OFFSET_K * sinf(rad);
+    else if (a > 135.0f && a <= 180.0f) {
+        float t = (a - 135.0f) / 45.0f;   // 135 -> 0, 180 -> 1
 
-    return wrap180((ballAngle + offset) * orbitScale);
+        float targetAbs = 135.0f - t * 45.0f;   // 135 -> 90
+
+        float target;
+        if (ballAngle > 0.0f) {
+            target = -targetAbs;   // opacna strana ako lopta
+        } else {
+            target = targetAbs;    // opacna strana ako lopta
+        }
+
+        return wrap180(target);
+    }
+    else {
+        return 999;
+    }
 }
-
-// float closeOrbitAngle(float ballAngle, float proximity) {
-//     float rad = deg2rad(ballAngle);
-//     float orbitAngle = ballAngle + 90.0f * sinf(rad);
-//     return wrap180(orbitAngle * CFG::orbitScale);
-// }
-
-// float closeOrbitAngle(float ballAngle, float proximity) {
-//     float a = fabs(ballAngle);
-//     float s = (ballAngle >= 0.0f) ? 1.0f : -1.0f;
-//     float out = ballAngle;
-
-//     // lopta vpredu -> jemne do radlice
-//     if (a < 8.0f) {
-//         out = ballAngle;
-//     } 
-//     else if (a < 20.0f) {
-//         out = ballAngle + s * 6.0f;
-//     } 
-//     else if (a < 35.0f) {
-//         out = ballAngle + s * 12.0f;
-//     } 
-//     else if (a < 55.0f) {
-//         out = ballAngle + s * 22.0f;
-//     } 
-//     else if (a < 80.0f) {
-//         out = ballAngle + s * 28.0f;
-//     } 
-//     else if (a < 110.0f) {
-//         out = ballAngle + s * 40.0f;
-//     } 
-//     else if (a < 140.0f) {
-//         out = ballAngle + s * 50.0f;
-//     } 
-//     // lopta za robotom -> obísť ju dopredu
-//     else {
-//         float behindOffset = 55.0f;
-
-//         if (proximity > 0.75f) {
-//             behindOffset = 40.0f;
-//         } else if (proximity > 0.55f) {
-//             behindOffset = 48.0f;
-//         }
-
-//         out = s * (90.0f - behindOffset);
-//     }
-
-//     return wrap180(out * CFG::orbitScale);
-// }
-
-
-
-// float closeOrbitAngle(float ballAngle, float proximity) {
-//     float proxOld = 1.0f + 0.5f * proximity;   // 0..1 -> 1..1.5
-
-//     float s = (ballAngle >= 0.0f) ? 1.0f : -1.0f;
-//     float a = fabs(ballAngle);
-//     float out = 0.0f;
-
-//     if (a == 0.0f) {
-//         out = 0.0f;
-//     } else if (a < 11.0f && proxOld > 1.0f) {
-//         out = 2.0f * a * proxOld * CFG::orbitScale;
-//     } else if (a < 21.0f && proxOld > 1.0f) {
-//         out = 2.7f * a * proxOld * CFG::orbitScale;
-//     } else if (a < 60.0f && proxOld > 1.0f) {
-//         out = 2.0f * a * proxOld * CFG::orbitScale;
-//     } else {
-//         out = a / proxOld;
-//     }
-
-//     return wrap180(s * out);
-// }
 
 namespace Prim {
     void chase_ball() {
         
-        // float rotAng = constrain(IN::ball.angle * 0.5f, -30, 30);
-        // Motion::rotate_ToNField(rotAng, ST::pid.normalPIDCfg, 1.0f);
+        float rotAng = constrain(IN::ball.angle * 0.5f, -30, 30);
+        Motion::rotate_ToNField(rotAng, ST::pid.normalPIDCfg, 1.0f);
 
 
         
-        Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
+        // Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
         
         float finalAngle;
         if(IN::ball.seen) {
             
-            bool close;
+            bool close = false;
             if(IN::ball.proximity >= CFG::closeProximity) {
                 close = true;
             }
@@ -123,12 +83,12 @@ namespace Prim {
             if(close) {
                 finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
                 if(finalAngle != 999) {
-                    Motion::addMotion(finalAngle, 0.2f);
+                    Motion::addMotion(finalAngle, 0.4f);
                 }
 
             } else {
                 finalAngle = IN::ball.angle;
-                Motion::addMotion(finalAngle, 0.2f);
+                Motion::addMotion(finalAngle, 0.5f);
             }
 
         } else{

@@ -1,24 +1,24 @@
 #include "High/Roles/role_attacker.h"
-#include "High/Roles/Primitives/prim_avoid_line.h"
-#include "High/Roles/Primitives/prim_chase_ball.h"
-#include "High/Roles/Primitives/prim_find_goal.h"
+#include "High/Roles/Primitives/prims.h"
 #include "High/Services/motion.h"
 #include "High/config_app.h"
 
-uint32_t testTime1 = 0;
-bool test_fw = true;
+// uint32_t testTime1 = 0;
+// bool test_fw = true;
 
 namespace Role {
     void attacker() {
 
+
+        Motion::dribler(1);
+
+        
         // IN::motionSens.hasBall = true;
         if(IN::motionSens.hasBall) {
             Prim::find_goal();
         } else {
             Prim::chase_ball();
         }
-
-
 
         // Motion::rotate_ToNField(0.0f);
 

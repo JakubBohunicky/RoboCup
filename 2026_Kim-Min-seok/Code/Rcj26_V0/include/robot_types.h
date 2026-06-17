@@ -70,7 +70,13 @@ namespace _Raw {
       uint32_t lineBounceFeatureTime;
     };
 
+    struct ST_Defender {
+
+    };
+
     struct ST_Soccer {
+        ST_Attacker attacker;
+        ST_Defender defender;
         ST::Types::role_t role;
         ST::Types::role_t defaultRole;
         ST::Types::goal_t enemyGoal;

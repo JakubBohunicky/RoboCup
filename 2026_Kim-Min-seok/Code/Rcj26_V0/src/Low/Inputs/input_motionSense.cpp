@@ -2,10 +2,15 @@
 #include "driver/gpio.h"
 #include "Low/config_hw.h"
 #include <FastADC_Mux.h>
+#include "High/Services/debug.h"
 
 static bool speeds[4]; //5
 
 static constexpr float motion_ADC_Const = 1.0f/HW::MotionSenseCfg::ADC_maxVal;
+
+#if DEBUG_LED_HASBALL
+    bool debug_ball_LED_enabled = false; 
+#endif
 
 void _input_motionSense_readSpeed() {
     // speeds_ADC[0] = analogReadFast(HW::MotionSenseCfg::A_Spd_Pin_ADC_CH);
@@ -14,15 +19,13 @@ void _input_motionSense_readSpeed() {
     // speeds_ADC[3] = analogReadFast(HW::MotionSenseCfg::D_Spd_Pin_ADC_CH);
     // speeds_ADC[motion_motDRBRF] = 
 
-
-
 }
 
 void input_motionSense_init_() {
     gpio_set_direction(HW::MotionSenseCfg::DRB_SW_F_Pin, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(HW::MotionSenseCfg::DRB_SW_F_Pin, GPIO_PULLUP_ONLY);
+    gpio_set_pull_mode(HW::MotionSenseCfg::DRB_SW_F_Pin, GPIO_PULLDOWN_ONLY);
     gpio_set_direction(HW::MotionSenseCfg::DRB_SW_R_Pin, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(HW::MotionSenseCfg::DRB_SW_R_Pin, GPIO_PULLUP_ONLY);
+    gpio_set_pull_mode(HW::MotionSenseCfg::DRB_SW_R_Pin, GPIO_PULLDOWN_ONLY);
 
     gpio_set_direction(HW::MotionSenseCfg::A_Spd_Pin, GPIO_MODE_INPUT);
     gpio_set_pull_mode(HW::MotionSenseCfg::A_Spd_Pin, GPIO_PULLDOWN_ONLY);
@@ -83,12 +86,27 @@ void input_motionSense_update() {
     // } else { //ROBOT_B
     //     IN::motionSens.drbSpeed = 1.0f - (speeds_ADC[4] * motion_ADC_Const);
     // }
-    IN::motionSens.drbF = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_F_Pin);
-    IN::motionSens.drbR = !gpio_get_level(HW::MotionSenseCfg::DRB_SW_R_Pin);
+    IN::motionSens.drbF = gpio_get_level(HW::MotionSenseCfg::DRB_SW_F_Pin);
+    // IN::motionSens.drbR = gpio_get_level(HW::MotionSenseCfg::DRB_SW_R_Pin);
 
+    
     if(IN::motionSens.drbF || IN::motionSens.drbR) {
         IN::motionSens.hasBall = true;
     } else {
         IN::motionSens.hasBall = false;
     }
+    // Serial.println(IN::motionSens.drbF);
+
+    #if DEBUG_LED_HASBALL
+        if(debug_ball_LED_enabled != IN::motionSens.hasBall) {
+            debug_ball_LED_enabled = IN::motionSens.hasBall;
+            OUT::led_Debug.needsUpdate = true;
+            if(IN::motionSens.hasBall == true) {
+                OUT::led_Debug.color[2] = CRGB::DarkBlue;
+            } else {
+                OUT::led_Debug.color[2] = CRGB::Black;
+                OUT::led_Debug.color[1] = CRGB::Black;
+            }
+        }
+    #endif
 }

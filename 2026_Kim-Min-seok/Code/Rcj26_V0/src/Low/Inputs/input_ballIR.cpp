@@ -59,6 +59,16 @@ bool readBallRaw(uint8_t raw[12], bool &nearMode, int16_t &ballAngleRaw, uint16_
 
     ballAngleRaw = (int16_t)((Wire.read() << 8) | Wire.read());
     ballRawDistance = (uint16_t)((Wire.read() << 8) | Wire.read());
+    
+    #if DEBUG_BALL_RAW
+    Serial.print(">Ang: ");
+    Serial.println(ballAngleRaw);
+    Serial.print(">Dist: ");
+    Serial.println(ballRawDistance);
+    // Serial.println("");
+    #endif
+
+
     return true;
 }
 
@@ -72,6 +82,21 @@ void input_ballIR_update() {
         IN::ball.valid = false;
         return;
     }
+
+    #if BALL_USE_RAW_DATA
+    float dirStrength = 0.0f;
+
+    dirStrength = ballRawDistance / 2500.0f;
+
+
+
+    IN::ball.angle_ToNField = (int16_t)wrap360(lroundf(-ballAngleRaw + 180.0f));
+    IN::ball.angle = wrap180(IN::ball.angle_ToNField);
+    IN::ball.proximity = dirStrength;
+    IN::ball.nearMode = nearMode;
+    IN::ball.valid = true;
+    IN::ball.seen = IN::ball.valid;
+    #else
 
     static uint8_t hist[12][3] = {};
     static uint8_t histPos = 0;
@@ -174,7 +199,9 @@ void input_ballIR_update() {
     } else {
         IN::ball.seen = true;
     }
+    #endif
 
+   
     #if DEBUG_BALL
         Serial.print(">Ang:");
         Serial.println(IN::ball.angle);
@@ -203,6 +230,12 @@ void input_ballIR_update() {
             display.print("Prox:");
             display.setCursor(41, 53);
             display.print(IN::ball.proximity);
+
+            display.setCursor(80, 53);
+            display.print("R:");
+            display.setCursor(95, 53);
+            display.print(ballRawDistance);
+
         }
     }
     #endif
