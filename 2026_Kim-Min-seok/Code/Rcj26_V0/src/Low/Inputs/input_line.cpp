@@ -180,17 +180,14 @@ static void _input_calculate_Depth_Y() {
 }
 
 static bool line_O_outOfBounds = false;
-static int8_t line_O_crossedSide = 0;   // -1 = zlava, 1 = zprava, 0 = nezname
+static int8_t line_O_crossedSide = 0;
+
 
 static void _input_calculate_OutOfBounds() {
-    static int8_t latchedSide = 0;
-    static bool prevLeft = false;
-    static bool prevRight = false;
-
     bool leftNow = false;
+    bool centerNow = false;
     bool rightNow = false;
 
-    // lava cast sektoru A
     for (uint8_t i = 14; i <= 15; i++) {
         if (line_ADC_ring[i] <= HW::LineCfg::line_analog_treshold) {
             leftNow = true;
@@ -198,7 +195,10 @@ static void _input_calculate_OutOfBounds() {
         }
     }
 
-    // prava cast sektoru A
+    if (line_ADC_ring[16] <= HW::LineCfg::line_analog_treshold) {
+        centerNow = true;
+    }
+
     for (uint8_t i = 17; i <= 18; i++) {
         if (line_ADC_ring[i] <= HW::LineCfg::line_analog_treshold) {
             rightNow = true;
@@ -206,46 +206,32 @@ static void _input_calculate_OutOfBounds() {
         }
     }
 
-    bool seesA = leftNow || rightNow || (line_ADC_ring[16] <= HW::LineCfg::line_analog_treshold);
+    bool seesA = leftNow || centerNow || rightNow;
 
     if (!line_O_outOfBounds && seesA) {
         line_O_outOfBounds = true;
 
-        bool leftEdge = leftNow && !prevLeft;
-        bool rightEdge = rightNow && !prevRight;
-
-        if (leftEdge && !rightEdge) {
-            latchedSide = -1;
-        }
-        else if (rightEdge && !leftEdge) {
-            latchedSide = 1;
-        }
-        else if (leftNow && !rightNow) {
-            latchedSide = -1;
+        if (leftNow && !rightNow) {
+            line_O_crossedSide = -1;
         }
         else if (rightNow && !leftNow) {
-            latchedSide = 1;
+            line_O_crossedSide = 1;
         }
         else {
-            latchedSide = 0;
+            line_O_crossedSide = -1;
         }
+        return;
+    }
 
-        line_O_crossedSide = latchedSide;
+    if (line_O_outOfBounds && seesA) {
+        return;
     }
-    else if (line_O_outOfBounds && seesA) {
-        line_O_crossedSide = latchedSide;
-    }
-    else if (line_O_outOfBounds && !seesA) {
+
+    if (line_O_outOfBounds && !seesA) {
         line_O_outOfBounds = false;
         line_O_crossedSide = 0;
-        latchedSide = 0;
+        return;
     }
-    else {
-        line_O_crossedSide = 0;
-    }
-
-    prevLeft = leftNow;
-    prevRight = rightNow;
 }
 
 void input_line_init_() {
