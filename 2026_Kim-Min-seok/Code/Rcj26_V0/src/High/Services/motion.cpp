@@ -89,7 +89,8 @@ namespace Motion {
         OUT::kicker_Drb.kickR = true;
     }
 
-    void dribler(bool on_off){
+    void dribler(bool on_off, bool fast){
         OUT::kicker_Drb.drbEn = on_off;
+        OUT::kicker_Drb.drbFast = fast;
     }
 }

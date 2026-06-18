@@ -13,6 +13,7 @@ static uint16_t line_ADC_depth[16];
 
 static int16_t line_Angle = 0;
 static float line_Depth = 0.0f;
+static float line_Depth_Y = 0.0f;
 static bool line_XoutOfReach = true;
 
 static constexpr int dir_None = -1;
@@ -23,6 +24,7 @@ static constexpr int dir_Eeast = 3;
 
 static int8_t line_X_EncounterDir = dir_None;
 static uint8_t line_angle_O_Active = 0;
+static uint32_t line_O_lastSeenTime = 0;
 
 #if DEBUG_LED_LINE
     bool debug_line_LED_enabled = false; 
@@ -137,6 +139,114 @@ static void _input_calculate_Depth() {
 }
 
 
+static void _input_calculate_Depth_Y() {
+    float frontMax = 0.0f;
+    float backMax = 0.0f;
+
+    // Vpredu: senzory 0..3, kde 3 je najdalej -> najvacsia hodnota
+    for (uint8_t i = 0; i < 4; i++) {
+        if (line_ADC_depth[i] <= HW::LineCfg::line_analog_treshold) {
+            float val = HW::LineCfg::line_depth_XArr[3 - i];  // prehodene: 3=najvacsia
+            if (val > frontMax) {
+                frontMax = val;
+            }
+        }
+    }
+
+    // Vzadu: senzory 8..11, kde 11 je najdalej -> najvacsia hodnota
+    for (uint8_t i = 8; i < 12; i++) {
+        if (line_ADC_depth[i] <= HW::LineCfg::line_analog_treshold) {
+            float val = HW::LineCfg::line_depth_XArr[3 - (i - 8)];  // prehodene: 11=najvacsia
+            if (val > backMax) {
+                backMax = val;
+            }
+        }
+    }
+
+    // Ak nic nevidim, nechaj poslednu hodnotu
+    if (frontMax == 0.0f && backMax == 0.0f) {
+        return;
+    }
+
+    if (frontMax > 0.0f && backMax > 0.0f) {
+        line_Depth_Y = frontMax - backMax;
+    }
+    else if (frontMax > 0.0f) {
+        line_Depth_Y = frontMax;    // +1.0 max vpredu
+    }
+    else {
+        line_Depth_Y = -backMax;    // -1.0 max vzadu
+    }
+}
+
+static bool line_O_outOfBounds = false;
+static int8_t line_O_crossedSide = 0;   // -1 = zlava, 1 = zprava, 0 = nezname
+
+static void _input_calculate_OutOfBounds() {
+    static int8_t latchedSide = 0;
+    static bool prevLeft = false;
+    static bool prevRight = false;
+
+    bool leftNow = false;
+    bool rightNow = false;
+
+    // lava cast sektoru A
+    for (uint8_t i = 14; i <= 15; i++) {
+        if (line_ADC_ring[i] <= HW::LineCfg::line_analog_treshold) {
+            leftNow = true;
+            break;
+        }
+    }
+
+    // prava cast sektoru A
+    for (uint8_t i = 17; i <= 18; i++) {
+        if (line_ADC_ring[i] <= HW::LineCfg::line_analog_treshold) {
+            rightNow = true;
+            break;
+        }
+    }
+
+    bool seesA = leftNow || rightNow || (line_ADC_ring[16] <= HW::LineCfg::line_analog_treshold);
+
+    if (!line_O_outOfBounds && seesA) {
+        line_O_outOfBounds = true;
+
+        bool leftEdge = leftNow && !prevLeft;
+        bool rightEdge = rightNow && !prevRight;
+
+        if (leftEdge && !rightEdge) {
+            latchedSide = -1;
+        }
+        else if (rightEdge && !leftEdge) {
+            latchedSide = 1;
+        }
+        else if (leftNow && !rightNow) {
+            latchedSide = -1;
+        }
+        else if (rightNow && !leftNow) {
+            latchedSide = 1;
+        }
+        else {
+            latchedSide = 0;
+        }
+
+        line_O_crossedSide = latchedSide;
+    }
+    else if (line_O_outOfBounds && seesA) {
+        line_O_crossedSide = latchedSide;
+    }
+    else if (line_O_outOfBounds && !seesA) {
+        line_O_outOfBounds = false;
+        line_O_crossedSide = 0;
+        latchedSide = 0;
+    }
+    else {
+        line_O_crossedSide = 0;
+    }
+
+    prevLeft = leftNow;
+    prevRight = rightNow;
+}
 
 void input_line_init_() {
     gpio_set_direction(HW::LineCfg::LineSet0_Pin, GPIO_MODE_OUTPUT);
@@ -151,13 +261,22 @@ void input_line_init_() {
 void input_line_update() {
 
     _input_scanMux();
-
     _input_calculate_Angle();
     _input_calculate_Depth();
+
+    if(ST::soccer.role == ST::Types::role_t::Defender) {
+        _input_calculate_Depth_Y();
+        _input_calculate_OutOfBounds();
+        IN::line.defender_outOfBounds = line_O_outOfBounds;
+        // IN::line.defender_crossedSide = -1*(line_O_crossedSide - 2);
+        IN::line.defender_crossedSide = line_O_crossedSide;
+    }
+
     IN::line.angle = line_Angle;
     IN::line.depth = line_Depth;
     IN::line.angle_ToNField = wrap360(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
+    IN::line.depth_Y = line_Depth_Y;
 
     #if DEBUG_LED_LINE
         if(debug_line_LED_enabled != IN::line.seen) {
@@ -207,6 +326,12 @@ void input_line_update() {
 
                 display.setCursor(2, 5);
                 display.print(">Line<");
+
+
+                display.setCursor(78, 53);
+                display.print("Y:");
+                display.setCursor(90, 53);
+                display.print(line_Depth_Y);
             }
         }
 

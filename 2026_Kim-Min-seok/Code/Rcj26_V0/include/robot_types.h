@@ -246,6 +246,7 @@ struct Comms {
     struct KickerDrb
     {
         bool drbReverseDir = false;
+        bool drbFast = false;
         bool drbEn = false;
         bool kickF = false;
         bool kickR = false;
@@ -290,6 +291,9 @@ struct Comms {
         float angle_ToNField = 0; // -||-
         bool seen = false;
         float depth = 0.0f;  //Dept 0.0f means the robot is not on the line
+        float depth_Y = 0.0f;
+        float defender_outOfBounds = false;
+        int8_t defender_crossedSide = 0;
     };
 
     struct MotionSense {

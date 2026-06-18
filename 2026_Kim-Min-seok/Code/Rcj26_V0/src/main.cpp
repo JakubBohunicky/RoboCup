@@ -12,7 +12,6 @@ void setup()
     ST_CFG::resetToDefaults();
     Pheripherials::inputs_init_();
     Pheripherials::outputs_init_();
-
 }
 
 void loop()

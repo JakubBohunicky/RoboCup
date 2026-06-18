@@ -40,11 +40,11 @@ namespace Mode {
         void soccer() {
             if(ST::state.mode_previous != ST::Types::mode_t::Soccer) { _drawScreen_SOCCER();}
 
-            if(ST::soccer.role == ST::Types::role_t::Attacker) {
-                Role::attacker();
-            } else if (ST::soccer.role == ST::Types::role_t::Defender) {
+            // if(ST::soccer.role == ST::Types::role_t::Attacker) {
+            //     Role::attacker();
+            // } else if (ST::soccer.role == ST::Types::role_t::Defender) {
                 Role::defender();
-            }
+            // }
             
             if(IN::generic.bukajModuleEn){
                 OUT::motorAcc.motEn = true;

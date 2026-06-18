@@ -39,7 +39,7 @@ namespace ST_Default {
         .slowPIDCfg = {
             .P = 1.3f,
             .D = 0.0f,
-            .maxLimit = 1.0f,
+            .maxLimit = 0.5f,
         },
         .PID_sumP = 0.0f,
         .PID_sumD = 0.0f,
