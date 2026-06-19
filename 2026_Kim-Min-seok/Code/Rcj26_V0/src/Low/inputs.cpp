@@ -61,7 +61,7 @@ namespace Pheripherials {
             times[2] = ST::now_ms;
         }
 
-        if(ST::now_ms - times[3] >= 100 && IN::motionSens.hasBall) { //10Hz
+        if(ST::now_ms - times[3] >= 100 && (IN::motionSens.hasBall || ST::soccer.defender.startedOnLine == false)) { //10Hz
             input_pixy_update();
             times[3] = ST::now_ms;
         }

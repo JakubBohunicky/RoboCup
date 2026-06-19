@@ -60,12 +60,12 @@ static bool _add_peer(const uint8_t mac[6]) {
 void input_comm_init_() {
     if (ST::state.isRobot_A) {
         for (uint8_t i = 0; i < 6; i++) {
-            IN::comms.SOCCER_PEER_MAC[i] = HW::Comms::SOCCER_PEER_MAC_A[i];
+            IN::comms.SOCCER_PEER_MAC[i] = HW::Comms::SOCCER_PEER_MAC_B[i];
             IN::comms.CONTROLLER_PEER_MAC[i] = HW::Comms::CONTROLLER_PEER_MAC_A[i];
         }
     } else {
         for (uint8_t i = 0; i < 6; i++) {
-            IN::comms.SOCCER_PEER_MAC[i] = HW::Comms::SOCCER_PEER_MAC_B[i];
+            IN::comms.SOCCER_PEER_MAC[i] = HW::Comms::SOCCER_PEER_MAC_A[i];
             IN::comms.CONTROLLER_PEER_MAC[i] = HW::Comms::CONTROLLER_PEER_MAC_B[i];
         }
     }
@@ -124,13 +124,14 @@ void input_comm_init_() {
 
 static void _debug_print_comm_rx(const _Raw::Soccer_MSG& m) {
     Serial.printf(
-        "seq=%d, mode:%u, role:%u | drbF:%u, drbR:%u, BAngN: %d, BDis: %d| line:%u, gyroN: %d, goal:%u\n",
+        "seq=%d, mode:%u, role:%u | drbF:%u, code:%u, bukaj:%u, BAngN: %d, BDis: %d| line:%u, gyroN: %d, goal:%u\n",
         (int)m.seq,
         m.mode,
         m.role,
 
         m.drbF,
-        m.drbR,
+        m.code,
+        m.bukaj,
         (int)m.ball_angle_ToNField,
         (int)m.ball_distRaw,
 
@@ -145,14 +146,19 @@ void input_comm_update() {
 
     if(IN::comms.newSoccerRxPacket) {
         IN::comms.newSoccerRxPacket = false;
+    IN::comms.rx_soccer_prev_updated = false;
+        memcpy(&IN::comms.rx_soccer_msg_prev, &IN::comms.rx_soccer_msg, sizeof(_Raw::Soccer_MSG));
         memcpy(&IN::comms.rx_soccer_msg, &isr_rx_soccer_msg, sizeof(_Raw::Soccer_MSG));
         IN::comms.lastSoccerRxMsg_ms = ST::now_ms;
     }
 
-    IN::comms.tx_soccer_msg.mode = (uint8_t)ST::state.mode;
-    IN::comms.tx_soccer_msg.role = (uint8_t)ST::soccer.role;
+    IN::comms.tx_soccer_msg.seq++;
+    IN::comms.tx_soccer_msg.mode = (int8_t)ST::state.mode;
+    IN::comms.tx_soccer_msg.role = (int8_t)ST::soccer.role;
     IN::comms.tx_soccer_msg.drbF = (uint8_t)IN::motionSens.drbF;
-    IN::comms.tx_soccer_msg.drbR = (uint8_t)IN::motionSens.drbR;
+    IN::comms.tx_soccer_msg.code = IN::comms.soccer_send_code;
+    IN::comms.soccer_send_code = 0;
+    IN::comms.tx_soccer_msg.bukaj = (int8_t)IN::generic.bukajModuleEn;
     IN::comms.tx_soccer_msg.ball_angle_ToNField = (uint16_t)IN::ball.angle_ToNField;
     IN::comms.tx_soccer_msg.ball_distRaw = (uint16_t)IN::ball.distanceRaw;
     IN::comms.tx_soccer_msg.line_seen = (uint8_t)IN::line.seen;
@@ -162,11 +168,11 @@ void input_comm_update() {
     esp_now_send(IN::comms.SOCCER_PEER_MAC, (uint8_t*)&IN::comms.tx_soccer_msg, sizeof(IN::comms.tx_soccer_msg));
 
     if (ST::now_ms - IN::comms.lastSoccerRxMsg_ms <= 800){
-        IN::comms.onlineSoccer == true;
-        // Serial.println("online");
+        IN::comms.onlineSoccer = true;
+        Serial.println("online");
     } else {
-        IN::comms.onlineSoccer == false;
-        // Serial.println("offline");
+        IN::comms.onlineSoccer = false;
+        Serial.println("offline");
     }
 
     #if DEBUG_COMMs

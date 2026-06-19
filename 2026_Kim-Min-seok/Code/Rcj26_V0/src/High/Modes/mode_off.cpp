@@ -78,11 +78,11 @@ static void _drawScreen_0() {
 
     display.setTextSize(1);
     display.setCursor(2, 22);
-    if(ST::soccer.role == ST::Types::role_t::Attacker) {
+    if(ST::soccer.defaultRole == ST::Types::role_t::Attacker) {
         display.print("A");
-    } else if(ST::soccer.role == ST::Types::role_t::Defender) {
+    } else if(ST::soccer.defaultRole == ST::Types::role_t::Defender) {
         display.print("D");
-    } else if(ST::soccer.role == ST::Types::role_t::Test) {
+    } else if(ST::soccer.defaultRole == ST::Types::role_t::Test) {
         display.print("T");
     }
 }

@@ -32,7 +32,7 @@ void input_motionSense_init_() {
     gpio_set_direction(HW::MotionSenseCfg::B_Spd_Pin, GPIO_MODE_INPUT);
     gpio_set_pull_mode(HW::MotionSenseCfg::B_Spd_Pin, GPIO_PULLDOWN_ONLY);
     gpio_set_direction(HW::MotionSenseCfg::C_Spd_Pin, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(HW::MotionSenseCfg::C_Spd_Pin, GPIO_PULLDOWN_ONLY);
+gpio_set_pull_mode(HW::MotionSenseCfg::C_Spd_Pin, GPIO_PULLDOWN_ONLY);
     gpio_set_direction(HW::MotionSenseCfg::D_Spd_Pin, GPIO_MODE_INPUT);
     gpio_set_pull_mode(HW::MotionSenseCfg::D_Spd_Pin, GPIO_PULLDOWN_ONLY);
     

@@ -181,7 +181,9 @@ static void _input_calculate_Depth_Y() {
 
 static bool line_O_outOfBounds = false;
 static int8_t line_O_crossedSide = 0;
-
+static int8_t line_O_latchedSide = 0;
+static bool line_O_wasFullyOutside = false;
+static bool line_O_startedReturn = false;
 
 static void _input_calculate_OutOfBounds() {
     bool leftNow = false;
@@ -210,27 +212,185 @@ static void _input_calculate_OutOfBounds() {
 
     if (!line_O_outOfBounds && seesA) {
         line_O_outOfBounds = true;
+        line_O_wasFullyOutside = false;
+        line_O_startedReturn = false;
 
         if (leftNow && !rightNow) {
-            line_O_crossedSide = -1;
+            line_O_latchedSide = -1;
         }
         else if (rightNow && !leftNow) {
-            line_O_crossedSide = 1;
+            line_O_latchedSide = 1;
         }
-        else {
-            line_O_crossedSide = -1;
-        }
+
+        line_O_crossedSide = line_O_latchedSide;
         return;
     }
 
-    if (line_O_outOfBounds && seesA) {
+    if (line_O_outOfBounds) {
+        line_O_crossedSide = line_O_latchedSide;
+
+        if (!line_O_wasFullyOutside) {
+            if (!seesA) {
+                line_O_wasFullyOutside = true;
+            }
+            return;
+        }
+
+        if (line_O_wasFullyOutside && !line_O_startedReturn) {
+            if (seesA) {
+                line_O_startedReturn = true;
+            }
+            return;
+        }
+
+        if (line_O_wasFullyOutside && line_O_startedReturn) {
+            if (!seesA) {
+                line_O_outOfBounds = false;
+                line_O_crossedSide = 0;
+                line_O_latchedSide = 0;
+                line_O_wasFullyOutside = false;
+                line_O_startedReturn = false;
+            }
+            return;
+        }
+    }
+}
+
+static int16_t line_O_half0_Angle = 0;
+static int16_t line_O_half1_Angle = 0;
+
+static int16_t line_O_half0_Angle_ToNField = 0;
+static int16_t line_O_half1_Angle_ToNField = 0;
+
+static bool line_O_half0_Seen = false;
+static bool line_O_half1_Seen = false;
+
+static uint8_t line_O_half0_Count = 0;
+static uint8_t line_O_half1_Count = 0;
+
+static void _input_calculate_HalfAngles() {
+    line_O_half0_Angle = 0;
+    line_O_half1_Angle = 0;
+
+    line_O_half0_Angle_ToNField = 0;
+    line_O_half1_Angle_ToNField = 0;
+
+    line_O_half0_Seen = false;
+    line_O_half1_Seen = false;
+
+    line_O_half0_Count = 0;
+    line_O_half1_Count = 0;
+
+    float half0_x = 0.0f;
+    float half0_y = 0.0f;
+
+    float half1_x = 0.0f;
+    float half1_y = 0.0f;
+
+    for (uint8_t i = 0; i < 16; i++) {
+        if (line_ADC_ring[i] <= HW::LineCfg::line_analog_treshold) {
+            line_O_half0_Count++;
+
+            float ang = radians(i * 11.25f);
+            half0_x += sinf(ang);
+            half0_y += cosf(ang);
+        }
+    }
+
+    for (uint8_t i = 16; i < 32; i++) {
+        if (line_ADC_ring[i] <= HW::LineCfg::line_analog_treshold) {
+            line_O_half1_Count++;
+
+            float ang = radians(i * 11.25f);
+            half1_x += sinf(ang);
+            half1_y += cosf(ang);
+        }
+    }
+
+    if (line_O_half0_Count > 0) {
+        line_O_half0_Seen = true;
+        line_O_half0_Angle = wrap180((int16_t)roundf(degrees(atan2f(half0_x, half0_y))));
+        line_O_half0_Angle_ToNField = wrap180(line_O_half0_Angle - IN::gyro.offset);
+    }
+
+    if (line_O_half1_Count > 0) {
+        line_O_half1_Seen = true;
+        line_O_half1_Angle = wrap180((int16_t)roundf(degrees(atan2f(half1_x, half1_y))));
+        line_O_half1_Angle_ToNField = wrap180(line_O_half1_Angle - IN::gyro.offset);
+    }
+}
+
+
+
+static bool line_O_outside = false;
+static int8_t line_O_outsideSide = 0;   // -1 = dolava, 1 = doprava, 0 = nic
+static uint16_t line_O_halfDiffAbs = 0; // error = | |A0| - |A1| |
+
+static uint8_t line_O_outsideOnCnt = 0;
+static uint8_t line_O_outsideOffCnt = 0;
+
+static void _input_calculate_OutsideFromHalfAngles() {
+    if (!line_O_half0_Seen || !line_O_half1_Seen) {
+        line_O_outsideOnCnt = 0;
+        line_O_outsideOffCnt = 0;
+        line_O_outside = false;
+        line_O_outsideSide = 0;
+        line_O_halfDiffAbs = 0;
         return;
     }
 
-    if (line_O_outOfBounds && !seesA) {
-        line_O_outOfBounds = false;
-        line_O_crossedSide = 0;
-        return;
+    int16_t A0 = line_O_half0_Angle_ToNField;
+    int16_t A1 = line_O_half1_Angle_ToNField;
+
+    uint16_t error = abs(abs(A0) - abs(A1));
+    line_O_halfDiffAbs = error;
+
+    const uint16_t OUTSIDE_ON_THR  = 50;
+    const uint16_t OUTSIDE_OFF_THR = 35;
+
+    const uint8_t OUTSIDE_ON_SAMPLES  = 3;
+    const uint8_t OUTSIDE_OFF_SAMPLES = 3;
+
+    int8_t sideNow = 0;
+    if (abs(A0) > abs(A1)) {
+        sideNow = -1;
+    }
+    else if (abs(A1) > abs(A0)) {
+        sideNow = 1;
+    }
+
+    if (!line_O_outside) {
+        if (error >= OUTSIDE_ON_THR) {
+            if (line_O_outsideOnCnt < 255) line_O_outsideOnCnt++;
+        } else {
+            line_O_outsideOnCnt = 0;
+        }
+
+        if (line_O_outsideOnCnt >= OUTSIDE_ON_SAMPLES) {
+            line_O_outside = true;
+            line_O_outsideSide = sideNow;
+            line_O_outsideOnCnt = 0;
+            line_O_outsideOffCnt = 0;
+        }
+    }
+    else {
+        if (error <= OUTSIDE_OFF_THR) {
+            if (line_O_outsideOffCnt < 255) line_O_outsideOffCnt++;
+        } else {
+            line_O_outsideOffCnt = 0;
+
+            // ked uz som outside, stranu mozes priebezne obnovovat
+            if (sideNow != 0) {
+                line_O_outsideSide = sideNow;
+            }
+        }
+
+        if (line_O_outsideOffCnt >= OUTSIDE_OFF_SAMPLES) {
+            line_O_outside = false;
+            line_O_outsideSide = 0;
+            line_O_outsideOnCnt = 0;
+            line_O_outsideOffCnt = 0;
+        }
     }
 }
 
@@ -250,19 +410,39 @@ void input_line_update() {
     _input_calculate_Angle();
     _input_calculate_Depth();
 
-    if(ST::soccer.role == ST::Types::role_t::Defender) {
-        _input_calculate_Depth_Y();
-        _input_calculate_OutOfBounds();
-        IN::line.defender_outOfBounds = line_O_outOfBounds;
-        // IN::line.defender_crossedSide = -1*(line_O_crossedSide - 2);
-        IN::line.defender_crossedSide = line_O_crossedSide;
-    }
-
     IN::line.angle = line_Angle;
     IN::line.depth = line_Depth;
     IN::line.angle_ToNField = wrap360(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
-    IN::line.depth_Y = line_Depth_Y;
+
+    if(ST::soccer.role == ST::Types::role_t::Defender) {
+        _input_calculate_Depth_Y();
+        // _input_calculate_OutOfBounds();
+        // _input_calculate_Curvature();
+        _input_calculate_HalfAngles();
+        _input_calculate_OutsideFromHalfAngles();
+        IN::line.defender_outOfBounds = line_O_outside;
+        // IN::line.defender_crossedSide = -1*(line_O_crossedSide - 2);
+        IN::line.defender_crossedSide = line_O_outsideSide;
+
+
+        IN::line.depth_Y = line_Depth_Y;
+
+
+    #if DEBUG_LINE_DEFENDER
+    Serial.printf("A0:%d A1:%d Err:%u Out:%d Side:%d OnCnt:%u OffCnt:%u\n",
+        A0,
+        A1,
+        line_O_halfDiffAbs,
+        line_O_outside,
+        line_O_outsideSide,
+        line_O_outsideOnCnt,
+        line_O_outsideOffCnt
+    );
+    #endif
+
+    }
+
 
     #if DEBUG_LED_LINE
         if(debug_line_LED_enabled != IN::line.seen) {
@@ -328,3 +508,11 @@ void input_line_update() {
         Serial.printf(" || Depth: %0.2f \n", IN::line.depth);
     #endif
 }
+
+
+
+
+
+
+
+

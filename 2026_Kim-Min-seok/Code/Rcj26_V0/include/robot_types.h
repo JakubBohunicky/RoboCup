@@ -66,12 +66,18 @@ namespace _Raw {
     };
 
     struct ST_Attacker {
-      bool lineBounceFeature;
-      uint32_t lineBounceFeatureTime;
+      bool lineBounceFeature = 0;
+      uint32_t lineBounceFeatureTime = 0;
+
+      bool changed_role = false;
+      uint32_t changed_role_time = 0;
     };
 
     struct ST_Defender {
+        bool startedOnLine = 0;
 
+        bool lineBounceFeature = 0;
+        uint32_t lineBounceFeatureTime = 0;
     };
 
     struct ST_Soccer {
@@ -99,11 +105,12 @@ namespace _Raw {
 
 struct Soccer_MSG {
     uint16_t seq = 0;
-    uint8_t mode = 0;
-    uint8_t role = 0;
+    int8_t mode = 0;
+    int8_t role = 0;
 
     uint8_t drbF = 0;
-    uint8_t drbR = 0;
+    int8_t code = 0;
+    uint8_t bukaj = 0;
     uint16_t ball_angle_ToNField = 0;
     uint16_t ball_distRaw = 0;
 
@@ -203,7 +210,11 @@ struct Comms {
     bool onlineController = false;
 
     Soccer_MSG rx_soccer_msg = {};
+    Soccer_MSG rx_soccer_msg_prev = {};
     Soccer_MSG tx_soccer_msg = {};
+    int8_t soccer_send_code = 0;
+
+    bool rx_soccer_prev_updated = false;
 
     ControllerRx_MSG rx_controller_msg = {};
     // ControllerTx_MSG tx_controller_msg = {};
@@ -217,6 +228,7 @@ struct Comms {
     uint32_t lastSoccerRxMsg_ms = 0;
     uint32_t lastControllerRxMsg_ms = 0;
     uint32_t lastTxMsg_ms = 0;
+
 
     uint32_t txSeq = 0;
 };

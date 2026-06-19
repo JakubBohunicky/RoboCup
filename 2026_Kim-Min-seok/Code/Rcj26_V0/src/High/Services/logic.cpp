@@ -8,7 +8,7 @@
 #include "Low/Inputs/input_gyro.h"
 #include <Arduino.h>
 #include "High/Services/debug.h"
-
+#include "Low/Inputs/input_communication.h"
 
 
 namespace Logic {
@@ -49,6 +49,16 @@ namespace Logic {
 
         else if(ST::state.mode == ST::Types::mode_t::Off) {
             if(ST::offMenu.screen == ST::Types::screen_t::Main) {
+
+                if(IN::generic.btnPlus.IsDown && IN::generic.btnMinus.IsDown) {
+                    // IN::generic.btnPlus = {};
+                    // IN::generic.btnMinus = {};
+                    
+                    ST::state.lastActiveTime = ST::now_ms;
+                    
+                    IN::comms.soccer_send_code = 1;
+                    Serial.println("dasidasdbaububdusbasudbsu");
+                }
 
                 if(IN::generic.btnPlus.Click && ST::now_ms - ST::state.lastActiveTime >= 1000){
                     ST::state.mode = ST::Types::mode_t::Soccer;
@@ -103,6 +113,7 @@ namespace Logic {
                                         ST::soccer.defaultRole = ST::Types::role_t::Attacker;
                                         ST::soccer.role = ST::Types::role_t::Attacker;
                                     }
+                                input_comm_init_();
                                 ST_CFG::saveToMem_SoccerState();
                             break;
                         case 2: if(ST::soccer.defaultRole == ST::Types::role_t::Attacker) {

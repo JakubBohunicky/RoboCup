@@ -6,24 +6,35 @@
 // uint32_t testTime1 = 0;
 // bool test_fw = true;
 
+
+
 namespace Role {
     void attacker() {
 
-
-        Motion::dribler(1);
-
-        
-        // IN::motionSens.hasBall = true;
-        if(IN::motionSens.hasBall) {
-            Prim::find_goal();
+        if(ST::soccer.attacker.changed_role) {
+            if(ST::now_ms - ST::soccer.attacker.changed_role_time >= 100){
+                ST::soccer.attacker.changed_role = false;
+            }
+            Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
+            Motion::addMotion_ToNField(0.0f, 0.3f);
         } else {
-            Prim::chase_ball();
-        }
 
-        // Motion::rotate_ToNField(0.0f);
 
-        if(IN::line.seen){
-            Prim::avoid_line(); //must blend vectors by line depth 
+            Motion::dribler(1);
+
+            
+            // IN::motionSens.hasBall = true;
+            if(IN::motionSens.hasBall) {
+                Prim::find_goal();
+            } else {
+                Prim::chase_ball();
+            }
+
+            // Motion::rotate_ToNField(0.0f);
+
+            if(IN::line.seen){
+                Prim::avoid_line(); //must blend vectors by line depth 
+            }
         }
     }
 }
