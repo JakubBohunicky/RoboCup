@@ -169,10 +169,10 @@ void input_comm_update() {
 
     if (ST::now_ms - IN::comms.lastSoccerRxMsg_ms <= 800){
         IN::comms.onlineSoccer = true;
-        Serial.println("online");
+        // Serial.println("online");
     } else {
         IN::comms.onlineSoccer = false;
-        Serial.println("offline");
+        // Serial.println("offline");
     }
 
     #if DEBUG_COMMs

@@ -7,6 +7,7 @@
 #include "Low/Inputs/input_motionSense.h"
 #include "Low/Inputs/input_pixy.h"
 #include "Low/Inputs/input_communication.h"
+#include "High/Services/debug.h"
 
 static uint32_t times[] = {0, 0, 0, 0, 0, 0, 0};
                         // 0, 1, 2, 3, 4, 5, 6
@@ -61,10 +62,10 @@ namespace Pheripherials {
             times[2] = ST::now_ms;
         }
 
-        if(ST::now_ms - times[3] >= 100 && (IN::motionSens.hasBall || ST::soccer.defender.startedOnLine == false)) { //10Hz
+        if((ST::now_ms - times[3] >= 100 && IN::motionSens.hasBall || (ST::soccer.defender.startedOnLine == false && ST::soccer.role == ST::Types::role_t::Defender)) || ST::now_ms - times[3] >= 1000) {
             input_pixy_update();
             times[3] = ST::now_ms;
-        }
+            }
 
         if(ST::now_ms - times[4] >= 33) { //30Hz
             input_generic_update();

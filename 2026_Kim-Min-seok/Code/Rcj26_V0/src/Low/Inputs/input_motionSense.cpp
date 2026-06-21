@@ -89,7 +89,7 @@ void input_motionSense_update() {
     IN::motionSens.drbF = gpio_get_level(HW::MotionSenseCfg::DRB_SW_F_Pin);
     // IN::motionSens.drbR = gpio_get_level(HW::MotionSenseCfg::DRB_SW_R_Pin);
 
-    
+
     if(IN::motionSens.drbF || IN::motionSens.drbR) {
         IN::motionSens.hasBall = true;
     } else {
@@ -102,10 +102,10 @@ void input_motionSense_update() {
             debug_ball_LED_enabled = IN::motionSens.hasBall;
             OUT::led_Debug.needsUpdate = true;
             if(IN::motionSens.hasBall == true) {
-                OUT::led_Debug.color[2] = CRGB::DarkBlue;
+                OUT::led_Debug.color[2] = CRGB::Teal;
             } else {
                 OUT::led_Debug.color[2] = CRGB::Black;
-                OUT::led_Debug.color[1] = CRGB::Black;
+                // OUT::led_Debug.color[1] = CRGB::Black;
             }
         }
     #endif

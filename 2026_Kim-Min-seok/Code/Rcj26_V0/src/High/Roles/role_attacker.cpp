@@ -12,7 +12,7 @@ namespace Role {
     void attacker() {
 
         if(ST::soccer.attacker.changed_role) {
-            if(ST::now_ms - ST::soccer.attacker.changed_role_time >= 100){
+            if(ST::now_ms - ST::soccer.attacker.changed_role_time >= 250){
                 ST::soccer.attacker.changed_role = false;
             }
             Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);

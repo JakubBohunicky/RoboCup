@@ -19,13 +19,8 @@ void loop()
     ST::now_ms = millis();
     Pheripherials::inputs_update();
 
-    IN::motionSens.hasBall = false;
-
-
-
     Logic::determineMode();
     Logic::applyMode();
-
 
     
     Pheripherials::outputs_update();

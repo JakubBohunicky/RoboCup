@@ -78,6 +78,9 @@ namespace _Raw {
 
         bool lineBounceFeature = 0;
         uint32_t lineBounceFeatureTime = 0;
+
+        bool defending = true;
+        bool attacking = false;
     };
 
     struct ST_Soccer {

@@ -137,11 +137,11 @@ static void _drawScreen_1() {
 
 void mode_off_begin() {
     Motion::dribler(0);
-    OUT::led_Debug.color[0] = CRGB::Black;
-    OUT::led_Debug.color[1] = CRGB::Black;
-    OUT::led_Debug.color[2] = CRGB::Black;
-    OUT::led_Debug.color[3] = CRGB::Black;
-    OUT::led_Debug.needsUpdate = true;
+    // OUT::led_Debug.color[0] = CRGB::Black;
+    // OUT::led_Debug.color[1] = CRGB::Black;
+    // OUT::led_Debug.color[2] = CRGB::Black;
+    // OUT::led_Debug.color[3] = CRGB::Black;
+    // OUT::led_Debug.needsUpdate = true;
     OUT::led_O.color = CRGB::Black;
     OUT::led_O.needsUpdate = true;
     OUT::led_X.color = CRGB::Black;

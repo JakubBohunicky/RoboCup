@@ -19,6 +19,7 @@ namespace Logic {
             if(IN::generic.btnPlus.IsDown || IN::generic.btnMinus.IsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
                 ST::state.lastActiveTime = ST::now_ms;
+                ST_CFG::resetToDefaults();
             }
         }
 
@@ -26,6 +27,7 @@ namespace Logic {
                 if(IN::generic.btnPlus.IsDown || IN::generic.btnMinus.IsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
                 ST::state.lastActiveTime = ST::now_ms;
+                ST_CFG::resetToDefaults();
             }
         }
 

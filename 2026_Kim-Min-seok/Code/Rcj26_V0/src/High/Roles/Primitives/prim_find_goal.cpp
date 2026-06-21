@@ -3,9 +3,9 @@
 #include "High/Services/motion.h"
 #include "High/Services/debug.h"
 
-#if DEBUG_LED_GOAL
-    bool debug_goal_LED_enabled = false; 
-#endif
+// #if DEBUG_LED_GOAL
+//     bool debug_goal_LED_enabled = false; 
+// #endif
 
 namespace Prim {
 
@@ -63,29 +63,29 @@ namespace Prim {
 
 
 
-        #if DEBUG_LED_GOAL
-            if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
-                debug_goal_LED_enabled = IN::goalEnemy.seen;
-                OUT::led_Debug.needsUpdate = true;
-                if(IN::goalEnemy.seen == true) {
-                    OUT::led_Debug.color[1] = CRGB::DarkMagenta;
-            } 
-            } else  if(debug_goal_LED_enabled != ST::soccer.attacker.lineBounceFeature) {
-                debug_goal_LED_enabled = ST::soccer.attacker.lineBounceFeature;
-                OUT::led_Debug.needsUpdate = true;
-                if(ST::soccer.attacker.lineBounceFeature == true) {
-                    OUT::led_Debug.color[1] = CRGB::White;
-                }
-            } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
-                debug_goal_LED_enabled = IN::goalOur.seen;
-                OUT::led_Debug.needsUpdate = true;
-                if(IN::goalOur.seen == true) {
-                    OUT::led_Debug.color[1] = CRGB::DarkGreen;
-                }
-            } else {
-                    OUT::led_Debug.color[1] = CRGB::Black;
-                }
-        #endif
+        // #if DEBUG_LED_GOAL
+        //     if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
+        //         debug_goal_LED_enabled = IN::goalEnemy.seen;
+        //         OUT::led_Debug.needsUpdate = true;
+        //         if(IN::goalEnemy.seen == true) {
+        //             OUT::led_Debug.color[1] = CRGB::DarkMagenta;
+        //     } 
+        //     } else  if(debug_goal_LED_enabled != ST::soccer.attacker.lineBounceFeature) {
+        //         debug_goal_LED_enabled = ST::soccer.attacker.lineBounceFeature;
+        //         OUT::led_Debug.needsUpdate = true;
+        //         if(ST::soccer.attacker.lineBounceFeature == true) {
+        //             OUT::led_Debug.color[1] = CRGB::White;
+        //         }
+        //     } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
+        //         debug_goal_LED_enabled = IN::goalOur.seen;
+        //         OUT::led_Debug.needsUpdate = true;
+        //         if(IN::goalOur.seen == true) {
+        //             OUT::led_Debug.color[1] = CRGB::DarkGreen;
+        //         }
+        //     } else {
+        //             OUT::led_Debug.color[1] = CRGB::Black;
+        //         }
+        // #endif
             
 
     }
@@ -117,29 +117,29 @@ namespace Prim {
 
 
 
-        #if DEBUG_LED_GOAL
-            if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
-                debug_goal_LED_enabled = IN::goalEnemy.seen;
-                OUT::led_Debug.needsUpdate = true;
-                if(IN::goalEnemy.seen == true) {
-                    OUT::led_Debug.color[1] = CRGB::DarkMagenta;
-            } 
-            } else  if(debug_goal_LED_enabled != ST::soccer.defender.lineBounceFeature) {
-                debug_goal_LED_enabled = ST::soccer.defender.lineBounceFeature;
-                OUT::led_Debug.needsUpdate = true;
-                if(ST::soccer.defender.lineBounceFeature == true) {
-                    OUT::led_Debug.color[1] = CRGB::White;
-                }
-            } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
-                debug_goal_LED_enabled = IN::goalOur.seen;
-                OUT::led_Debug.needsUpdate = true;
-                if(IN::goalOur.seen == true) {
-                    OUT::led_Debug.color[1] = CRGB::DarkGreen;
-                }
-            } else {
-                    OUT::led_Debug.color[1] = CRGB::Black;
-                }
-        #endif
+        // #if DEBUG_LED_GOAL
+        //     if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
+        //         debug_goal_LED_enabled = IN::goalEnemy.seen;
+        //         OUT::led_Debug.needsUpdate = true;
+        //         if(IN::goalEnemy.seen == true) {
+        //             OUT::led_Debug.color[1] = CRGB::DarkMagenta;
+        //     } 
+        //     } else  if(debug_goal_LED_enabled != ST::soccer.defender.lineBounceFeature) {
+        //         debug_goal_LED_enabled = ST::soccer.defender.lineBounceFeature;
+        //         OUT::led_Debug.needsUpdate = true;
+        //         if(ST::soccer.defender.lineBounceFeature == true) {
+        //             OUT::led_Debug.color[1] = CRGB::White;
+        //         }
+        //     } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
+        //         debug_goal_LED_enabled = IN::goalOur.seen;
+        //         OUT::led_Debug.needsUpdate = true;
+        //         if(IN::goalOur.seen == true) {
+        //             OUT::led_Debug.color[1] = CRGB::DarkGreen;
+        //         }
+        //     } else {
+        //             OUT::led_Debug.color[1] = CRGB::Black;
+        //         }
+        // #endif
             
 
     }

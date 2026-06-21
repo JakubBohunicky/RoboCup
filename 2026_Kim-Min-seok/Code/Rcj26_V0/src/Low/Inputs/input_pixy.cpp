@@ -6,6 +6,9 @@
 
 static Pixy2I2C pixy;
 
+#if DEBUG_LED_GOAL
+static uint8_t debug_goal_prev_state = 255;
+#endif
 
 void input_pixy_init_()
 {
@@ -30,7 +33,7 @@ void input_pixy_update() { //Angle from -180 to 180
         #if DEBUG_PIXY
             Serial.println("---------------------");
         #endif
-        return;
+        // return;
     }
 
     for(int i = 0; i < n; i++) {
@@ -64,4 +67,46 @@ void input_pixy_update() { //Angle from -180 to 180
         Serial.println("");
 
         #endif
+
+
+#if DEBUG_LED_GOAL
+    uint8_t debug_goal_now_state = 0;
+
+    if (IN::goalEnemy.seen) {
+        debug_goal_now_state = 1;   // enemy
+    }
+    else if (IN::goalOur.seen) {
+        debug_goal_now_state = 2;   // our
+    }
+    else {
+        debug_goal_now_state = 0;   // off
+    }
+
+    if (debug_goal_now_state != debug_goal_prev_state) {
+        debug_goal_prev_state = debug_goal_now_state;
+        OUT::led_Debug.needsUpdate = true;
+
+        if (debug_goal_now_state == 1) {
+            if (ST::soccer.enemyGoal == ST::Types::goal_t::Yellow) {
+                OUT::led_Debug.color[1] = CRGB::Yellow;
+            } else {
+                OUT::led_Debug.color[1] = CRGB::Blue;
+            }
+            // Serial.println("goal state -> ENEMY");
+        }
+        else if (debug_goal_now_state == 2) {
+            if (ST::soccer.enemyGoal == ST::Types::goal_t::Yellow) {
+                OUT::led_Debug.color[1] = CRGB::Blue;
+            } else {
+                OUT::led_Debug.color[1] = CRGB::Yellow;
+            }
+            // Serial.println("goal state -> OUR");
+        }
+        else {
+            OUT::led_Debug.color[1] = CRGB::Black;
+            // Serial.println("goal state -> OFF");
+        }
+    }
+#endif
+
 }
