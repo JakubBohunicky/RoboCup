@@ -24,7 +24,7 @@ namespace Role {
 
             
             // IN::motionSens.hasBall = true;
-            if(IN::motionSens.hasBall) {
+            if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 250) {
                 Prim::find_goal();
             } else {
                 Prim::chase_ball();

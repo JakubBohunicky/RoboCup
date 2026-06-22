@@ -32,14 +32,14 @@ namespace ST_Default {
             .maxLimit = 100.0f,
         },
         .normalPIDCfg = {
-            .P = 2.0f,
+            .P = 1.3f,
             .D = 0.0f,
-            .maxLimit = 1.0f,
+            .maxLimit = 0.2f,
         },
         .slowPIDCfg = {
             .P = 1.3f,
             .D = 0.0f,
-            .maxLimit = 0.5f,
+            .maxLimit = 0.05f,
         },
         .PID_sumP = 0.0f,
         .PID_sumD = 0.0f,
@@ -52,6 +52,7 @@ namespace ST_Default {
         .role = ST::Types::role_t::Attacker,
         .enemyGoal = ST::Types::goal_t::Yellow,
         .baseSpeed = 1.0f,
+        .temporaryRoleChange = false
     };
 
     inline const _Raw::ST_OffMenu offMenu = {

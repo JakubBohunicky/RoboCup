@@ -3,47 +3,53 @@
 #include "Low/inputs.h"
 #include "High/Services/debug.h"
 #include "Low/Outputs/output_display.h"
+#include "Arduino.h"
 
-namespace CFG {
-    static constexpr float closeProximity = 0.9f;
+static bool rotateCapturing = false;
 
-    static constexpr float FRONT_ZONE_DEG  = 90.0f;   // aktívna zóna +-stupne
-}
 
 float closeOrbitAngle(float ballAngle, float proximity) {
     float a = fabs(ballAngle);
 
-    static constexpr float FRONT_ZONE_DEG   = CFG::FRONT_ZONE_DEG;
-    static constexpr float FRONT_OFFSET_K   = 55.0f;
-    static constexpr float BACK_TARGET_180  = 80.0f;
-    static constexpr float orbitScale       = 1.0f;
+    static constexpr float FRONT_ZONE_DEG = 90.0f;
+    static constexpr float FRONT_OFFSET_K = 55.0f;
+    static constexpr float orbitScale     = 1.0f;
 
     proximity = constrain(proximity, 0.0f, 1.0f);
 
-    // PREDOK POD 90° - NIC NEMENENE
+    // HORA - nemenena
     if (a <= FRONT_ZONE_DEG) {
         float rad = deg2rad(ballAngle);
         float offset = FRONT_OFFSET_K * sinf(rad) * (0.6f + 0.4f * proximity);
         return wrap180((ballAngle + offset) * orbitScale);
     }
+
+    // STRED 90..135 - upraveny ako unwrap prechod cez 180 az na opacnu -/+135
     else if (a > 90.0f && a <= 135.0f) {
-        float t = (a - 90.0f) / 45.0f;   // 90 -> 0, 135 -> 1
-        t = t * t * (3.0f - 2.0f * t);   // smoothstep
+        float t = (a - 90.0f) / 45.0f;      // 90 -> 0, 135 -> 1
+        t = constrain(t, 0.0f, 1.0f);
+        t = t * t * (3.0f - 2.0f * t);      // smoothstep
 
-        float targetAbs = 180.0f - t * 45.0f;   // 180 -> 135
+        float rad = deg2rad(ballAngle);
+        float offset = FRONT_OFFSET_K * sinf(rad) * (0.6f + 0.4f * proximity);
+        float frontVal = (ballAngle + offset) * orbitScale;
 
-        float target;
+        float targetUnwrapped;
         if (ballAngle > 0.0f) {
-            target = targetAbs;
+            // ideme cez +180 az na -135 => v unwrap priestore ciel 225
+            targetUnwrapped = 225.0f;
         } else {
-            target = -targetAbs;
+            // ideme cez -180 az na +135 => v unwrap priestore ciel -225
+            targetUnwrapped = -225.0f;
         }
 
-        return wrap180(target);
+        float resultUnwrapped = frontVal + (targetUnwrapped - frontVal) * t;
+        return wrap180(resultUnwrapped);
     }
 
+    // DOLE - nemenena
     else if (a > 135.0f && a <= 180.0f) {
-        float t = (a - 135.0f) / 45.0f;   // 135 -> 0, 180 -> 1
+        float t = (a - 135.0f) / 45.0f;     // 135 -> 0, 180 -> 1
 
         float targetAbs = 135.0f - t * 45.0f;   // 135 -> 90
 
@@ -56,75 +62,64 @@ float closeOrbitAngle(float ballAngle, float proximity) {
 
         return wrap180(target);
     }
+
     else {
-        return 999;
+        return 999.0f;
     }
 }
 
 namespace Prim {
     void chase_ball() {
+
+        if(IN::ball.close == false) {
+            rotateCapturing = false;
+        }
         
-        float rotAng = constrain(IN::ball.angle * 0.5f, -30, 30);
-        Motion::rotate_ToNField(rotAng, ST::pid.normalPIDCfg, 1.0f);
-
-
         
         // Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
-        
-        float finalAngle;
-        if(IN::ball.seen) {
+        if((ST::now_ms - IN::ball.lastCloseTime_ms <= 1000 && ST::now_ms - IN::line.lastSeen_ms <= 1000) || rotateCapturing) {
+            rotateCapturing = true;
+            float rotAng = IN::ball.angle;
+            Motion::rotate(IN::ball.angle, ST::pid.slowPIDCfg, 0.7f);
             
-            bool close = false;
-            if(IN::ball.proximity >= CFG::closeProximity) {
-                close = true;
-            }
+            float finalAngle;
+
+            finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
+            Motion::addMotion(finalAngle, 0.15f);
 
 
-            if(close) {
-                finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
-                if(finalAngle != 999) {
-                    Motion::addMotion(finalAngle, 0.4f);
+
+        } else {
+
+            float rotAng = constrain(IN::ball.angle * 0.5f, -30, 30);
+            Motion::rotate_ToNField(rotAng, ST::pid.slowPIDCfg, 1.0f);
+
+
+
+            float finalAngle;
+            if(IN::ball.seen) {
+                
+                
+
+
+                if(close) {
+                    finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
+                    if(finalAngle != 999) {
+                        float movSrenght = constrain(1.0f * (1.5f-IN::ball.proximity) * (1.15f - cosf(IN::ball.angle * DEG_TO_RAD)) , 0.15f, 0.25f);
+                        Motion::addMotion(finalAngle, movSrenght);
+                    }
+
+                } else {
+                    finalAngle = IN::ball.angle;
+                    Motion::addMotion(finalAngle, 0.35f);
                 }
 
-            } else {
-                finalAngle = IN::ball.angle;
-                Motion::addMotion(finalAngle, 0.5f);
+            } else{
+                finalAngle = 999;
             }
-
-        } else{
-            finalAngle = 999;
         }
 
 
-
-        // if (IN::ball.angle_ToNField == 0) {
-        //     finalAngle = IN::ball.angle_ToNField;
-        // } else if (IN::ball.angle_ToNField < 11 && IN::ball.proximity > 1) {
-        //     finalAngle = int(2 * IN::ball.angle_ToNField * IN::ball.proximity * CFG::orbitScale);
-        // } else if (IN::ball.angle_ToNField > 349 && IN::ball.proximity > 1) {
-        //     int pomocAng = 360 - IN::ball.angle_ToNField;
-        //     int kv_finalAngle = int(2 * pomocAng * IN::ball.proximity * CFG::orbitScale);
-        //     finalAngle = 360 - kv_finalAngle;
-        // } else if (IN::ball.angle_ToNField < 21 && IN::ball.proximity > 1) {
-        //     finalAngle = int(2.7 * IN::ball.angle_ToNField * IN::ball.proximity * CFG::orbitScale);
-        // } else if (IN::ball.angle_ToNField > 339 && IN::ball.proximity > 1) {
-        //     int pomocAng = 360 - IN::ball.angle_ToNField;
-        //     int kv_finalAngle = int(2.7 * pomocAng * IN::ball.proximity * CFG::orbitScale);
-        //     finalAngle = 360 - kv_finalAngle;
-        // } else if (IN::ball.angle_ToNField < 60 && IN::ball.proximity > 1) {
-        //     finalAngle = int(2 * IN::ball.angle_ToNField * IN::ball.proximity * CFG::orbitScale);
-        // } else if (IN::ball.angle_ToNField > 300 && IN::ball.proximity > 1) {
-        //     int pomocAng = 360 - IN::ball.angle_ToNField;
-        //     int kv_finalAngle = int(2 * pomocAng * IN::ball.proximity * CFG::orbitScale);
-        //     finalAngle = 360 - kv_finalAngle;
-        // } else if (IN::ball.angle_ToNField > 179) {
-        //     finalAngle = int(IN::ball.angle_ToNField / IN::ball.proximity);
-        // } else if (IN::ball.angle_ToNField < 180) {
-        //     int pomocAng = 360 - IN::ball.angle_ToNField;
-        //     int kv_finalAngle = int(pomocAng / IN::ball.proximity);
-        //     finalAngle = 360 - kv_finalAngle;
-        // }
-        // Motion::addMotion_ToNField(finalAngle, 0.2f);
 
 
 

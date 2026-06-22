@@ -171,7 +171,7 @@ namespace HW {
     namespace PixyCfg {
         constexpr int c_pixy_frameWidth = 316;  //camera pixel width
         constexpr int c_pixy_frameHeight = 208; //camera pixel height
-        constexpr int c_pixy_objMinHeight = 108; //minimum height of object to be detected
+        constexpr int c_pixy_objMinHeight = 115; //minimum height of object to be detected
         constexpr float c_pixy_FOV = 60.0f;
 
         constexpr int c_GoalSigEnemy = 1;   //Signatures from PixyMon 

@@ -97,6 +97,12 @@ void input_motionSense_update() {
     }
     // Serial.println(IN::motionSens.drbF);
 
+    if(IN::motionSens.hasBall) {
+        IN::motionSens.lastHeldBall_ms = ST::now_ms;
+    } else {
+        IN::motionSens.heldBallFor_ms = ST::now_ms;
+    }
+
     #if DEBUG_LED_HASBALL
         if(debug_ball_LED_enabled != IN::motionSens.hasBall) {
             debug_ball_LED_enabled = IN::motionSens.hasBall;

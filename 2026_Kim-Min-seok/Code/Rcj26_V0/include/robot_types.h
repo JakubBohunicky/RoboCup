@@ -81,6 +81,9 @@ namespace _Raw {
 
         bool defending = true;
         bool attacking = false;
+
+        bool changed_role = false;
+        uint32_t changed_role_time = 0;
     };
 
     struct ST_Soccer {
@@ -90,6 +93,7 @@ namespace _Raw {
         ST::Types::role_t defaultRole;
         ST::Types::goal_t enemyGoal;
         float baseSpeed;
+        bool temporaryRoleChange;
     };
 
     struct ST_OffMenu {
@@ -279,7 +283,8 @@ struct Comms {
     struct Goal {
         bool seen = false;
         float angle = 0.0f; //Angle from -180 to 180
-        uint16_t size = 0;  //probably needs normalisartion
+        // uint16_t size = 0;  //probably needs normalisartion
+        uint16_t close = false;
     };
 
     struct Gyro {
@@ -299,6 +304,8 @@ struct Comms {
         float proximity = 0.0f; //from 1-closest to 0-furthest 
         bool nearMode = false;
         bool valid = false;
+        bool close = false;
+        uint32_t lastCloseTime_ms = 0;
     };
 
     struct Line {
@@ -309,6 +316,7 @@ struct Comms {
         float depth_Y = 0.0f;
         float defender_outOfBounds = false;
         int8_t defender_crossedSide = 0;
+        uint32_t lastSeen_ms = 0;
     };
 
     struct MotionSense {
@@ -318,5 +326,8 @@ struct Comms {
         bool hasBall = false;
         bool drbR = false;
         bool drbF = false;
+
+        uint32_t lastHeldBall_ms = 0;
+        uint32_t heldBallFor_ms = 0;
     };
 }

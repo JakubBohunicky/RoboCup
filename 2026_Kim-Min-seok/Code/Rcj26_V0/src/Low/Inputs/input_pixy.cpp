@@ -41,27 +41,49 @@ void input_pixy_update() { //Angle from -180 to 180
 
         //!!!! pixyyy - spravit to tak ze prva polovica blokov bude zlta branka a druha polovica modra branka a nech si vyberie ze kde streli ale primarne cela branka cize asi prva nech tym preloopuje
 
-        // if(b.m_y >= HW::PixyCfg::c_pixy_objMinHeight) {
+        IN::goalEnemy.close = false;
+        IN::goalOur.close = false;
+
+        if(b.m_y >= HW::PixyCfg::c_pixy_objMinHeight) {
             if(b.m_signature == (uint16_t)ST::soccer.enemyGoal) { //if blue SIG == 1
                 IN::goalEnemy.seen = true;
                 IN::goalEnemy.angle = _input_pixy_xToAngle(b.m_x);
-                IN::goalEnemy.size = b.m_width * b.m_height;
+                // IN::goalEnemy.size = b.m_width * b.m_height;
+                if(b.m_height >= 50) {
+                    IN::goalEnemy.close = true;
+                }
+                #if DEBUG_PIXY 
+                    Serial.print(b.m_height);
+                    Serial.print("  ");
+                #endif
 
             } else if(b.m_signature != (uint16_t)ST::soccer.enemyGoal) { //if yellow SIG == 0
                 IN::goalOur.seen = true;
                 IN::goalOur.angle = _input_pixy_xToAngle(b.m_x);
-                IN::goalOur.size = b.m_width * b.m_height;
+                // IN::goalOur.size = b.m_width * b.m_height;
+                if(b.m_height >= 60) {
+                    IN::goalOur.close = true;
+                }
             }
-        // }
+
+            // Serial.print(b.m_width);
+            // Serial.print("  ;   ");
+            // Serial.print(b.m_height);
+            // Serial.print("  ;   ||");
+        }
     }
 
     #if DEBUG_PIXY 
         Serial.print(IN::goalEnemy.seen);
         Serial.print("  ");
+        Serial.print(IN::goalEnemy.close);
+        Serial.print("  ");
         Serial.print(IN::goalEnemy.angle);
         Serial.print("  ||  ");
 
         Serial.print(IN::goalOur.seen);
+        Serial.print("  ");
+        Serial.print(IN::goalOur.close);
         Serial.print("  ");
         Serial.print(IN::goalOur.angle);
         Serial.println("");

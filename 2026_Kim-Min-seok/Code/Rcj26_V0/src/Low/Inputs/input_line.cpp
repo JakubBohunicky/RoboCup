@@ -415,6 +415,12 @@ void input_line_update() {
     IN::line.angle_ToNField = wrap360(line_Angle - IN::gyro.offset);
     IN::line.seen = (line_Depth != 0.0f);
 
+    if(IN::line.seen) {
+        IN::line.lastSeen_ms = ST::now_ms;
+    }
+    
+
+
     if(ST::soccer.role == ST::Types::role_t::Defender) {
         _input_calculate_Depth_Y();
         // _input_calculate_OutOfBounds();
@@ -427,7 +433,6 @@ void input_line_update() {
 
 
         IN::line.depth_Y = line_Depth_Y;
-
 
     #if DEBUG_LINE_DEFENDER
     Serial.printf("A0:%d A1:%d Err:%u Out:%d Side:%d OnCnt:%u OffCnt:%u\n",

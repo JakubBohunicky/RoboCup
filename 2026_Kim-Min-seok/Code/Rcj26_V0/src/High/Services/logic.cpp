@@ -18,16 +18,16 @@ namespace Logic {
         if(ST::state.mode == ST::Types::mode_t::Soccer) {
             if(IN::generic.btnPlus.IsDown || IN::generic.btnMinus.IsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
-                ST::state.lastActiveTime = ST::now_ms;
                 ST_CFG::resetToDefaults();
+                ST::state.lastActiveTime = ST::now_ms;
             }
         }
 
         else if(ST::state.mode == ST::Types::mode_t::Controller) {
                 if(IN::generic.btnPlus.IsDown || IN::generic.btnMinus.IsDown) {
                 ST::state.mode = ST::Types::mode_t::Off;
-                ST::state.lastActiveTime = ST::now_ms;
                 ST_CFG::resetToDefaults();
+                ST::state.lastActiveTime = ST::now_ms;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Logic {
                     ST::state.lastActiveTime = ST::now_ms;
                     
                     IN::comms.soccer_send_code = 1;
-                    Serial.println("dasidasdbaububdusbasudbsu");
+                    // Serial.println("dasidasdbaububdusbasudbsu");
                 }
 
                 if(IN::generic.btnPlus.Click && ST::now_ms - ST::state.lastActiveTime >= 1000){

@@ -14,10 +14,17 @@ namespace Prim {
 
             if(IN::goalEnemy.seen) {
                 if(IN::goalEnemy.angle >= -Const::Attacker::shootAngle && IN::goalEnemy.angle <= Const::Attacker::shootAngle) { 
-                    OUT::kicker_Drb.kickF = true; 
+                    if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 500 || IN::line.seen) {
+                        if(IN::goalEnemy.close || IN::line.seen) {
+                            OUT::kicker_Drb.kickF = true; 
+                        }
+                    }
+                    Motion::addMotion(IN::goalEnemy.angle, 0.4f);
+                    Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
+                } else {
+                    Motion::addMotion(IN::goalEnemy.angle, 0.2f);
+                    Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
                 }
-                Motion::addMotion(IN::goalEnemy.angle, 0.2f);
-                Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
             } else if(ST::soccer.attacker.lineBounceFeature && ST::now_ms - ST::soccer.attacker.lineBounceFeatureTime <= 2000){
                 Motion::addMotion_ToNField(180.0f, 0.2f);
                 Motion::rotate_ToNField(0.0f, ST::pid.slowPIDCfg); 
@@ -27,7 +34,9 @@ namespace Prim {
                     ST::soccer.attacker.lineBounceFeature = true;
                     ST::soccer.attacker.lineBounceFeatureTime = ST::now_ms;
                 } else {
-                    Motion::addMotion_ToNField(0.0f, 0.2f);
+                    if(IN::gyro.offset >= -30.0f && IN::gyro.offset <= 30.0f) {
+                        Motion::addMotion_ToNField(0.0f, 0.2f);
+                    }
                     Motion::rotate_ToNField(0.0f, ST::pid.slowPIDCfg); 
                 }
             }
@@ -97,7 +106,7 @@ namespace Prim {
 
             if(IN::goalOur.seen) {
                 Motion::addMotion(IN::goalOur.angle, 0.2f);
-                Motion::rotate(IN::goalOur.angle, ST::pid.slowPIDCfg);
+                Motion::rotate(IN::goalOur.angle, ST::pid.normalPIDCfg);
             } else if(ST::soccer.defender.lineBounceFeature && ST::now_ms - ST::soccer.defender.lineBounceFeatureTime <= 2000){
                 Motion::addMotion_ToNField(0.0f, 0.2f);
                 Motion::rotate_ToNField(180.0f, ST::pid.normalPIDCfg); 
@@ -109,7 +118,7 @@ namespace Prim {
                     ST::soccer.defender.lineBounceFeatureTime = ST::now_ms;
                 } else {
                     Motion::addMotion_ToNField(180.0f, 0.2f);
-                    Motion::rotate_ToNField(180.0f, ST::pid.slowPIDCfg); 
+                    Motion::rotate_ToNField(180.0f, ST::pid.normalPIDCfg); 
                 }
             }
             

@@ -97,6 +97,11 @@ void input_ballIR_update() {
     IN::ball.nearMode = nearMode;
     IN::ball.valid = true;
     IN::ball.seen = IN::ball.valid;
+
+    if(IN::ball.proximity >= 0.9) {
+            IN::ball.close = true;
+            IN::ball.lastCloseTime_ms = ST::now_ms;
+    }
     #else
 
     static uint8_t hist[12][3] = {};
