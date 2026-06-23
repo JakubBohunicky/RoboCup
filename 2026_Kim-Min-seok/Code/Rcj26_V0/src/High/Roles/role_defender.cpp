@@ -5,10 +5,13 @@
 #include "High/config_app.h"
 #include "High/Modes/mode_soccer.h"
 #include "High/Services/debug.h"
+#include "Low/inputs.h"
 
 
 namespace Role {
     void defender() {
+
+        
 
         if(ST::soccer.defender.changed_role) {
 
@@ -22,12 +25,14 @@ namespace Role {
 
 
             if(ST::soccer.defender.startedOnLine) {
+
+
                 Motion::dribler(1);
 
                 if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 100) {
-                    changeRole();
+                    Role::changeRole();
                     #if !ENABLE_BALL_ROLE_CHANGE_BACK
-                    IN::comms.soccer_send_code = 1;
+                        IN::comms.soccer_send_code = 1;
                     #endif
                 } else {
                     if(ST::soccer.defender.defending) {
@@ -42,8 +47,8 @@ namespace Role {
             } else {
                 Motion::dribler(0);
                 if(IN::line.seen) {
-                    if(IN::pixyFront.goalOur.seen) {
-                    if(IN::pixyFront.goalOur.angle >= -Const::Attacker::shootAngle && IN::pixyFront.goalOur.angle <= Const::Attacker::shootAngle) { 
+                    if(IN::pixyRear.goalOur.seen) {
+                    if(IN::pixyRear.goalOur.angle >= -(Const::Attacker::shootAngle + 180.0f) && IN::pixyRear.goalOur.angle <= Const::Attacker::shootAngle -180.0f) { 
                         ST::soccer.defender.startedOnLine = IN::line.seen;
                         // OUT::led_Debug.needsUpdate = true;
                         // OUT::led_Debug.color[1] = CRGB::Black;

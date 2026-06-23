@@ -107,7 +107,7 @@ namespace Mode {
 
             #if ENABLE_BALL_ROLE_CHANGE_BACK
                     if(ST::soccer.defender.attacking) {
-                        if((ST::now_ms - IN::motionSens.lastHeldBall_ms >= 2000) && ST::now_ms - IN::ball.lastCloseTime_ms >= 1000) {
+                        if(((ST::now_ms - IN::motionSens.lastHeldBall_ms >= 2000) && ST::now_ms - IN::ball.lastCloseTime_ms >= 1000) && ST::now_ms - ST::soccer.attacker.changed_role_time >= 1000) {
                             Serial.println("Changed Role Back");
                             Role::changeRole();
                         }
@@ -115,6 +115,13 @@ namespace Mode {
 
             #endif
 
+            if(ST::soccer.role == ST::Types::role_t::Defender) {
+                if(ST::soccer.defender.startedOnLine) {
+                    if(ST::now_ms - IN::line.lastSeen_ms >= 100 || ST::now_ms - IN::pixyRear.goalOur.lastSeen_ms >= 350) {
+                        Role::changeRole();
+                    }
+                }
+            }
 
                 // Serial.println(ST::now_ms - IN::motionSens.lastHeldBall_ms);
 

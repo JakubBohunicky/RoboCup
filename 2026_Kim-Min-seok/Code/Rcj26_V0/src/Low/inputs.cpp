@@ -62,7 +62,7 @@ namespace Pheripherials {
             times[2] = ST::now_ms;
         }
 
-        if((ST::now_ms - times[3] >= 100 && IN::motionSens.hasBall || (ST::soccer.defender.startedOnLine == false && ST::soccer.role == ST::Types::role_t::Defender)) || ST::now_ms - times[3] >= 1000) {
+        if((ST::now_ms - times[3] >= 100 && IN::motionSens.hasBall || ST::soccer.role == ST::Types::role_t::Defender) || ST::now_ms - times[3] >= 1000) {
             input_pixy_update();
             times[3] = ST::now_ms;
             }

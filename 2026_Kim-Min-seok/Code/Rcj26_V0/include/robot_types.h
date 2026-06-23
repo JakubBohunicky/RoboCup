@@ -285,6 +285,7 @@ struct Comms {
         float angle = 0.0f; //Angle from -180 to 180
         // uint16_t size = 0;  //probably needs normalisartion
         uint16_t close = false;
+        uint32_t lastSeen_ms = 0;
     };
 
     struct Pixy {

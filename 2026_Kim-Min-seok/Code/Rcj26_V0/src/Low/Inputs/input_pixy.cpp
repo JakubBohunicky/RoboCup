@@ -3,6 +3,7 @@
 #include <Pixy2I2C.h>
 #include "Low/config_hw.h"
 #include "High/Services/debug.h"
+#include "Low/inputs.h"
 
 static Pixy2I2C pixyFront;
 static Pixy2I2C pixyRear;
@@ -50,6 +51,7 @@ void input_pixy_update() { //Angle from -180 to 180
         if(b.m_y >= HW::PixyCfg::c_pixy_objMinHeight) {
             if(b.m_signature == (uint16_t)ST::soccer.enemyGoal) { //if blue SIG == 1
                 IN::pixyFront.goalEnemy.seen = true;
+                IN::pixyFront.goalEnemy.lastSeen_ms = ST::now_ms;
                 IN::pixyFront.goalEnemy.angle = _input_pixy_xToAngle(b.m_x);
                 // IN::goalEnemy.size = b.m_width * b.m_height;
                 if(b.m_height >= 50) {
@@ -62,6 +64,7 @@ void input_pixy_update() { //Angle from -180 to 180
 
             } else if(b.m_signature != (uint16_t)ST::soccer.enemyGoal) { //if yellow SIG == 0
                 IN::pixyFront.goalOur.seen = true;
+                IN::pixyFront.goalOur.lastSeen_ms = ST::now_ms;
                 IN::pixyFront.goalOur.angle = _input_pixy_xToAngle(b.m_x);
                 // IN::goalOur.size = b.m_width * b.m_height;
                 if(b.m_height >= 60) {
@@ -96,7 +99,8 @@ void input_pixy_update() { //Angle from -180 to 180
         if(b.m_y >= HW::PixyCfg::c_pixy_objMinHeight) {
             if(b.m_signature == (uint16_t)ST::soccer.enemyGoal) { //if blue SIG == 1
                 IN::pixyRear.goalEnemy.seen = true;
-                IN::pixyRear.goalEnemy.angle = _input_pixy_xToAngle(b.m_x);
+                IN::pixyRear.goalEnemy.lastSeen_ms = ST::now_ms;
+                IN::pixyRear.goalEnemy.angle = wrap180(_input_pixy_xToAngle(b.m_x) + 180.0f);
                 // IN::goalEnemy.size = b.m_width * b.m_height;
                 if(b.m_height >= 50) {
                     IN::pixyRear.goalEnemy.close = true;
@@ -108,7 +112,8 @@ void input_pixy_update() { //Angle from -180 to 180
 
             } else if(b.m_signature != (uint16_t)ST::soccer.enemyGoal) { //if yellow SIG == 0
                 IN::pixyRear.goalOur.seen = true;
-                IN::pixyRear.goalOur.angle = _input_pixy_xToAngle(b.m_x);
+                IN::pixyRear.goalOur.lastSeen_ms = ST::now_ms;
+                IN::pixyRear.goalOur.angle = wrap180(_input_pixy_xToAngle(b.m_x) + 180.0f);
                 // IN::goalOur.size = b.m_width * b.m_height;
                 if(b.m_height >= 60) {
                     IN::pixyRear.goalOur.close = true;
@@ -122,7 +127,7 @@ void input_pixy_update() { //Angle from -180 to 180
         }
     }
 
-    #if DEBUG_PIXY 
+    #if DEBUG_PIXY_FRONT 
         Serial.print(IN::goalEnemy.seen);
         Serial.print("  ");
         Serial.print(IN::goalEnemy.close);
@@ -135,6 +140,25 @@ void input_pixy_update() { //Angle from -180 to 180
         Serial.print(IN::goalOur.close);
         Serial.print("  ");
         Serial.print(IN::goalOur.angle);
+        Serial.println("");
+
+        #endif
+
+
+        
+    #if DEBUG_PIXY_REAR 
+        Serial.print(IN::pixyRear.goalEnemy.seen);
+        Serial.print("  ");
+        Serial.print(IN::pixyRear.goalEnemy.close);
+        Serial.print("  ");
+        Serial.print(IN::pixyRear.goalEnemy.angle);
+        Serial.print("  ||  ");
+
+        Serial.print(IN::pixyRear.goalOur.seen);
+        Serial.print("  ");
+        Serial.print(IN::pixyRear.goalOur.close);
+        Serial.print("  ");
+        Serial.print(IN::pixyRear.goalOur.angle);
         Serial.println("");
 
         #endif
