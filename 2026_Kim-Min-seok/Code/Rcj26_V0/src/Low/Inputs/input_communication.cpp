@@ -163,7 +163,7 @@ void input_comm_update() {
     IN::comms.tx_soccer_msg.ball_distRaw = (uint16_t)IN::ball.distanceRaw;
     IN::comms.tx_soccer_msg.line_seen = (uint8_t)IN::line.seen;
     IN::comms.tx_soccer_msg.gyro_offset_ToNField = (uint16_t)IN::gyro.offset_ToNField;
-    IN::comms.tx_soccer_msg.goalEnemy_seen = (uint8_t)IN::goalEnemy.seen;
+    IN::comms.tx_soccer_msg.goalEnemy_seen = (uint8_t)IN::pixyFront.goalEnemy.seen;
 
     esp_now_send(IN::comms.SOCCER_PEER_MAC, (uint8_t*)&IN::comms.tx_soccer_msg, sizeof(IN::comms.tx_soccer_msg));
 

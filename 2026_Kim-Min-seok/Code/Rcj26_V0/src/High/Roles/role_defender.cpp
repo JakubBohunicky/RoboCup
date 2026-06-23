@@ -42,8 +42,8 @@ namespace Role {
             } else {
                 Motion::dribler(0);
                 if(IN::line.seen) {
-                    if(IN::goalOur.seen) {
-                    if(IN::goalOur.angle >= -Const::Attacker::shootAngle && IN::goalOur.angle <= Const::Attacker::shootAngle) { 
+                    if(IN::pixyFront.goalOur.seen) {
+                    if(IN::pixyFront.goalOur.angle >= -Const::Attacker::shootAngle && IN::pixyFront.goalOur.angle <= Const::Attacker::shootAngle) { 
                         ST::soccer.defender.startedOnLine = IN::line.seen;
                         // OUT::led_Debug.needsUpdate = true;
                         // OUT::led_Debug.color[1] = CRGB::Black;

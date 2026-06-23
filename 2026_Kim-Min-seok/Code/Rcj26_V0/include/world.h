@@ -4,8 +4,8 @@
 
 namespace IN {
     extern _Raw::Comms comms;
-    extern _Raw::Goal goalEnemy;
-    extern _Raw::Goal goalOur;
+    extern _Raw::Pixy pixyFront;
+    extern _Raw::Pixy pixyRear;
     extern _Raw::Gyro gyro;
     extern _Raw::Ball ball;
     extern _Raw::Line line;

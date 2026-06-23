@@ -427,6 +427,7 @@ void input_line_update() {
         // _input_calculate_Curvature();
         _input_calculate_HalfAngles();
         _input_calculate_OutsideFromHalfAngles();
+        
         IN::line.defender_outOfBounds = line_O_outside;
         // IN::line.defender_crossedSide = -1*(line_O_crossedSide - 2);
         IN::line.defender_crossedSide = line_O_outsideSide;

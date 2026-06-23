@@ -287,6 +287,11 @@ struct Comms {
         uint16_t close = false;
     };
 
+    struct Pixy {
+        Goal goalOur;
+        Goal goalEnemy;
+    };
+
     struct Gyro {
         float offset = 0.0f;
         float offset_ToNField = 0.0f;

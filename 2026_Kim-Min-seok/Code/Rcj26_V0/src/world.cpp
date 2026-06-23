@@ -4,6 +4,8 @@
 
 namespace IN {
     _Raw::Comms comms;
+    _Raw::Pixy pixyFront;
+    _Raw::Pixy pixyRear;
     _Raw::Goal goalEnemy;
     _Raw::Goal goalOur;
     _Raw::Gyro gyro;

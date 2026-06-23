@@ -12,18 +12,18 @@ namespace Prim {
     void find_goal() {
 
 
-            if(IN::goalEnemy.seen) {
-                if(IN::goalEnemy.angle >= -Const::Attacker::shootAngle && IN::goalEnemy.angle <= Const::Attacker::shootAngle) { 
+            if(IN::pixyFront.goalEnemy.seen) {
+                if(IN::pixyFront.goalEnemy.angle >= -Const::Attacker::shootAngle && IN::pixyFront.goalEnemy.angle <= Const::Attacker::shootAngle) { 
                     if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 500 || IN::line.seen) {
-                        if(IN::goalEnemy.close || IN::line.seen) {
+                        if(IN::pixyFront.goalEnemy.close || IN::line.seen) {
                             OUT::kicker_Drb.kickF = true; 
                         }
                     }
-                    Motion::addMotion(IN::goalEnemy.angle, 0.4f);
-                    Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
+                    Motion::addMotion(IN::pixyFront.goalEnemy.angle, 0.4f);
+                    Motion::rotate(IN::pixyFront.goalEnemy.angle, ST::pid.slowPIDCfg);
                 } else {
-                    Motion::addMotion(IN::goalEnemy.angle, 0.2f);
-                    Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
+                    Motion::addMotion(IN::pixyFront.goalEnemy.angle, 0.2f);
+                    Motion::rotate(IN::pixyFront.goalEnemy.angle, ST::pid.slowPIDCfg);
                 }
             } else if(ST::soccer.attacker.lineBounceFeature && ST::now_ms - ST::soccer.attacker.lineBounceFeatureTime <= 2000){
                 Motion::addMotion_ToNField(180.0f, 0.2f);
@@ -51,11 +51,11 @@ namespace Prim {
         //         Motion::addMotion(IN::line.angle + 180, Motion::weight_Soft);
         //     }
 
-        //     if(IN::goalEnemy.seen) {
-        //         if(IN::goalEnemy.angle >= -Const::Attacker::shootAngle && IN::goalEnemy.angle <= Const::Attacker::shootAngle) { 
+        //     if(IN::pixyFront.goalEnemy..seen) {
+        //         if(IN::pixyFront.goalEnemy..angle >= -Const::Attacker::shootAngle && IN::pixyFront.goalEnemy..angle <= Const::Attacker::shootAngle) { 
         //             OUT::kicker_Drb.kickF = true; } 
     
-        //         Motion::rotate(IN::goalEnemy.angle, ST::pid.slowPIDCfg);
+        //         Motion::rotate(IN::pixyFront.goalEnemy..angle, ST::pid.slowPIDCfg);
         //     } else {
         //         Motion::rotate_ToNField(0, ST::pid.slowPIDCfg); 
 
@@ -73,10 +73,10 @@ namespace Prim {
 
 
         // #if DEBUG_LED_GOAL
-        //     if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
-        //         debug_goal_LED_enabled = IN::goalEnemy.seen;
+        //     if(debug_goal_LED_enabled != IN::pixyFront.goalEnemy..seen) {
+        //         debug_goal_LED_enabled = IN::pixyFront.goalEnemy..seen;
         //         OUT::led_Debug.needsUpdate = true;
-        //         if(IN::goalEnemy.seen == true) {
+        //         if(IN::pixyFront.goalEnemy..seen == true) {
         //             OUT::led_Debug.color[1] = CRGB::DarkMagenta;
         //     } 
         //     } else  if(debug_goal_LED_enabled != ST::soccer.attacker.lineBounceFeature) {
@@ -85,10 +85,10 @@ namespace Prim {
         //         if(ST::soccer.attacker.lineBounceFeature == true) {
         //             OUT::led_Debug.color[1] = CRGB::White;
         //         }
-        //     } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
-        //         debug_goal_LED_enabled = IN::goalOur.seen;
+        //     } else if(debug_goal_LED_enabled != IN::pixyFront.goalOur.seen) {
+        //         debug_goal_LED_enabled = IN::pixyFront.goalOur.seen;
         //         OUT::led_Debug.needsUpdate = true;
-        //         if(IN::goalOur.seen == true) {
+        //         if(IN::pixyFront.goalOur.seen == true) {
         //             OUT::led_Debug.color[1] = CRGB::DarkGreen;
         //         }
         //     } else {
@@ -104,9 +104,9 @@ namespace Prim {
         void defender_find_our_goal() {
 
 
-            if(IN::goalOur.seen) {
-                Motion::addMotion(IN::goalOur.angle, 0.2f);
-                Motion::rotate(IN::goalOur.angle, ST::pid.normalPIDCfg);
+            if(IN::pixyFront.goalOur.seen) {
+                Motion::addMotion(IN::pixyFront.goalOur.angle, 0.2f);
+                Motion::rotate(IN::pixyFront.goalOur.angle, ST::pid.normalPIDCfg);
             } else if(ST::soccer.defender.lineBounceFeature && ST::now_ms - ST::soccer.defender.lineBounceFeatureTime <= 2000){
                 Motion::addMotion_ToNField(0.0f, 0.2f);
                 Motion::rotate_ToNField(180.0f, ST::pid.normalPIDCfg); 
@@ -127,10 +127,10 @@ namespace Prim {
 
 
         // #if DEBUG_LED_GOAL
-        //     if(debug_goal_LED_enabled != IN::goalEnemy.seen) {
-        //         debug_goal_LED_enabled = IN::goalEnemy.seen;
+        //     if(debug_goal_LED_enabled != IN::pixyFront.goalEnemy..seen) {
+        //         debug_goal_LED_enabled = IN::pixyFront.goalEnemy..seen;
         //         OUT::led_Debug.needsUpdate = true;
-        //         if(IN::goalEnemy.seen == true) {
+        //         if(IN::pixyFront.goalEnemy..seen == true) {
         //             OUT::led_Debug.color[1] = CRGB::DarkMagenta;
         //     } 
         //     } else  if(debug_goal_LED_enabled != ST::soccer.defender.lineBounceFeature) {
@@ -139,10 +139,10 @@ namespace Prim {
         //         if(ST::soccer.defender.lineBounceFeature == true) {
         //             OUT::led_Debug.color[1] = CRGB::White;
         //         }
-        //     } else if(debug_goal_LED_enabled != IN::goalOur.seen) {
-        //         debug_goal_LED_enabled = IN::goalOur.seen;
+        //     } else if(debug_goal_LED_enabled != IN::pixyFront.goalOur.seen) {
+        //         debug_goal_LED_enabled = IN::pixyFront.goalOur.seen;
         //         OUT::led_Debug.needsUpdate = true;
-        //         if(IN::goalOur.seen == true) {
+        //         if(IN::pixyFront.goalOur.seen == true) {
         //             OUT::led_Debug.color[1] = CRGB::DarkGreen;
         //         }
         //     } else {
