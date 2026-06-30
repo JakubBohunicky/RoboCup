@@ -7,12 +7,13 @@
 #include "High/Services/debug.h"
 #include "Low/inputs.h"
 
+static bool kicking = false;
+static bool midkicking = false;
 
 namespace Role {
     void defender() {
 
         
-
         if(ST::soccer.defender.changed_role) {
 
             if(ST::now_ms - ST::soccer.defender.changed_role_time >= 350){
@@ -29,6 +30,7 @@ namespace Role {
 
                 Motion::dribler(1);
 
+                #if DEFENDER_CHANGE_TO_ATTACKER
                 if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 100) {
                     Role::changeRole();
                     #if !ENABLE_BALL_ROLE_CHANGE_BACK
@@ -43,6 +45,45 @@ namespace Role {
                         ST::soccer.defender.startedOnLine = false;
                     }
                 }
+                #endif
+
+                #if DEFENDER_KICK_TO_GOAL
+                // if (ST::now_ms - IN::motionSens.heldBallFor_ms >= 100) {
+                if(IN::motionSens.hasBall) {
+
+                    if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 750) {
+                        Motion::kickFront();
+                        kicking = false;
+                        midkicking = false;
+                    } else {
+                        Motion::rotate_ToNField(-30.0f, ST::pid.slowPIDCfg);
+                        Motion::addMotion_ToNField(-30.0f, 0.5f);
+                    }
+
+                } else if((kicking || ST::now_ms - IN::ball.closeFor_ms >= 500) && (IN::ball.angle <= 35 && IN::ball.angle >= -35)){
+                    kicking = true;
+                    // midkicking = false;
+                    Prim::chase_ball();
+                } else if((midkicking || ST::now_ms - IN::ball.MidRangeFor_ms >= 1500)  && (IN::ball.angle <= 35 && IN::ball.angle >= -35)) {
+                    midkicking = true;
+                    Prim::chase_ball();
+                } else {
+                    Prim::defend_goal();
+                    if(ST::now_ms - IN::line.lastSeen_ms >= 500 || ST::now_ms - IN::pixyRear.goalOur.lastSeen_ms >= 1000) {
+                        Role::changeRole();
+                        Role::changeRole();
+                    }
+                }
+
+                if(ST::now_ms - IN::ball.lastCloseTime_ms >= 250){
+                    kicking = false;
+                }
+                
+                if(ST::now_ms - IN::ball.lastMidRangeTime_ms >= 250){
+                    midkicking = false;
+                }
+
+                #endif
 
             } else {
                 Motion::dribler(0);

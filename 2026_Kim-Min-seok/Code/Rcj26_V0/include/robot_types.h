@@ -312,6 +312,10 @@ struct Comms {
         bool valid = false;
         bool close = false;
         uint32_t lastCloseTime_ms = 0;
+        uint32_t closeFor_ms = 0;
+        bool midRangle = false;
+        uint32_t lastMidRangeTime_ms = 0;
+        uint32_t MidRangeFor_ms = 0;
     };
 
     struct Line {

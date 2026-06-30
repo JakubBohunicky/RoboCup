@@ -16,7 +16,7 @@ namespace Prim {
         Motion::rotate_ToNField(0.0f);
         // float rotAng = constrain(IN::ball.angle, -45.0f, 45.0f);
         // Motion::rotate_ToNField(rotAng, ST::pid.slowPIDCfg);
-        Motion::addMotion_ToNField(0.0f, 0.15f * IN::line.depth_Y);
+
 
         
         if(IN::line.defender_outOfBounds) {
@@ -35,16 +35,17 @@ namespace Prim {
             float movStrenght = sin(DEG_TO_RAD * IN::ball.angle);
             movStrenght = constrain(movStrenght * IN::ball.proximity, -0.25f, 0.25f);
             Motion::addMotion_ToNField(90.0f, movStrenght);
+            Motion::addMotion_ToNField(0.0f, 0.15f * IN::line.depth_Y);
         } else if (onLine == 1 ||  wrap180(IN::pixyRear.goalOur.angle + 180.0f) > 10.0f) {
             float movStrenght = sin(DEG_TO_RAD * IN::ball.angle);
-            movStrenght = constrain(movStrenght * IN::ball.proximity, -0.25f, 0.0f);
+            movStrenght = constrain(movStrenght * IN::ball.proximity, -0.25f, -0.15f);
             Motion::addMotion_ToNField(90.0f, movStrenght);
             if(ST::now_ms - lastOutOfBounds_ms >= 250) {
                 onLine = 0;
             }
         } else if (onLine == -1 ||  wrap180(IN::pixyRear.goalOur.angle + 180.0f) < -10.0f) {
             float movStrenght = sin(DEG_TO_RAD * IN::ball.angle);
-            movStrenght = constrain(movStrenght * IN::ball.proximity, -0.0f, 0.25f);
+            movStrenght = constrain(movStrenght * IN::ball.proximity, 0.15f, 0.25f);
             Motion::addMotion_ToNField(90.0f, movStrenght);
             if(ST::now_ms - lastOutOfBounds_ms >= 250) {
                 onLine = 0;

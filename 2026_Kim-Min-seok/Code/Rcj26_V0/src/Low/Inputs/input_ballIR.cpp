@@ -86,9 +86,10 @@ void input_ballIR_update() {
 
     #if BALL_USE_RAW_DATA
     float dirStrength = 0.0f;
+    
 
     dirStrength = ballRawDistance / 2500.0f;
-
+    IN::ball.distanceRaw = ballRawDistance;
 
 
     IN::ball.angle_ToNField = (int16_t)wrap360(lroundf(-ballAngleRaw + 180.0f));
@@ -99,9 +100,21 @@ void input_ballIR_update() {
     IN::ball.seen = IN::ball.valid;
 
     if(IN::ball.proximity >= 0.9) {
-            IN::ball.close = true;
-            IN::ball.lastCloseTime_ms = ST::now_ms;
+        IN::ball.close = true;
+        IN::ball.lastCloseTime_ms = ST::now_ms;
+    } else {
+        IN::ball.close = false;
+        IN::ball.closeFor_ms = ST::now_ms;
     }
+
+    if(IN::ball.proximity >= 0.8f) {
+        IN::ball.midRangle = true;
+        IN::ball.lastMidRangeTime_ms = ST::now_ms;
+    } else {
+        IN::ball.midRangle = false;
+        IN::ball.MidRangeFor_ms = ST::now_ms;
+    }
+
     #else
 
     static uint8_t hist[12][3] = {};

@@ -68,7 +68,7 @@ namespace Role {
                 ST::soccer.role = ST::Types::role_t::Defender;
                 ST::soccer.defender.startedOnLine = false;
                 ST::soccer.defender.attacking = false;
-                ST::soccer.defender.changed_role = true;
+                // ST::soccer.defender.changed_role = true;
                 ST::soccer.defender.changed_role_time = ST::now_ms;
             }
             _drawScreen_SOCCER();
@@ -115,13 +115,7 @@ namespace Mode {
 
             #endif
 
-            if(ST::soccer.role == ST::Types::role_t::Defender) {
-                if(ST::soccer.defender.startedOnLine) {
-                    if(ST::now_ms - IN::line.lastSeen_ms >= 500){ //|| ST::now_ms - IN::pixyRear.goalOur.lastSeen_ms >= 500) {
-                        Role::changeRole();
-                    }
-                }
-            }
+
 
                 // Serial.println(ST::now_ms - IN::motionSens.lastHeldBall_ms);
 
