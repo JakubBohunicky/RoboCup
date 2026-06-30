@@ -47,15 +47,15 @@ namespace Role {
             } else {
                 Motion::dribler(0);
                 if(IN::line.seen) {
-                    if(IN::pixyRear.goalOur.seen) {
-                    if(IN::pixyRear.goalOur.angle >= -(Const::Attacker::shootAngle + 180.0f) && IN::pixyRear.goalOur.angle <= Const::Attacker::shootAngle -180.0f) { 
+                    if(ST::now_ms - IN::pixyRear.goalOur.lastSeen_ms <= 500) {
+                    // if(IN::pixyRear.goalOur.angle >= -(Const::Attacker::shootAngle + 180.0f) && IN::pixyRear.goalOur.angle <= Const::Attacker::shootAngle -180.0f) { 
                         ST::soccer.defender.startedOnLine = IN::line.seen;
                         // OUT::led_Debug.needsUpdate = true;
                         // OUT::led_Debug.color[1] = CRGB::Black;
                         Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
-                    } else {
-                        Prim::defender_find_our_goal();
-                    }
+                    // } else {
+                    //     Prim::defender_find_our_goal();
+                    // }
                 } else {
                     Prim::defender_find_our_goal();
                 }

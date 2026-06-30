@@ -117,7 +117,7 @@ namespace Mode {
 
             if(ST::soccer.role == ST::Types::role_t::Defender) {
                 if(ST::soccer.defender.startedOnLine) {
-                    if(ST::now_ms - IN::line.lastSeen_ms >= 100 || ST::now_ms - IN::pixyRear.goalOur.lastSeen_ms >= 350) {
+                    if(ST::now_ms - IN::line.lastSeen_ms >= 500){ //|| ST::now_ms - IN::pixyRear.goalOur.lastSeen_ms >= 500) {
                         Role::changeRole();
                     }
                 }

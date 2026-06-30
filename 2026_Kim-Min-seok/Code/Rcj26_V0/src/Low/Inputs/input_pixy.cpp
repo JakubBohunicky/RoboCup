@@ -79,7 +79,9 @@ void input_pixy_update() { //Angle from -180 to 180
         }
     }
 
-    IN::pixyRear = {};
+    // IN::pixyRear = {};
+    IN::pixyRear.goalEnemy.seen = false;
+    IN::pixyRear.goalOur.seen = false;
     int8_t r = pixyRear.ccc.getBlocks();
     if(r <= 0) {
         #if DEBUG_PIXY
@@ -158,7 +160,7 @@ void input_pixy_update() { //Angle from -180 to 180
         Serial.print("  ");
         Serial.print(IN::pixyRear.goalOur.close);
         Serial.print("  ");
-        Serial.print(IN::pixyRear.goalOur.angle);
+        Serial.print(wrap180(IN::pixyRear.goalOur.angle + 180.0f));
         Serial.println("");
 
         #endif
