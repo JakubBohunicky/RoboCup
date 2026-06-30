@@ -13,7 +13,7 @@ float closeOrbitAngle(float ballAngle, float proximity) {
 
     static constexpr float FRONT_ZONE_DEG = 90.0f;
     static constexpr float FRONT_OFFSET_K = 55.0f;
-    static constexpr float orbitScale     = 1.0f;
+    static constexpr float orbitScale     = 1.2f;
 
     proximity = constrain(proximity, 0.0f, 1.0f);
 
@@ -28,7 +28,7 @@ float closeOrbitAngle(float ballAngle, float proximity) {
     else if (a > 90.0f && a <= 135.0f) {
         float t = (a - 90.0f) / 45.0f;      // 90 -> 0, 135 -> 1
         t = constrain(t, 0.0f, 1.0f);
-        t = t * t * (3.0f - 2.0f * t);      // smoothstep
+        t = t * t * t * (3.0f - 2.0f * t);      // smoothstep
 
         float rad = deg2rad(ballAngle);
         float offset = FRONT_OFFSET_K * sinf(rad) * (0.6f + 0.4f * proximity);
@@ -79,13 +79,18 @@ namespace Prim {
         // Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
         if((ST::now_ms - IN::ball.lastCloseTime_ms <= 1000 && ST::now_ms - IN::line.lastSeen_ms <= 1000) || rotateCapturing) {
             rotateCapturing = true;
+
             float rotAng = IN::ball.angle;
-            Motion::rotate(IN::ball.angle, ST::pid.slowPIDCfg, 0.7f);
+            if(IN::ball.angle < 7 && IN::ball.angle > -7) {
+                rotAng = 0.0f;
+            }
+
+            Motion::rotate(IN::ball.angle, ST::pid.slowPIDCfg, 0.65f);
             
             float finalAngle;
 
             finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
-            Motion::addMotion(finalAngle, 0.15f);
+            Motion::addMotion(finalAngle, constrain(1.0f * (1-IN::ball.proximity), 0.25f, 0.4f)); // 0.15 
 
 
 
