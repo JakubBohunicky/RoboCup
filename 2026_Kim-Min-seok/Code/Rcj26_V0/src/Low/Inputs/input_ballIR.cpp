@@ -107,7 +107,7 @@ void input_ballIR_update() {
         IN::ball.closeFor_ms = ST::now_ms;
     }
 
-    if(IN::ball.proximity >= 0.8f) {
+    if(IN::ball.proximity >= 0.85f) {
         IN::ball.midRangle = true;
         IN::ball.lastMidRangeTime_ms = ST::now_ms;
     } else {

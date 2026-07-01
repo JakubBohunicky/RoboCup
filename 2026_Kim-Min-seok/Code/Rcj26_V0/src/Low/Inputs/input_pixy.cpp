@@ -54,13 +54,11 @@ void input_pixy_update() { //Angle from -180 to 180
                 IN::pixyFront.goalEnemy.lastSeen_ms = ST::now_ms;
                 IN::pixyFront.goalEnemy.angle = _input_pixy_xToAngle(b.m_x);
                 // IN::goalEnemy.size = b.m_width * b.m_height;
-                if(b.m_height >= 50) {
+                if(b.m_height >= 45) {
                     IN::pixyFront.goalEnemy.close = true;
                 }
-                #if DEBUG_PIXY 
                     Serial.print(b.m_height);
                     Serial.print("  ");
-                #endif
 
             } else if(b.m_signature != (uint16_t)ST::soccer.enemyGoal) { //if yellow SIG == 0
                 IN::pixyFront.goalOur.seen = true;
@@ -129,22 +127,22 @@ void input_pixy_update() { //Angle from -180 to 180
         }
     }
 
-    #if DEBUG_PIXY_FRONT 
-        Serial.print(IN::goalEnemy.seen);
-        Serial.print("  ");
-        Serial.print(IN::goalEnemy.close);
-        Serial.print("  ");
-        Serial.print(IN::goalEnemy.angle);
-        Serial.print("  ||  ");
+    // #if DEBUG_PIXY_FRONT 
+    //     Serial.print(IN::goalEnemy.seen);
+    //     Serial.print("  ");
+    //     Serial.print(IN::goalEnemy.close);
+    //     Serial.print("  ");
+    //     Serial.print(IN::goalEnemy.angle);
+    //     Serial.print("  ||  ");
 
-        Serial.print(IN::goalOur.seen);
-        Serial.print("  ");
-        Serial.print(IN::goalOur.close);
-        Serial.print("  ");
-        Serial.print(IN::goalOur.angle);
-        Serial.println("");
+    //     Serial.print(IN::goalOur.seen);
+    //     Serial.print("  ");
+    //     Serial.print(IN::goalOur.close);
+    //     Serial.print("  ");
+    //     Serial.print(IN::goalOur.angle);
+    //     Serial.println("");
 
-        #endif
+    //     #endif
 
 
         

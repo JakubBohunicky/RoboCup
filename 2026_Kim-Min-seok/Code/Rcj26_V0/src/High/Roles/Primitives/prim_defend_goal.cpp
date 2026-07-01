@@ -53,16 +53,9 @@ namespace Prim {
         }
 
 
-
-        
-
-
         // Serial.print(IN::line.defender_outOfBounds);
         // Serial.print("  ");
         // Serial.println(IN::line.defender_crossedSide);
 
-
     }
-
-
 }

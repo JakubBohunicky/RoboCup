@@ -51,13 +51,13 @@ namespace Role {
                 // if (ST::now_ms - IN::motionSens.heldBallFor_ms >= 100) {
                 if(IN::motionSens.hasBall) {
 
-                    if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 750) {
+                    if(ST::now_ms - IN::motionSens.heldBallFor_ms >= 500) {
                         Motion::kickFront();
                         kicking = false;
                         midkicking = false;
                     } else {
-                        Motion::rotate_ToNField(-30.0f, ST::pid.slowPIDCfg);
-                        Motion::addMotion_ToNField(-30.0f, 0.5f);
+                        Motion::rotate_ToNField(-35.0f, ST::pid.slowPIDCfg);
+                        Motion::addMotion_ToNField(-35.0f, 0.5f);
                     }
 
                 } else if((kicking || ST::now_ms - IN::ball.closeFor_ms >= 500) && (IN::ball.angle <= 35 && IN::ball.angle >= -35)){

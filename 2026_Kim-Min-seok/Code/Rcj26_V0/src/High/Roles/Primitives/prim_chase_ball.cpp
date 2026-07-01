@@ -71,14 +71,14 @@ float closeOrbitAngle(float ballAngle, float proximity) {
 namespace Prim {
     void chase_ball() {
 
-        if(IN::ball.close == false) {
-            rotateCapturing = false;
-        }
+        // if(IN::ball.close == false) {
+        //     rotateCapturing = false;
+        // }
         
         
-        // Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
-        if((ST::now_ms - IN::ball.lastCloseTime_ms <= 1000 && ST::now_ms - IN::line.lastSeen_ms <= 1000) || rotateCapturing) {
-            rotateCapturing = true;
+        // // Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
+        // if((ST::now_ms - IN::ball.lastCloseTime_ms <= 1000 && ST::now_ms - IN::line.lastSeen_ms <= 1000) || rotateCapturing) {
+            // rotateCapturing = true;
 
             float rotAng = IN::ball.angle;
             if(IN::ball.angle < 7 && IN::ball.angle > -7) {
@@ -90,39 +90,46 @@ namespace Prim {
             float finalAngle;
 
             finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
-            Motion::addMotion(finalAngle, constrain(1.0f * (1-IN::ball.proximity), 0.25f, 0.4f)); // 0.15 
+            // Motion::addMotion(finalAngle, constrain(0.27f * (1.8f-IN::ball.proximity), 0.25f, 0.4f)); // 0.15 
+            if(IN::ball.proximity >= 0.90f) {
+                Motion::addMotion(finalAngle, 0.25f);
+            } else {
+                Motion::addMotion(finalAngle, 0.5f);
 
-
-
-        } else {
-
-            float rotAng = constrain(IN::ball.angle * 0.5f, -30, 30);
-            Motion::rotate_ToNField(rotAng, ST::pid.slowPIDCfg, 1.0f);
-
-
-
-            float finalAngle;
-            if(IN::ball.seen) {
-                
-                
-
-
-                if(close) {
-                    finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
-                    if(finalAngle != 999) {
-                        float movSrenght = constrain(1.0f * (1.5f-IN::ball.proximity) * (1.15f - cosf(IN::ball.angle * DEG_TO_RAD)) , 0.15f, 0.25f);
-                        Motion::addMotion(finalAngle, movSrenght);
-                    }
-
-                } else {
-                    finalAngle = IN::ball.angle;
-                    Motion::addMotion(finalAngle, 0.35f);
-                }
-
-            } else{
-                finalAngle = 999;
             }
-        }
+        
+
+
+
+        // } else {
+
+        //     float rotAng = constrain(IN::ball.angle * 0.5f, -30, 30);
+        //     Motion::rotate_ToNField(rotAng, ST::pid.slowPIDCfg, 1.0f);
+
+
+
+        //     float finalAngle;
+        //     if(IN::ball.seen) {
+                
+                
+
+
+        //         if(close) {
+        //             finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
+        //             if(finalAngle != 999) {
+        //                 float movSrenght = constrain(1.0f * (1.5f-IN::ball.proximity) * (1.15f - cosf(IN::ball.angle * DEG_TO_RAD)) , 0.15f, 0.25f);
+        //                 Motion::addMotion(finalAngle, movSrenght);
+        //             }
+
+        //         } else {
+        //             finalAngle = IN::ball.angle;
+        //             Motion::addMotion(finalAngle, 0.35f);
+        //         }
+
+        //     } else{
+        //         finalAngle = 999;
+        //     }
+        // }
 
 
 

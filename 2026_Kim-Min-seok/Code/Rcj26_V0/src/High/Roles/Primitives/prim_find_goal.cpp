@@ -20,10 +20,10 @@ namespace Prim {
                             OUT::kicker_Drb.kickF = true; 
                         }
                     }
-                    Motion::addMotion(IN::pixyFront.goalEnemy.angle, 0.4f);
+                    Motion::addMotion(IN::pixyFront.goalEnemy.angle, 0.5f);
                     Motion::rotate(IN::pixyFront.goalEnemy.angle, ST::pid.slowPIDCfg);
                 } else {
-                    Motion::addMotion(IN::pixyFront.goalEnemy.angle, 0.2f);
+                    Motion::addMotion(IN::pixyFront.goalEnemy.angle, 0.35f);
                     Motion::rotate(IN::pixyFront.goalEnemy.angle, ST::pid.slowPIDCfg);
                 }
             } else if(ST::soccer.attacker.lineBounceFeature && ST::now_ms - ST::soccer.attacker.lineBounceFeatureTime <= 2000){
@@ -51,10 +51,10 @@ namespace Prim {
 
 
             if(IN::pixyRear.goalOur.seen) {
-                Motion::addMotion(IN::pixyRear.goalOur.angle, 0.2f);
+                Motion::addMotion(IN::pixyRear.goalOur.angle, 0.35f);
                 Motion::rotate(wrap180(IN::pixyRear.goalOur.angle + 180.0f), ST::pid.normalPIDCfg);
             } else if(ST::soccer.defender.lineBounceFeature && ST::now_ms - ST::soccer.defender.lineBounceFeatureTime <= 2000){
-                Motion::addMotion_ToNField(0.0f, 0.2f);
+                Motion::addMotion_ToNField(0.0f, 0.35f);
                 Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg); 
 
             } else {
@@ -63,7 +63,7 @@ namespace Prim {
                     ST::soccer.defender.lineBounceFeature = true;
                     ST::soccer.defender.lineBounceFeatureTime = ST::now_ms;
                 } else {
-                    Motion::addMotion_ToNField(180.0f, 0.2f);
+                    Motion::addMotion_ToNField(180.0f, 0.35f);
                     Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg); 
                 }
             }
