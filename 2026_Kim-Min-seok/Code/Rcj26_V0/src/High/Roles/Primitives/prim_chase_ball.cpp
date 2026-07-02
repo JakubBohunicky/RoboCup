@@ -88,13 +88,12 @@ namespace Prim {
         //     }
 
             
-            
-
-
-            Motion::rotate_ToNField(0.0f);
-
-            // float rotAng = IN::ball.angle;
-            // Motion::rotate(rotAng, ST::pid.slowPIDCfg, 0.65f);
+            if(ST::soccer.rotateToBall) {
+                float rotAng = IN::ball.angle;
+                Motion::rotate(rotAng, ST::pid.slowPIDCfg, 0.65f);
+            } else {
+                Motion::rotate_ToNField(0.0f);
+            }
 
 
 

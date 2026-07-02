@@ -94,6 +94,7 @@ namespace _Raw {
         ST::Types::goal_t enemyGoal;
         float baseSpeed;
         bool temporaryRoleChange;
+        bool rotateToBall;
     };
 
     struct ST_OffMenu {

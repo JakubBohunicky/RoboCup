@@ -52,7 +52,8 @@ namespace ST_Default {
         .role = ST::Types::role_t::Attacker,
         .enemyGoal = ST::Types::goal_t::Yellow,
         .baseSpeed = 1.0f,
-        .temporaryRoleChange = false
+        .temporaryRoleChange = false,
+        .rotateToBall = false
     };
 
     inline const _Raw::ST_OffMenu offMenu = {
