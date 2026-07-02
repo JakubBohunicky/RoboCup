@@ -52,6 +52,13 @@ namespace Prim {
             }
         }
 
+        // Serial.println(wrap180(IN::pixyRear.goalOur.angle + 180.0f));
+
+
+        if(IN::ball.angle >= 145 && IN::ball.angle <= -145) {
+            OUT::motorAcc = {};
+            OUT::motorAcc.motEn = 1;
+        }
 
         // Serial.print(IN::line.defender_outOfBounds);
         // Serial.print("  ");

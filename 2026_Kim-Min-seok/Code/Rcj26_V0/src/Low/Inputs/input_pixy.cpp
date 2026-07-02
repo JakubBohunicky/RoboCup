@@ -54,11 +54,11 @@ void input_pixy_update() { //Angle from -180 to 180
                 IN::pixyFront.goalEnemy.lastSeen_ms = ST::now_ms;
                 IN::pixyFront.goalEnemy.angle = _input_pixy_xToAngle(b.m_x);
                 // IN::goalEnemy.size = b.m_width * b.m_height;
-                if(b.m_height >= 45) {
+                // if(b.m_height >= 30) {
                     IN::pixyFront.goalEnemy.close = true;
-                }
-                    Serial.print(b.m_height);
-                    Serial.print("  ");
+                // }
+                    // Serial.print(b.m_height);
+                    // Serial.print("  ");
 
             } else if(b.m_signature != (uint16_t)ST::soccer.enemyGoal) { //if yellow SIG == 0
                 IN::pixyFront.goalOur.seen = true;

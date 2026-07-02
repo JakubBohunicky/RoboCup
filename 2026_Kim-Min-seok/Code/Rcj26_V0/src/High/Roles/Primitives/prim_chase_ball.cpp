@@ -92,9 +92,9 @@ namespace Prim {
             finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
             // Motion::addMotion(finalAngle, constrain(0.27f * (1.8f-IN::ball.proximity), 0.25f, 0.4f)); // 0.15 
             if(IN::ball.proximity >= 0.90f) {
-                Motion::addMotion(finalAngle, 0.25f);
+                Motion::addMotion(finalAngle, 0.20f);
             } else {
-                Motion::addMotion(finalAngle, 0.5f);
+                Motion::addMotion(finalAngle, 0.4f);
 
             }
         
