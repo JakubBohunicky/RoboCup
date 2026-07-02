@@ -75,26 +75,46 @@ namespace Prim {
         //     rotateCapturing = false;
         // }
         
-        
         // // Motion::rotate_ToNField(0.0f, ST::pid.normalPIDCfg);
         // if((ST::now_ms - IN::ball.lastCloseTime_ms <= 1000 && ST::now_ms - IN::line.lastSeen_ms <= 1000) || rotateCapturing) {
-            // rotateCapturing = true;
+        //     rotateCapturing = true;
 
-            float rotAng = IN::ball.angle;
-            if(IN::ball.angle < 7 && IN::ball.angle > -7) {
-                rotAng = 0.0f;
-            }
+        //     // if(IN::ball.angle < 7 && IN::ball.angle > -7) {
+        //         //     rotAng = 0.0f;
+        //     float rotAng = IN::ball.angle;
+        //     Motion::rotate(rotAng, ST::pid.slowPIDCfg, 0.65f);
+        //     } else {
+        //         Motion::rotate_ToNField(0.0f);
+        //     }
 
-            Motion::rotate(IN::ball.angle, ST::pid.slowPIDCfg, 0.65f);
+            
+            
+
+
+            Motion::rotate_ToNField(0.0f);
+
+            // float rotAng = IN::ball.angle;
+            // Motion::rotate(rotAng, ST::pid.slowPIDCfg, 0.65f);
+
+
+
+
+
+            
+            // float rotAng = constrain(wrap180(IN::ball.angle_ToNField), -150.0f, 150.0f);
+            // Motion::rotate_ToNField(rotAng, ST::pid.slowPIDCfg, 0.65f);
+
+
             
             float finalAngle;
+
 
             finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
             // Motion::addMotion(finalAngle, constrain(0.27f * (1.8f-IN::ball.proximity), 0.25f, 0.4f)); // 0.15 
             if(IN::ball.proximity >= 0.90f) {
-                Motion::addMotion(finalAngle, 0.20f);
+                Motion::addMotion(finalAngle, 0.32f);
             } else {
-                Motion::addMotion(finalAngle, 0.4f);
+                Motion::addMotion(finalAngle, 0.51f);
 
             }
         
