@@ -53,7 +53,7 @@ namespace ST_Default {
         .enemyGoal = ST::Types::goal_t::Yellow,
         .baseSpeed = 1.0f,
         .temporaryRoleChange = false,
-        .rotateToBall = false
+        .rotateToBall = true
     };
 
     inline const _Raw::ST_OffMenu offMenu = {
