@@ -6,7 +6,9 @@ static Adafruit_BNO055 gyro = Adafruit_BNO055(HW::GyroCfg::GYRO_ID, HW::GyroCfg:
 static float baseOffset = 0.0f;
 
 void input_gyro_init_() {
-    !gyro.begin();
+    if (!gyro.begin(adafruit_bno055_opmode_t::OPERATION_MODE_IMUPLUS)) {
+        return;
+    }
     gyro.setExtCrystalUse(true);
 }
 
