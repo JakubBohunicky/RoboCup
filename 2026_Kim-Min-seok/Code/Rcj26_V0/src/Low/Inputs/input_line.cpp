@@ -407,13 +407,13 @@ void input_line_init_() {
 void input_line_update() {
 
         
-    if(!ST::state.isRobot_A) {
+    if(ST::state.isRobot_A == false) {
         // IN::line.depth_Y = false;
-        _input_calculate_Angle();
+        _input_calculate_Depth();
     }
-
-
-    _input_calculate_Depth();
+    
+    
+    _input_calculate_Angle();
     _input_scanMux();
 
     IN::line.angle = line_Angle;
