@@ -91,10 +91,10 @@ namespace Prim {
             if(ST::soccer.rotateToBall) {
                 float rotAng = IN::ball.angle;
 
-                if(IN::ball.angle < 7 && IN::ball.angle > -7) {
+                if(IN::ball.angle < 10 && IN::ball.angle > -10) {
                     rotAng = 0.0f;
                 }
-                
+
                 Motion::rotate(rotAng, ST::pid.slowPIDCfg, 0.65f);
             } else {
                 Motion::rotate_ToNField(0.0f);
