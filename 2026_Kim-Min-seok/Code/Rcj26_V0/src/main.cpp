@@ -18,10 +18,6 @@ void loop()
 {
     ST::now_ms = millis();
     Pheripherials::inputs_update();
-    
-    if(ST::state.isRobot_A) {
-        IN::line.depth_Y = false;
-    }
 
     Logic::determineMode();
     Logic::applyMode();
