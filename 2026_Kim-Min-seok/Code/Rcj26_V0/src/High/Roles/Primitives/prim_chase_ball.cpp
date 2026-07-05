@@ -90,11 +90,6 @@ namespace Prim {
             
             if(ST::soccer.rotateToBall) {
                 float rotAng = IN::ball.angle;
-
-                if(IN::ball.angle < 10 && IN::ball.angle > -10) {
-                    rotAng = 0.0f;
-                }
-
                 Motion::rotate(rotAng, ST::pid.slowPIDCfg, 0.65f);
             } else {
                 Motion::rotate_ToNField(0.0f);
@@ -116,9 +111,9 @@ namespace Prim {
             finalAngle = closeOrbitAngle(IN::ball.angle, IN::ball.proximity);
             // Motion::addMotion(finalAngle, constrain(0.27f * (1.8f-IN::ball.proximity), 0.25f, 0.4f)); // 0.15 
             if(IN::ball.proximity >= 0.90f) {
-                Motion::addMotion(finalAngle, 0.32f);
+                Motion::addMotion(finalAngle, 0.2f);
             } else {
-                Motion::addMotion(finalAngle, 0.51f);
+                Motion::addMotion(finalAngle, 0.28f);
 
             }
         

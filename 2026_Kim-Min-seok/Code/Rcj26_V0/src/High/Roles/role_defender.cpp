@@ -60,7 +60,7 @@ namespace Role {
                         Motion::addMotion_ToNField(-35.0f, 0.5f);
                     }
 
-                } else if((kicking || ST::now_ms - IN::ball.closeFor_ms >= 500) && (IN::ball.angle <= 35 && IN::ball.angle >= -35)){
+                } else if(((kicking || ST::now_ms - IN::ball.closeFor_ms >= 500) && (IN::ball.angle <= 35 && IN::ball.angle >= -35))){
                     kicking = true;
                     // midkicking = false;
                     Prim::chase_ball();
