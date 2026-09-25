@@ -1,0 +1,12 @@
+speed
+MOTOR_OFFSET
+go_backwards time //ked ma loptu
+
+
+
+V1 
+NOTMAL : FINAL
+90 = 225
+
+
+V2
