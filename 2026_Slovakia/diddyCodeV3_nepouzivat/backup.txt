@@ -1,0 +1,30 @@
+/*if (ballRawDistance > ballEffectiveInputFurthes) { //advanced ball capturing
+            if ((line >= 75 && line <= 105) && ballAngle <= 90) {
+                
+                /*if ((millis() - kickTime) > 1000) {   //skurveny debug
+                  kick();
+                  kickTime = millis();
+              } //
+              lineTouchTime = millis();
+              line = 310;
+              line += random(-20, 20);
+              //delay(50);
+
+            } else if ((line >= 255 && line <= 285) && ballAngle >= 270) {
+
+                /*if ((millis() - kickTime) > 1000) {   //skurveny debug
+                  kick();
+                  kickTime = millis();
+              } //
+              lineTouchTime = millis();
+              line = 50;
+              line += random(-20, 20);
+              //delay(50);
+
+            } else {
+              line += 180;
+            }
+          } else {
+            line += 180;
+          }
+          */
