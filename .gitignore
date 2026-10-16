@@ -11,3 +11,6 @@ _private/
 # KiCad / Eagle backups (.b#1, .s##, …)
 *.[bs]#*
 *-backups/
+
+# Full 3D assembly is too big for git (>100 MB): published as a GitHub Release asset
+2026_Korea/3D_model/3D+model.*

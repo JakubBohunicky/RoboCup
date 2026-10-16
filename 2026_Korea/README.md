@@ -175,6 +175,24 @@ The ESP32-S3 has no Bluetooth Classic, so we paired a PS5 DualSense with a separ
 ([`Code/esp32dev_ps5`](Code/esp32dev_ps5)). That board forwards the controller state to the robot over UART
 every 10 ms. We calibrated the robot by driving it by hand while watching live sensor values on the OLED.
 
+## Boards and 3D model
+
+We designed both boards in Fusion 360 Electronics, and the whole robot in Fusion 360.
+
+<p align="center">
+  <img src="docs/img/pcb-layout.webp" alt="Fusion 360 layout of the bottom PCB: four-lobed board with a ring of sensor and LED footprints, four motor cut-outs and four ESCON 24/2 outlines" width="480">
+</p>
+
+| Folder | What's in it |
+|---|---|
+| [`PCBs/`](PCBs) | Schematics and layouts of the bottom and top board (Eagle `.sch` / `.brd`) |
+| [`3D_model/`](3D_model) | Both boards as Fusion 360 (`.f3d`) and STEP (`.stp`) models |
+| [`Escon/`](Escon) | ESCON Studio configurations of the drive and dribbler motors |
+| [`docs/poster.pdf`](docs/poster.pdf) | Our competition poster |
+
+The full robot assembly is too big for git (118 MB STEP, 432 MB Fusion archive), so we published it as a
+[release](https://github.com/JakubBohunicky/RoboCup/releases/tag/korea-2026-3d).
+
 ## What broke
 
 - **Cables.** In our first match, against Brazil, both robots stopped at the same moment because connectors
@@ -197,7 +215,6 @@ every 10 ms. We calibrated the robot by driving it by hand while watching live s
 **XLC – WYLDFYRE**: Martin Šuriak (hardware, 3D modelling), Ondrej Peter (electronics),
 Jakub Bohunický (hardware, electronics), Diana Kunová (software). Our mentor was Samuel Peter.
 
-Our team repository, with schematics, board layouts and the poster:
-[XLC-WyldFyre/Robocup-Junior-2026](https://github.com/XLC-WyldFyre/Robocup-Junior-2026).
+Our team repository: [XLC-WyldFyre/Robocup-Junior-2026](https://github.com/XLC-WyldFyre/Robocup-Junior-2026).
 
 Released under the [MIT License](LICENSE).
